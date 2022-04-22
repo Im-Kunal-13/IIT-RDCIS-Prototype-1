@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "node back-end/server.js",
-    "server": "nodemon back-end/server.js",
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
     "client": "npm start --prefix front-end",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
