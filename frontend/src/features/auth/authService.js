@@ -3,7 +3,7 @@
 import axios from "axios";
 
 // Url of the api we are going to hit.
-const API_URL = "http://localhost:5000/api/admins/";
+const API_URL = "/api/admins/";
 
 // Register Admin
 const register = async (adminData) => {
