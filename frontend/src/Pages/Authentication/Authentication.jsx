@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 // Basically useSelector is used to select something from the state so it want to bring state.isLoagin or admin then we use that one. If we want to use a function like register or reset from our reducer then we would use useDispatch.
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login} from "../../features/auth/authSlice";
+import { login } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.minimal.css";
 
@@ -31,9 +31,8 @@ export default function Authentication() {
   const dispatch = useDispatch();
 
   // Destructuring data.
-  const { admin, loginIsLoading, loginError, loginSuccess, loginMessage } = useSelector(
-    (state) => state.auth
-  );
+  const { admin, loginIsLoading, loginError, loginSuccess, loginMessage } =
+    useSelector((state) => state.auth);
 
   useEffect(() => {
     if (loginError) {
@@ -51,10 +50,19 @@ export default function Authentication() {
         password: "",
       });
       navigate("/dashboard/administration/adminList");
+      window.location.reload();
     }
 
     // dispatch(reset());
-  }, [admin, loginError, loginSuccess, loginMessage, navigate, dispatch]);
+  }, [
+    admin,
+    loginError,
+    loginIsLoading,
+    loginSuccess,
+    loginMessage,
+    navigate,
+    dispatch,
+  ]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -70,29 +78,13 @@ export default function Authentication() {
   return (
     // Full Container.
     <div className="flex flex-col-reverse md:flex-row justify-between">
-      {/* Theme toggle button  */}
-      <span className="absolute right-0 top-0 z-10 p-2 flex">
-        <i className="bi bi-brightness-high-fill text-white pr-2 text-2xl"></i>
-        <div className="form-check form-switch pt-1">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            role="switch"
-            id="flexSwitchCheckDefault"
-          />
-          {/* <label className="form-check-label" for="flexSwitchCheckDefault">
-          Default switch checkbox input
-        </label> */}
-        </div>
-      </span>
       {/* Authentication Part  */}
-      <div className="login md:w-1/2 md:mt-0 mt-24 md:h-screen flex justify-center items-center">
-        <form onSubmit={onSubmit}>
-          <div className="flex flex-col relative bottom-20">
+      <div className={`login md:w-1/2 md:mt-0 mt-24 md:h-screen flex justify-center items-center`}>
+        <form onSubmit={onSubmit} className={``}>
+          <div className="flex flex-col relative md:bottom-20 bottom-10">
             <div className="flex items-center">
-              {/* <i className="bi bi-house-fill text-3xl pr-2"></i> */}
               <img
-                src={require("./iit-logo2-transparent.png")}
+                src={require(`./iit-logo-black.png`)}
                 alt=""
                 className="w-12 pr-2"
               />
@@ -163,18 +155,19 @@ export default function Authentication() {
                 type="checkbox"
                 className="form-check-input"
                 id="exampleCheck1"
+                required
               />
               <label className="form-check-label" htmlFor="exampleCheck1">
                 Check me out
               </label>
             </span>
-            <a href="*" className="text-blue-700">
+            <a href="*" className={`text-blue-700`}>
               Forgot password?
             </a>
           </div>
           <button
             type="submit"
-            className="sign-in-button bg-gray-400 text-white  w-full py-2 rounded-md"
+            className={`sign-in-button2 text-white bg-gray-400 w-full py-2 rounded-md transition-all hover:scale-x-105`}
           >
             {loginIsLoading ? (
               <>
@@ -194,7 +187,8 @@ export default function Authentication() {
           </div>
           {/* Copyright  */}
           <div className="block md:hidden text-gray-500 text-base mt-16 pb-4">
-            © Centre of Excellence in Advanced Manufacturing Technology
+            {/* © Centre of Excellence in Advanced Manufacturing Technology */}
+            © IIT Kharagpur
           </div>
         </form>
       </div>
@@ -324,8 +318,9 @@ export default function Authentication() {
       </div>
       {/* Whole Container Position Absolute  */}
       {/* Copyright  */}
-      <span className="hidden md:block absolute bottom-5 left-5 text-gray-500 text-base">
-        © Centre of Excellence in Advanced Manufacturing Technology
+      <span className="hidden md:block absolute bottom-5 left-5 text-gray-500 text-base font-semibold">
+        {/* © Centre of Excellence in Advanced Manufacturing Technology */}
+        <span className="text-lg">©</span> IIT Kharagpur
       </span>
     </div>
   );

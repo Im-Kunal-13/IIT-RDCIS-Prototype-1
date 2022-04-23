@@ -26,11 +26,11 @@ export default function AdminList() {
     //   navigate('/')
     // }
 
-    dispatch(getAdmins());
+    // dispatch(getAdmins());
 
-    return () => {
-      dispatch(reset());
-    };
+    // return () => {
+    //   dispatch(reset());
+    // };
   }, [admin, navigate, isError, message, dispatch]);
 
   return (

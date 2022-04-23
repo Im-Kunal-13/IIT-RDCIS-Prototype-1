@@ -19,12 +19,16 @@ code {
   background: linear-gradient(135deg, #2437DA,#1340E8);
   background-size: 110%;
   box-shadow: 0px 0px 10px 0px #1340E8;
-  transition: all 0.3s;
+}
+.sign-in-button2 {
+  background: linear-gradient(135deg, #015FF3,#77EFEC);
+  background-size: 110%;
+  box-shadow: 0px 0px 10px 0px #77EFEC;
 }
 .dashboard-review {
-  background: linear-gradient(135deg, #2437DA,#1340E8);
+  background: linear-gradient(135deg, #015FF3,#77EFEC);
   background-size: 110%;
-  box-shadow: 0 0 10px 1px #2437DA;
+  box-shadow: 0px 0px 10px 0px #77EFEC;
 }
 .navbar2 {
   background: linear-gradient(135deg, #2437DA,#1340E8);

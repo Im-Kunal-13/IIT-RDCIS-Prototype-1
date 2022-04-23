@@ -6,29 +6,31 @@ import AdminList from "./Pages/Dashboard/sub-components/AdminList";
 import Configuration from "./Pages/Dashboard/sub-components/Configuration";
 import Monitoring from "./Pages/Dashboard/sub-components/Monitoring";
 import RegisterAdmin from "./Pages/Dashboard/sub-components/RegisterAdmin";
-import { ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import ThemeState from "./context/theme/ThemeState";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Authentication />} />
-          <Route path="dashboard/*" element={<Dashboard />}>
-            <Route path="monitoring/*" element={<Monitoring />} />
-            <Route path="configuration/*" element={<Configuration />} />
-            <Route path="administration/*" element={<Administration />}>
-              <Route path="adminList/*" element={<AdminList />} />
-              <Route path="register/*" element={<RegisterAdmin />} />
+      <ThemeState>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Authentication />} />
+            <Route path="dashboard/*" element={<Dashboard />}>
+              <Route path="monitoring/*" element={<Monitoring />} />
+              <Route path="configuration/*" element={<Configuration />} />
+              <Route path="administration/*" element={<Administration />}>
+                <Route path="adminList/*" element={<AdminList />} />
+                <Route path="register/*" element={<RegisterAdmin />} />
+              </Route>
             </Route>
-          </Route>
-          <Route path="register" element={<></>} />
-        </Routes>
-      </BrowserRouter>
-      <ToastContainer 
-      autoClose={2000}/>
+            <Route path="register" element={<></>} />
+          </Routes>
+        </BrowserRouter>
+        <ToastContainer autoClose={2000} />
+      </ThemeState>
     </>
   );
 }
