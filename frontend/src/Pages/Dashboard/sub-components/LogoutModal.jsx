@@ -40,7 +40,7 @@ export default function LogoutModal() {
               Confirm Logout
             </h5>
             <i
-              className="bi bi-x-lg text-2xl py-1 px-2 bg-offCanvasHover hover:bg-offCanvasSelected rounded-lg"
+              className="bi bi-x-lg text-2xl py-1 px-2 bg-offCanvasHover hover:bg-red-600 hover:text-white rounded-lg hover:scale-110 transition-all"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></i>
@@ -49,7 +49,7 @@ export default function LogoutModal() {
           <div className="modal-footer">
             <button
               type="button"
-              className="text-white border px-4 py-1 rounded-sm bg-lightBlue shadow"
+              className="text-white border px-4 py-1 rounded-sm bg-lightBlue2 shadow hover:scale-x-110 transition-all"
               data-bs-dismiss="modal"
               onClick={onLogout}
             >
@@ -57,7 +57,7 @@ export default function LogoutModal() {
             </button>
             <button
               type="button"
-              className="border px-4 py-1 text-lightBlue rounded-sm shadow"
+              className="border px-4 py-1 text-lightBlue2 rounded-sm shadow hover:scale-x-110 transition-all"
               data-bs-dismiss="modal"
             >
               No

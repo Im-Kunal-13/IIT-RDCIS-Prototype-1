@@ -50,7 +50,6 @@ export default function Authentication() {
         password: "",
       });
       navigate("/dashboard/administration/adminList");
-      window.location.reload();
     }
 
     // dispatch(reset());

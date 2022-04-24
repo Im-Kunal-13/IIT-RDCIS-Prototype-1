@@ -26,7 +26,7 @@ export default function Administration() {
           </div>
           <button
             type="button"
-            className="flex items-center justify-center"
+            className="flex items-center justify-center transition-all hover:scale-110"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           >

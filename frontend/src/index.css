@@ -31,11 +31,12 @@ code {
   box-shadow: 0px 0px 10px 0px #77EFEC;
 }
 .navbar2 {
-  background: linear-gradient(135deg, #2437DA,#1340E8);
+  background: linear-gradient(135deg, #015FF3,#77EFEC);
   background-size: 110%;
+  box-shadow: 0px 0px 10px 0px #77EFEC;
 }
 .offcanvas-header {
-  background: linear-gradient(135deg, #2437DA,#1340E8);
+  background: linear-gradient(135deg, #015FF3,#77EFEC);
   background-size: 110%;
 }
 input:-webkit-autofill { 
