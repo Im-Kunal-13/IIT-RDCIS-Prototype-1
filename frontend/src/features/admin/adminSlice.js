@@ -3,10 +3,10 @@ import adminService from "./adminService";
 
 const initialState = {
   admins: [],
-  isError: false,
-  isSuccess: false,
-  isLoading: false,
-  message: "",
+  adminsIsError: false,
+  adminsIsSuccess: false,
+  adminsIsLoading: false,
+  adminsMessage: "",
 };
 
 // Get all admins
@@ -37,17 +37,17 @@ export const adminSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAdmins.pending, (state) => {
-        state.isLoading = true;
+        state.adminsIsLoading = true;
       })
       .addCase(getAdmins.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
+        state.adminsIsLoading = false;
+        state.adminsIsSuccess = true;
         state.admins = action.payload;
       })
       .addCase(getAdmins.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
+        state.adminsIsLoading = false;
+        state.adminsIsError = true;
+        state.adminsMessage = action.payload;
       });
   },
 });

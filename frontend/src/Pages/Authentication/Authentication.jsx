@@ -61,7 +61,7 @@ export default function Authentication() {
     dispatch,
   ]);
 
-  const onSubmit = (e) => {
+  const onSubmit = async(e) => {
     e.preventDefault();
 
     const adminData = {
@@ -69,7 +69,7 @@ export default function Authentication() {
       password: formData.password,
     };
 
-    dispatch(login(adminData));
+    await dispatch(login(adminData));
   };
 
   return (

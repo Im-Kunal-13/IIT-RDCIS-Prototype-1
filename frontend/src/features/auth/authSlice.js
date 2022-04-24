@@ -73,10 +73,10 @@ export const authSlice = createSlice({
       state.loginError = false;
       state.loginSuccess = false;
       state.loginMessage = "";
-      state.registerError =  false;
-      state.registerSuccess =  false;
-      state.registerIsLoading =  false;
-      state.registerMessage =  "";
+      state.registerError = false;
+      state.registerSuccess = false;
+      state.registerIsLoading = false;
+      state.registerMessage = "";
     },
   },
   // Here all the functions will be asynchronous.
@@ -103,6 +103,7 @@ export const authSlice = createSlice({
       })
       // Login Cases
       .addCase(login.pending, (state) => {
+        state.loginIsLoading = true;
         state.loginError = true;
         state.loginError = false;
         state.loginSuccess = false;

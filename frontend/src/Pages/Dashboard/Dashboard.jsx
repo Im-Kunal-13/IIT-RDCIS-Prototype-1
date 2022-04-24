@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import LogoutModal from "./sub-components/LogoutModal";
 
 export default function Dashboard() {
@@ -13,21 +14,34 @@ export default function Dashboard() {
   };
 
   // Destructuring data.
-  const { admin, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const { admin, loginIsLoading, loginError, loginSuccess, loginMessage } =
+    useSelector((state) => state.auth);
 
-  // useEffect(() => {
-  //   if (isError) {
-  // toast.error(message);
-  //     console.log(message)
-  //   }
-
-  //   if (!isSuccess || !admin) {
-  //     navigate("/");
-  //   }
-
-  // }, [admin, isError, isSuccess, message, navigate, dispatch]);
+  useEffect(() => {
+    if (loginError) {
+      console.log("something went wrong!");
+    }
+    // If admin not present then redirecting to the navigation page.
+    if (!admin) {
+      navigate("/");
+      if (window.innerWidth < 768) {
+        window.location.reload();
+      } else {
+        toast.info("You're logged out.", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          toastId: "logoutSucces1",
+        });
+      }
+    }
+  }, [
+    admin,
+    loginError,
+    loginIsLoading,
+    loginSuccess,
+    loginMessage,
+    navigate,
+    dispatch,
+  ]);
 
   return (
     <div>
@@ -60,7 +74,7 @@ export default function Dashboard() {
               className="bi bi-gear text-2xl mr-6 hover:bg-nav1Hover p-2 rounded-lg hover:scale-110 transition-all"
               type="button"
               id="settings-dropdown-button"
-              data-bs-toggle="dropdown" 
+              data-bs-toggle="dropdown"
               aria-expanded="false"
             ></i>
             <ul

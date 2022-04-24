@@ -16,7 +16,7 @@ const { protect } = require("../middleware/authMiddleware");
 router.post("/", registerAdmin); // Public
 router.post("/login", loginAdmin); // Public
 router.get("/me", protect, getMe); // Private
-router.get("/", getAdmins) // Private
+router.get("/", protect, getAdmins) // Private
 
 
 // Exporting the router to whic we have made changes to.

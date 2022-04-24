@@ -30,8 +30,6 @@ app.use(express.json())
 // Activating http headers to use url encoded json.
 app.use(express.urlencoded({extended: false}))
 
-// // goal routes appended with further routes.
-// app.use("/api/goals", require("./routes/goalRoutes"))
 // admins routes appended with further routes 
 app.use("/api/admins", require("./routes/adminRoutes"))
 
