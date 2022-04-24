@@ -138,7 +138,7 @@ export default function Dashboard() {
       <div className="navbar2 flex items-center justify-evenly h-16 mt-1 sticky-top z-10 dashboard-review">
         {/* MONITORING  */}
         <Link
-          className="px-3 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
+          className="px-2 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
           onClick={() => {
             setSelectedTab("monitoring");
           }}
@@ -149,7 +149,7 @@ export default function Dashboard() {
         </Link>
         {/* CONFIGURATION  */}
         <Link
-          className="px-3 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
+          className="px-2 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
           onClick={() => {
             setSelectedTab("configuration");
           }}
@@ -160,7 +160,7 @@ export default function Dashboard() {
         </Link>
         {/* ADMINISTRATION */}
         <Link
-          className="px-3 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
+          className="px-2 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
           onClick={() => {
             setSelectedTab("administration");
           }}
