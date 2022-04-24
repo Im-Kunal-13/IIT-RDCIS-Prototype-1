@@ -15,11 +15,14 @@ export default function LogoutModal() {
     await dispatch(reset());
 
     navigate("/");
-    (window.innerWidth < 768) && await window.location.reload();
-    toast.info("You're logged out.", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      toastId: "logoutSucces1",
-    });
+    if (window.innerWidth < 768) {
+      await window.location.reload();
+    } else {
+      toast.info("You're logged out.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId: "logoutSucces1",
+      });
+    }
   };
   return (
     <div
