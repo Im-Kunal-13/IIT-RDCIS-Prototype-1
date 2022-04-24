@@ -29,7 +29,7 @@ function App() {
             <Route path="register" element={<></>} />
           </Routes>
         </BrowserRouter>
-        <ToastContainer autoClose={2000} className="p-4"/>
+        <ToastContainer autoClose={2000} className="p-4 md:p-0" />
       </ThemeState>
     </>
   );

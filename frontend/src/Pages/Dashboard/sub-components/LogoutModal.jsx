@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 
 export default function LogoutModal() {
   const navigate = useNavigate();
@@ -10,15 +10,16 @@ export default function LogoutModal() {
 
   const { admin } = useSelector((state) => state.auth);
 
-  const onLogout = async() => {
+  const onLogout = async () => {
     await dispatch(logout());
     await dispatch(reset());
 
+    navigate("/");
+    (window.innerWidth < 768) && await window.location.reload();
     toast.info("You're logged out.", {
       position: toast.POSITION.BOTTOM_RIGHT,
       toastId: "logoutSucces1",
     });
-    navigate("/");
   };
   return (
     <div

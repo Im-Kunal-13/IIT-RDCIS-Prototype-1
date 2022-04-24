@@ -36,7 +36,6 @@ export default function Authentication() {
 
   useEffect(() => {
     if (loginError) {
-      // toast.error(message);
       console.log("something went wrong!");
     }
 
@@ -52,7 +51,6 @@ export default function Authentication() {
       navigate("/dashboard/administration/adminList");
     }
 
-    // dispatch(reset());
   }, [
     admin,
     loginError,
