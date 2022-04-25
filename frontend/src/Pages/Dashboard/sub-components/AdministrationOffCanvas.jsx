@@ -61,7 +61,7 @@ export default function AdministrationOffCanvas() {
           <i className="bi bi-people-fill text-lg mr-4"></i>
           <span className="text-lg">Users</span>
         </Link>
-        <div className="md:">
+        <div className="md:hidden">
           {/* NOTIFICATIONS TAB  */}
           <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg">
             <i className="bi bi-bell text-lg mr-4"></i>

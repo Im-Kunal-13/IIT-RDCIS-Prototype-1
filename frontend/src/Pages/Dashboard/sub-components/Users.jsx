@@ -176,14 +176,16 @@ export default function Users() {
               </li>
             </ul>
           </div>
-          <div className="flex items-center px-3 py-2 border-2 rounded-md hover:bg-offCanvasHover hover:scale-110 transition-all"
-          data-bs-toggle="modal"
-          data-bs-target="#register-user-backdrop"
+          <div
+            className="flex items-center px-3 py-2 border-2 rounded-md hover:bg-offCanvasHover hover:scale-110 transition-all cursor-pointer"
+            data-bs-toggle="modal"
+            data-bs-target="#register-user-backdrop"
           >
             <i className="bi bi-plus-lg mr-2 text-xl"></i>
             <span className="text-lg">Create New</span>
           </div>
         </div>
+        {/* SMALLER SCREENS  */}
         <div className="md:hidden">
           {/* SEARCH  */}
           <i
@@ -194,6 +196,8 @@ export default function Users() {
           <i
             className="bi bi-plus text-2xl hover:bg-nav1Hover p-2 rounded-lg md:hidden transition-all hover:scale-110 mr-2"
             type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#register-user-backdrop"
           ></i>
 
           {/* Grid icon  */}

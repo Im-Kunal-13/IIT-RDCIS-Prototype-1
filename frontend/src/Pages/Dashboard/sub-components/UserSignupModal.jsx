@@ -1,18 +1,22 @@
-import { handle } from "express/lib/application";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { register, resetRegister } from "../../../features/auth/authSlice";
 
 // INITIAL STATE OF THE FORM.
 const initialState = {
   name: "",
   email: "",
   phone: "",
-  organization: "",
+  organization: "Steel Authority of India",
   administrator: false,
   password: "",
   confirmPassword: "",
 };
 
 export default function UserSignupModal() {
+  // GETTING THE REFERENCE OF A BUTTON
+  const closeBtn = useRef(null);
   // FORM STATE
   const [form, setForm] = useState(initialState);
 
@@ -20,6 +24,9 @@ export default function UserSignupModal() {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [confirmPasswordVisibility, setConfirmPasswordVisibility] =
     useState(false);
+
+  // TERMS AND CONDITIONS CHECKBOX
+  const [termsCheck, setTermsCheck] = useState(false);
 
   //ADMIN STATE
   const [isAdmnin, setIsAdmin] = useState(false);
@@ -29,12 +36,68 @@ export default function UserSignupModal() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // For dispatching functions
+  const dispatch = useDispatch();
+
+  // Destructuring data.
+  const { registerError, registerSuccess, registerIsLoading, registerMessage } =
+    useSelector((state) => state.auth);
+
+  // USE STATE
+  useEffect(() => {
+    if (registerError) {
+      console.log("something went wrong!");
+    }
+
+    if (registerSuccess) {
+      closeBtn.current.click();
+
+      toast.success(`Registered successfully.`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId: "loginSucces1",
+      });
+      setForm(initialState);
+      setPasswordVisibility(false)
+      setConfirmPasswordVisibility(false)
+
+      setTimeout(() => {
+        dispatch(resetRegister());
+      }, 100);
+    }
+  }, [
+    registerError,
+    registerIsLoading,
+    registerSuccess,
+    registerMessage,
+    dispatch,
+  ]);
+
   // SUBMIT BUTTON HANDLE FUNCTION
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
-  };
 
+    if (form.password !== form.confirmPassword) {
+      toast.info("Passwords do not match.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId: "logoutSucces1",
+      });
+    } else {
+      const adminData = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        organization: form.organization,
+        administrator: form.administrator,
+        password: form.password,
+      };
+
+      console.log(adminData)
+
+      await dispatch(register(adminData));
+
+      // console.log(form);
+    }
+  };
   return (
     <div
       className="modal fade"
@@ -49,11 +112,12 @@ export default function UserSignupModal() {
         className="modal-dialog modal-dialog-centered"
         style={{ maxWidth: "650px" }}
       >
-        <div className="modal-content rounded-lg border-0 px-20 shadow">
+        <div className="modal-content rounded-lg border-0 md:px-20 shadow">
           {/* CLOSE BUTTON  */}
-          <span className="ml-auto relative top-12 hover:scale-110 transition-all text-white">
+          <span className="ml-auto relative top-12 right-4 hover:scale-110 transition-all text-white">
             <i
               className="bi bi-x-lg text-2xl py-1 px-2 rounded-md form-labels close-btn"
+              ref={closeBtn}
               data-bs-dismiss="modal"
               aria-label="Close"
             ></i>
@@ -146,6 +210,7 @@ export default function UserSignupModal() {
                   required
                 >
                   <option>Steel Authority of India</option>
+                  <option>Micro System Foundation</option>
                 </select>
               </div>
               {/* ADMIN OR NOT  */}
@@ -158,12 +223,13 @@ export default function UserSignupModal() {
                 </span>
                 <input
                   type="text"
-                  className={`form-control border-l-0 rounded-lg border-0 shadow text-${
+                  className={`form-control bg-transparent border-l-0 rounded-lg border-0 shadow text-${
                     isAdmnin ? "green-600" : "red-600"
                   } font-semibold`}
                   placeholder="Admin"
                   aria-label="Username"
                   value={isAdmnin ? "True" : "False"}
+                  readOnly
                   aria-describedby="basic-addon1"
                   required
                 />
@@ -171,8 +237,7 @@ export default function UserSignupModal() {
                   className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
                   onClick={async () => {
                     await setIsAdmin(!isAdmnin);
-                    setForm({ ...form, administrator: isAdmnin });
-                    console.log(form);
+                    setForm({ ...form, administrator: !isAdmnin });
                   }}
                   htmlFor="admin-checkbox"
                 >
@@ -182,14 +247,6 @@ export default function UserSignupModal() {
                     } text-lg text-white`}
                   ></i>
                 </span>
-                {/* <input
-                  type="checkbox"
-                  id="admin-checkbox"
-                  hidden
-                  name="administrator"
-                  onChange={handleChange}
-                  value={form.administrator}
-                /> */}
               </div>
               {/* PASSWORD.  */}
               <div className="input-group my-4">
@@ -209,6 +266,14 @@ export default function UserSignupModal() {
                   value={form.password}
                   name="password"
                   required
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    return false;
+                  }}
+                  onCopy={(e) => {
+                    e.preventDefault();
+                    return false;
+                  }}
                 />
                 <span
                   className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
@@ -241,6 +306,14 @@ export default function UserSignupModal() {
                   onChange={handleChange}
                   value={form.confirmPassword}
                   required
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    return false;
+                  }}
+                  onCopy={(e) => {
+                    e.preventDefault();
+                    return false;
+                  }}
                 />
                 <span
                   className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
@@ -260,8 +333,12 @@ export default function UserSignupModal() {
                 <input
                   className="form-check-input mr-2 terms-checkbox"
                   type="checkbox"
-                  value=""
+                  value={termsCheck}
+                  onChange={() => {
+                    setTermsCheck(!termsCheck);
+                  }}
                   id="flexCheckDefault"
+                  required
                 />
                 <label
                   className="form-check-label text-xs mt-1"
@@ -276,10 +353,21 @@ export default function UserSignupModal() {
               {/* SIGN UP BUTTON  */}
               <div className="flex justify-center mt-4">
                 <button
-                  className="rounded-lg py-2 px-8 landing-review text-white form-labels hover:scale-x-110 transition-all"
+                  className="rounded-lg py-2 px-8 landing-review text-white form-labels hover:scale-x-110 transition-all w-52"
                   type="submit"
                 >
-                  CREATE ACCOUNT
+                  {registerIsLoading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Loading...</span>
+                    </>
+                  ) : (
+                    "CREATE ACCOUNT"
+                  )}
                 </button>
               </div>
               {/* ALREADY HAVE AN ACCOUNT  */}

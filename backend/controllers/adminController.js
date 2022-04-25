@@ -18,13 +18,12 @@ const registerAdmin = asyncHandler(async (req, res) => {
     email,
     phone,
     organization,
-    timezone,
     administrator,
     password,
   } = req.body;
 
   // If either of them are not present then throwing error.
-  if (!email || !organization || !timezone || !password) {
+  if (!name || !email || !phone || !organization || !password) {
     throw new Error("Please enter all the fields.");
   }
 
@@ -50,7 +49,6 @@ const registerAdmin = asyncHandler(async (req, res) => {
     email,
     phone,
     organization,
-    timezone,
     administrator,
     password: hashedPassword,
   });
@@ -64,7 +62,6 @@ const registerAdmin = asyncHandler(async (req, res) => {
       email: admin.email,
       phone: admin.phone,
       organization: admin.organization,
-      timezone: admin.timezone,
       administrator: admin.administrator,
       // Passing the generated token with the function we created.
       token: generateToken(admin.id),

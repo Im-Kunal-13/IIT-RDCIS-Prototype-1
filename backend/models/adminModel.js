@@ -32,24 +32,15 @@ const adminSchema = new mongoose.Schema(
       // If we use unique: true then no other document can have the same value of this key in the collection.
       required: [true, "Please enter your organization"],
     },
-    timezone: {
-      // Type checking.
-      type: String,
-      // Required : true meanins it has to be provided and if not provided will show an error message.
-      // If we use unique: true then no other document can have the same value of this key in the collection.
-      required: [true, "Please enter your timezone"],
+    administrator: {
+      type: Boolean,
+      required: [true, "Please enter whether the user is an administrator"],
     },
     password: {
       // Type checking.
       type: String,
       // Required : true meanins it has to be provided and if not provided will show an error message.
       required: [true, "Please add a password"],
-    },
-    administrator: {
-      // Type checking.
-      type: Boolean,
-      // Required : true meanins it has to be provided and if not provided will show an error message.
-      required: [true, "Please enter if you're an administrator"],
     },
   },
   {

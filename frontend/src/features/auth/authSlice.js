@@ -78,6 +78,9 @@ export const authSlice = createSlice({
       state.registerIsLoading = false;
       state.registerMessage = "";
     },
+    resetRegister: (state) => {
+      state.registerSuccess = false
+    }
   },
   // Here all the functions will be asynchronous.
   extraReducers: (builder) => {
@@ -111,7 +114,6 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loginError = false;
-        state.loginError = false;
         state.loginSuccess = true;
         state.loginMessage = "";
         state.admin = admin;
@@ -129,7 +131,7 @@ export const authSlice = createSlice({
 });
 
 // Whatever we put in the 'reset', we have to export it from the authSlice.actions section so that we can bring this reset into components where we can fire this off.
-export const { reset } = authSlice.actions;
+export const { reset, resetRegister } = authSlice.actions;
 
 // Exporting the authSlice.reducer
 export default authSlice.reducer;
