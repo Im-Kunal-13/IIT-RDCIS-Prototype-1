@@ -23,17 +23,17 @@ export default function Dashboard() {
       console.log("something went wrong!");
     }
     // If admin not present then redirecting to the navigation page.
-    if (!admin) {
-      navigate("/");
-      if (window.innerWidth < 768) {
-        window.location.reload();
-      } else {
-        toast.info("You're logged out.", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          toastId: "logoutSucces1",
-        });
-      }
-    }
+    // if (!admin) {
+    //   navigate("/");
+    //   if (window.innerWidth < 768) {
+    //     window.location.reload();
+    //   } else {
+    //     toast.info("You're logged out.", {
+    //       position: toast.POSITION.BOTTOM_RIGHT,
+    //       toastId: "logoutSucces1",
+    //     });
+    //   }
+    // }
   }, [
     admin,
     loginError,
