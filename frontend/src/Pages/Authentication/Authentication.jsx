@@ -39,7 +39,7 @@ export default function Authentication() {
       console.log("something went wrong!");
     }
 
-    if (loginSuccess || admin) {
+    if (admin) {
       toast.success("You're logged in.", {
         position: toast.POSITION.BOTTOM_RIGHT,
         toastId: "loginSucces1",
