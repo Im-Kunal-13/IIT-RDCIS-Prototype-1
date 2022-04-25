@@ -37,11 +37,25 @@ const logout = () => {
   localStorage.removeItem("admin");
 };
 
+// Get all admins
+const getUsers = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(API_URL, config);
+
+  return response.data;
+};
+
 // Putting all the functions inside authService.
 const authService = {
   register,
   logout,
   login,
+  getUsers,
 };
 
 // Exporting authService.

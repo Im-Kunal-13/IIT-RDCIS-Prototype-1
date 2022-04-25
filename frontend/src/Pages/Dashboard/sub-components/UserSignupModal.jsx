@@ -254,7 +254,7 @@ export default function UserSignupModal() {
                   className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
                   id="basic-addon1"
                 >
-                  <i className="bi bi-key-fill text-xl text-white"></i>
+                  <i className="bi bi-key-fill text-2xl text-white"></i>
                 </span>
                 <input
                   type={passwordVisibility ? "text" : "password"}

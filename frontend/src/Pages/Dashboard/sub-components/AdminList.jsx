@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getAdmins, reset } from "../../../features/admin/adminSlice";
+import { getUsers, reset } from "../../../features/auth/authSlice";
 import AdminListItem from "./AdminListItem";
 import AdminPlaceholder from "./AdminPlaceholder";
 
@@ -12,14 +12,14 @@ export default function AdminList() {
   const dispatch = useDispatch();
 
   // Taking out variables from the state.
-  const { admin } = useSelector((state) => state.auth);
   const {
+    admin,
     admins,
     adminsIsError,
     adminsIsSuccess,
     adminsIsLoading,
     adminsMessage,
-  } = useSelector((state) => state.admins);
+  } = useSelector((state) => state.auth);
 
   // Loading the admins on useEffect.
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function AdminList() {
     // }
 
     // Getting all the admins
-    dispatch(getAdmins());
+    dispatch(getUsers());
   }, [admin, navigate, adminsIsError, adminsMessage, dispatch]);
 
   return (
@@ -52,7 +52,7 @@ export default function AdminList() {
               ))}
             </div>
           ) : (
-            <h3>You have not set any admins</h3>
+            <h3 className="px-4">You have not set any admins</h3>
           )}
         </div>
       )}

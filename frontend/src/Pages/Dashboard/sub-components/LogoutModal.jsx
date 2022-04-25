@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../../../features/auth/authSlice";
-import { resetAdmins }from "../../../features/admin/adminSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -14,7 +13,6 @@ export default function LogoutModal() {
   const onLogout = async () => {
     await dispatch(logout());
     await dispatch(reset());
-    await dispatch(resetAdmins())
 
     navigate("/");
     if (window.innerWidth < 768) {
