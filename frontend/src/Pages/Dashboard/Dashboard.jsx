@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import LogoutModal from "./sub-components/LogoutModal";
+import UserSignupModal from "./sub-components/UserSignupModal";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -188,6 +189,7 @@ export default function Dashboard() {
       <Outlet />
       {/* <!-- Modal --> */}
       <LogoutModal />
+      <UserSignupModal />
     </div>
   );
 }

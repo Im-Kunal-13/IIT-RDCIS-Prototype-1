@@ -32,7 +32,7 @@ export const adminSlice = createSlice({
   name: "admin",
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    resetAdmins: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -52,5 +52,5 @@ export const adminSlice = createSlice({
   },
 });
 
-export const { reset } = adminSlice.actions;
+export const { resetAdmins } = adminSlice.actions;
 export default adminSlice.reducer;

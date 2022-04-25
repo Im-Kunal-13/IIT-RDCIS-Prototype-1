@@ -39,6 +39,13 @@ code {
   background: linear-gradient(135deg, #015FF3,#77EFEC);
   background-size: 110%;
 }
+.form-labels {
+  background: linear-gradient(135deg, #015FF3,#77EFEC);
+  background-size: 110%;
+}
 input:-webkit-autofill { 
   -webkit-background-clip: text;
+}
+.close-btn:hover {
+  background: linear-gradient(135deg, red,red);
 }

@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import AdminList from "./AdminList";
 import RegisterAdmin from "./RegisterAdmin";
+import UserSignupModal from "./UserSignupModal";
 
 export default function Users() {
-  const [registerActive, setRegisterActive] = useState(false);
-
   const registerActiveCss = { display: "none" };
   return (
-    <div className="py-3 px-4">
+    <div className="py-3">
       {/* HEADER  */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-4">
         <h1 className="font-semibold text-2xl">Users</h1>
         {/* CONTROLS  */}
         <div className="items-center hidden md:flex">
@@ -177,16 +176,13 @@ export default function Users() {
               </li>
             </ul>
           </div>
-          <Link
-            className="flex items-center px-3 py-2 border-2 rounded-md hover:bg-offCanvasHover hover:scale-110 transition-all"
-            to="/dashboard/administration/register"
-            onClick={() => {
-              setRegisterActive(true);
-            }}
+          <div className="flex items-center px-3 py-2 border-2 rounded-md hover:bg-offCanvasHover hover:scale-110 transition-all"
+          data-bs-toggle="modal"
+          data-bs-target="#register-user-backdrop"
           >
             <i className="bi bi-plus-lg mr-2 text-xl"></i>
             <span className="text-lg">Create New</span>
-          </Link>
+          </div>
         </div>
         <div className="md:hidden">
           {/* SEARCH  */}
@@ -199,7 +195,7 @@ export default function Users() {
             className="bi bi-plus text-2xl hover:bg-nav1Hover p-2 rounded-lg md:hidden transition-all hover:scale-110 mr-2"
             type="button"
           ></i>
-          
+
           {/* Grid icon  */}
           <i
             className="bi bi-grid-3x3-gap text-2xl hover:bg-nav1Hover p-2 rounded-lg transition-all hover:scale-110"
@@ -245,30 +241,8 @@ export default function Users() {
         </div>
       </div>
       {/* USERS  */}
-      <div
-        className="items-start grid sm:grid-cols-2 md:grid-cols-2 md:gap-4 grid-cols-1 mt-4"
-        style={registerActive ? {} : { grid: "none" }}
-      >
-        <div
-          className="login flex justify-start flex-col mr-40"
-          style={registerActive ? {} : registerActiveCss}
-        >
-          <div className="flex justify-between">
-            <h1 className="font-semibold text-2xl pb-5">Register</h1>
-            <div>
-              <i
-                className="bi bi-x-lg text-2xl px-2 py-1 bg-gray-200 hover:bg-red-500 hover:text-white rounded-lg shadow"
-                onClick={() => {
-                  setRegisterActive(!registerActive);
-                }}
-              ></i>
-            </div>
-          </div>
-          <RegisterAdmin status={registerActive} />
-        </div>
-        <div className="">
-          <AdminList />
-        </div>
+      <div className="items-start mt-4 sm:px-4">
+        <AdminList />
       </div>
     </div>
   );
