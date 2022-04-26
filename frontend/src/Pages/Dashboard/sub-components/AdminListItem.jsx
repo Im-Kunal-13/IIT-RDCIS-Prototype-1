@@ -27,6 +27,7 @@ export default function AdminListItem({ user, index }) {
                 data-bs-toggle="modal"
                 data-bs-target={`#delete-user-${index}-backdrop`}
               ></i>
+              <DeleteUserModal user={user} index={index} />
             </div>
           )}
           <input
@@ -84,7 +85,6 @@ export default function AdminListItem({ user, index }) {
           </p>
         </div>
       </div>
-      <DeleteUserModal user={user} index={index} />
     </div>
   );
 }

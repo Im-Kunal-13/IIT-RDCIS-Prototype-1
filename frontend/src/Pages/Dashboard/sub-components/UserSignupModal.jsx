@@ -144,7 +144,7 @@ export default function UserSignupModal() {
                   type="text"
                   className="form-control border-l-0 rounded-lg border-0 shadow"
                   placeholder="Name"
-                  aria-label="Username"
+                  aria-label="name"
                   value={form.name}
                   name="name"
                   onChange={handleChange}
@@ -164,11 +164,11 @@ export default function UserSignupModal() {
                   type="email"
                   className="form-control border-l-0 rounded-lg border-0 shadow"
                   placeholder="Email"
-                  aria-label="Username"
+                  aria-label="email"
                   value={form.email}
                   name="email"
                   onChange={handleChange}
-                  aria-describedby="basic-addon1"
+                  aria-describedby="basic-addon-email"
                   required
                 />
               </div>

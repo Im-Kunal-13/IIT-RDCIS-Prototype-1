@@ -145,9 +145,7 @@ export default function AdminList() {
                       className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-600 hover:scale-110 transition-all"
                       type="button"
                       data-bs-toggle="modal"
-                      data-bs-target={`#delete-user${
-                        index + "-large-"
-                      }-backdrop`}
+                      data-bs-target={`#delete-user-${index + "-large-"}-backdrop`}
                     ></i>
                     <DeleteUserModal user={user} index={index + "-large-"} />
                   </div>

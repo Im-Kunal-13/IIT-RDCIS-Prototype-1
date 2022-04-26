@@ -16,8 +16,17 @@ export default function Dashboard() {
   };
 
   // Destructuring data.
-  const { admin, loginIsLoading, loginError, loginSuccess, loginMessage } =
-    useSelector((state) => state.auth);
+  const {
+    admin,
+    loginIsLoading,
+    loginError,
+    loginSuccess,
+    loginMessage,
+    deleteUserError,
+    deleteUserSuccess,
+    deleteUserLoading,
+    deleteUserMessage,
+  } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (loginError) {
@@ -35,12 +44,19 @@ export default function Dashboard() {
     //     });
     //   }
     // }
+    if(deleteUserSuccess) {
+      toast.success("User deleted successfully.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId: "logoutSucces1",
+      });
+    }
   }, [
     admin,
     loginError,
     loginIsLoading,
     loginSuccess,
     loginMessage,
+    deleteUserSuccess,
     navigate,
     dispatch,
   ]);

@@ -16,13 +16,6 @@ export default function DeleteUserModal({ user, index }) {
 
   const onDelete = async () => {
     await dispatch(deleteUser(user._id));
-
-    if (deleteUserSuccess) {
-      toast.success("User deleted successfully.", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        toastId: "logoutSucces1",
-      });
-    }
   };
   return (
     <div

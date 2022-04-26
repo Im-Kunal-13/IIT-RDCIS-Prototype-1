@@ -203,6 +203,9 @@ export const authSlice = createSlice({
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.deleteUserLoading = false
         state.deleteUserSuccess = true
+        setTimeout(() => {
+          state.deleteUserSuccess = false
+        }, 3000)
         state.admins = state.admins.filter(
           (user) => user._id !== action.payload.id
         )
