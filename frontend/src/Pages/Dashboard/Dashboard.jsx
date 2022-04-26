@@ -114,7 +114,7 @@ export default function Dashboard() {
               aria-labelledby="sign-in-dropdown-button"
             >
               <li className="p-2 my-2 bg-gray-200 rounded-md text-base">
-                2002kunalmondal13@gmail.com
+                {admin?.email}
               </li>
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover">
                 <div className="flex items-center">

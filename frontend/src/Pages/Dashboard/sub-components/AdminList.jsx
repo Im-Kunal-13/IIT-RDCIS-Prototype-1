@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers, reset } from "../../../features/auth/authSlice";
 import AdminListItem from "./AdminListItem";
-import AdminPlaceholder from "./AdminPlaceholder";
 import DeleteUserModal from "./DeleteUserModal";
 
 export default function AdminList() {
@@ -49,7 +48,7 @@ export default function AdminList() {
           {admins.length > 0 ? (
             <div className="admins w-full">
               {admins.map((admin, index) => (
-                <AdminListItem key={index} admin={admin} index={index + 1} />
+                <AdminListItem key={index} admin={admin} index={index} />
               ))}
             </div>
           ) : (
@@ -129,7 +128,11 @@ export default function AdminList() {
             <div key={index}>
               <hr style={{ height: ".5px" }} />
               <div className="flex justify-between items-center">
-                <span className="content my-3 text-green-500">
+                <span
+                  className={`content my-3 ${
+                    admin.administrator ? "text-green-500" : "text-red-500"
+                  }`}
+                >
                   {admin.administrator ? "Yes" : "No"}
                 </span>
                 <div className="">
@@ -141,9 +144,9 @@ export default function AdminList() {
                     className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-600 hover:scale-110 transition-all"
                     type="button"
                     data-bs-toggle="modal"
-                    data-bs-target={`#delete-user${index}-backdrop`}
+                    data-bs-target={`#delete-user-${index + "-large-"}-backdrop`}
                   ></i>
-                  <DeleteUserModal user={admin} index={index} />
+                  <DeleteUserModal user={admin} index={index + "-large-"} />
                 </div>
               </div>
             </div>

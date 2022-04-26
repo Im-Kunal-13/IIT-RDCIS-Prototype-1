@@ -94,8 +94,6 @@ export const deleteUser = createAsyncThunk(
   'user/delete',
   async (id, thunkAPI) => {
     try {
-      console.log("enter auth slice");
-      console.log(id);
       const token = thunkAPI.getState().auth.admin.token
       return await authService.deleteUser(id, token)
     } catch (error) {

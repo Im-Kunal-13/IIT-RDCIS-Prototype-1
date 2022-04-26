@@ -6,20 +6,28 @@ import { toast } from "react-toastify";
 export default function DeleteUserModal({ user, index }) {
   const dispatch = useDispatch();
 
+  // Destructuring data.
+  const {
+    deleteUserError,
+    deleteUserSuccess,
+    deleteUserLoading,
+    deleteUserMessage,
+  } = useSelector((state) => state.auth);
+
   const onDelete = async () => {
-    console.log("entered delete user modal.");
-    console.log(user);
     await dispatch(deleteUser(user._id));
 
-    toast.success("User deleted successfully.", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      toastId: "logoutSucces1",
-    });
+    if (deleteUserSuccess) {
+      toast.success("User deleted successfully.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId: "logoutSucces1",
+      });
+    }
   };
   return (
     <div
       className="modal fade"
-      id={`delete-user${index}-backdrop`}
+      id={`delete-user-${index}-backdrop`}
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       tabIndex="-1"

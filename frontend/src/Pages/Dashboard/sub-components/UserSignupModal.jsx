@@ -91,8 +91,6 @@ export default function UserSignupModal() {
         password: form.password,
       };
 
-      console.log(adminData)
-
       await dispatch(register(adminData));
 
       // console.log(form);
@@ -337,12 +335,12 @@ export default function UserSignupModal() {
                   onChange={() => {
                     setTermsCheck(!termsCheck);
                   }}
-                  id="flexCheckDefault"
+                  id="terms-checkbox1"
                   required
                 />
                 <label
                   className="form-check-label text-xs mt-1"
-                  htmlFor="flexCheckDefault"
+                  htmlFor="terms-checkbox1"
                 >
                   I have read and agreed to{" "}
                   <span className="text-themeViolet1 cursor-pointer">
