@@ -81,6 +81,9 @@ const loginAdmin = asyncHandler(async (req, res) => {
       _id: admin.id,
       name: admin.name,
       email: admin.email,
+      phone: admin.phone,
+      organization: admin.organization,
+      administrator: admin.administrator,
       token: generateToken(admin.id),
     });
   } else {
@@ -118,9 +121,7 @@ const getMe = asyncHandler(async (req, res) => {
 // @access  Private
 const deleteUser = asyncHandler(async (req, res) => {
   const userExists = await Admin.findById(req.params.id);
-  // Chec if a admin exists.
-  console.log("enter you");
-
+  // Chec if an admin exists.
   if (!userExists) {
     res.status(400);
     throw new Error("User not found");

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import DeleteUserModal from "./DeleteUserModal";
 
-export default function AdminListItem({ admin, index }) {
+export default function AdminListItem({ user, index }) {
+  const { admin } = useSelector((state) => state.auth);
+
   return (
     <div className="accordion-item border rounded-lg mb-4">
       <h2
@@ -10,23 +13,27 @@ export default function AdminListItem({ admin, index }) {
         id={`heading${index}`}
       >
         <span className="py-2 px-2 bg-offCanvasHover rounded-sm text-base hidden sm:inline">
-          {admin.email}
+          {user.email}
         </span>
         <span className="py-2 px-2 bg-offCanvasHover rounded-sm text-base inline sm:hidden">
-          {admin.email.slice(0, 20)}...
+          {user.email.slice(0, 20)}...
         </span>
         <div className="flex items-center">
-          <i className="bi bi-pen-fill  text-lg hover:bg-offCanvasHover p-2 rounded-lg text-lightCyan hover:scale-110 transition-all"></i>
-          <i
-            className="bi bi-trash-fill mr-2 text-lg hover:bg-offCanvasHover p-2 rounded-lg text-red-500 hover:scale-110 transition-all"
-            data-bs-toggle="modal"
-            data-bs-target={`#delete-user-${index}-backdrop`}
-          ></i>
+          {admin?.administrator && (
+            <div>
+              <i className="bi bi-pen-fill  text-lg hover:bg-offCanvasHover p-2 rounded-lg text-lightCyan hover:scale-110 transition-all"></i>
+              <i
+                className="bi bi-trash-fill mr-2 text-lg hover:bg-offCanvasHover p-2 rounded-lg text-red-500 hover:scale-110 transition-all"
+                data-bs-toggle="modal"
+                data-bs-target={`#delete-user-${index}-backdrop`}
+              ></i>
+            </div>
+          )}
           <input
             className="form-check-input mr-2 shadow-none text-lg"
             type="checkbox"
             name="admin-checkbox"
-            defaultChecked={admin.administrator}
+            defaultChecked={user.administrator}
             id="flexCheckDefault"
           />
           <i
@@ -47,37 +54,37 @@ export default function AdminListItem({ admin, index }) {
         <div className="accordion-body">
           <p className="mb-3">
             <strong className="text-base">Name - </strong>
-            <span className="text-base">{admin.name}</span>
+            <span className="text-base">{user.name}</span>
           </p>
           <p className="my-3">
             <strong className="text-base">Email Address - </strong>
             <Link to="" className="text-base text-blue-700 hover:underline">
-              {admin.email}
+              {user.email}
             </Link>
           </p>
           <p className="my-3">
             <strong className="text-base">Organization - </strong>
             <Link to="" className="text-base text-blue-700 hover:underline">
-              {admin.organization}
+              {user.organization}
             </Link>
           </p>
           <p className="my-3">
             <strong className="text-base">Phone Number - </strong>
-            <span className="text-base">{admin.phone}</span>
+            <span className="text-base">{user.phone}</span>
           </p>
           <p className="mt-3">
             <strong className="text-base">Administrator - </strong>
             <span
               className={`text-base ${
-                admin.administrator ? "text-green-600" : "text-red-600"
+                user.administrator ? "text-green-600" : "text-red-600"
               }`}
             >
-              {admin.administrator ? "Yes" : "No"}
+              {user.administrator ? "Yes" : "No"}
             </span>
           </p>
         </div>
       </div>
-      <DeleteUserModal user={admin} index={index} />
+      <DeleteUserModal user={user} index={index} />
     </div>
   );
 }

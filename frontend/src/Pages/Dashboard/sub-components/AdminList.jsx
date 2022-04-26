@@ -47,8 +47,8 @@ export default function AdminList() {
         <div className="accordion flex xl:hidden" id="accordionExample">
           {admins.length > 0 ? (
             <div className="admins w-full">
-              {admins.map((admin, index) => (
-                <AdminListItem key={index} admin={admin} index={index} />
+              {admins.map((user, index) => (
+                <AdminListItem key={index} user={user} index={index} />
               ))}
             </div>
           ) : (
@@ -124,30 +124,34 @@ export default function AdminList() {
             Administrator
           </div>
           {/* CONTENT  */}
-          {admins.map((admin, index) => (
+          {admins.map((user, index) => (
             <div key={index}>
               <hr style={{ height: ".5px" }} />
               <div className="flex justify-between items-center">
                 <span
                   className={`content my-3 ${
-                    admin.administrator ? "text-green-500" : "text-red-500"
+                    user.administrator ? "text-green-500" : "text-red-500"
                   }`}
                 >
-                  {admin.administrator ? "Yes" : "No"}
+                  {user.administrator ? "Yes" : "No"}
                 </span>
-                <div className="">
-                  <i
-                    className="bi bi-pen-fill mr-2 text-xl hover:bg-nav1Hover p-2 rounded-lg  text-lightCyan transition-all hover:scale-110"
-                    type="button"
-                  ></i>
-                  <i
-                    className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-600 hover:scale-110 transition-all"
-                    type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target={`#delete-user-${index + "-large-"}-backdrop`}
-                  ></i>
-                  <DeleteUserModal user={admin} index={index + "-large-"} />
-                </div>
+                {admin?.administrator && (
+                  <div className="">
+                    <i
+                      className="bi bi-pen-fill mr-2 text-xl hover:bg-nav1Hover p-2 rounded-lg  text-lightCyan transition-all hover:scale-110"
+                      type="button"
+                    ></i>
+                    <i
+                      className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-600 hover:scale-110 transition-all"
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#delete-user${
+                        index + "-large-"
+                      }-backdrop`}
+                    ></i>
+                    <DeleteUserModal user={user} index={index + "-large-"} />
+                  </div>
+                )}
               </div>
             </div>
           ))}
