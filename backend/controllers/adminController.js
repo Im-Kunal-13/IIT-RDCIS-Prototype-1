@@ -7,20 +7,13 @@ const asyncHandler = require("express-async-handler");
 // importing the admin Schema Model for our database.
 const Admin = require("../models/adminModel");
 
-
 // @Desciption -> Register New Admin
 // @Route -> POST /api/admins/
 // @Access -> Public
 const registerAdmin = asyncHandler(async (req, res) => {
   // Destruction from req.body.
-  const {
-    name,
-    email,
-    phone,
-    organization,
-    administrator,
-    password,
-  } = req.body;
+  const { name, email, phone, organization, administrator, password } =
+    req.body;
 
   // If either of them are not present then throwing error.
   if (!name || !email || !phone || !organization || !password) {
@@ -120,6 +113,38 @@ const getMe = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc    Delete goal
+// @route   DELETE /api/admins/:id
+// @access  Private
+const deleteUser = asyncHandler(async (req, res) => {
+  const userExists = await Admin.findById(req.params.id);
+  // Chec if a admin exists.
+  console.log("enter you");
+
+  if (!userExists) {
+    res.status(400);
+    throw new Error("User not found");
+  }
+
+  // Check for user
+  if (!req.admin) {
+    res.status(401);
+    throw new Error("Admin not logged in.");
+  }
+
+  // Make sure the logged in user matches the goal user
+  if (!req.admin.administrator) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  await userExists.remove();
+
+  res
+    .status(200)
+    .json({ id: req.params.id, message: "User deleted successfully." });
+});
+
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -131,5 +156,6 @@ module.exports = {
   registerAdmin,
   loginAdmin,
   getMe,
-  getAdmins
+  getAdmins,
+  deleteUser,
 };

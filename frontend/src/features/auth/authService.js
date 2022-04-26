@@ -50,12 +50,26 @@ const getUsers = async (token) => {
   return response.data;
 };
 
+// Delete user
+const deleteUser = async (userId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.delete(API_URL + userId, config);
+
+  return response.data;
+};
+
 // Putting all the functions inside authService.
 const authService = {
   register,
   logout,
   login,
   getUsers,
+  deleteUser,
 };
 
 // Exporting authService.

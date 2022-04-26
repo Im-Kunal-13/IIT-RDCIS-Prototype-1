@@ -12,11 +12,15 @@ export default function AdminListItem(props) {
           {props.admin.email}
         </span>
         <span className="py-2 px-2 bg-offCanvasHover rounded-sm text-base inline sm:hidden">
-          {props.admin.email.slice(0,20)}...
+          {props.admin.email.slice(0, 20)}...
         </span>
         <div className="flex items-center">
           <i className="bi bi-pen-fill  text-lg hover:bg-offCanvasHover p-2 rounded-lg text-lightCyan hover:scale-110 transition-all"></i>
-          <i className="bi bi-trash-fill mr-2 text-lg hover:bg-offCanvasHover p-2 rounded-lg text-red-500 hover:scale-110 transition-all"></i>
+          <i
+            className="bi bi-trash-fill mr-2 text-lg hover:bg-offCanvasHover p-2 rounded-lg text-red-500 hover:scale-110 transition-all"
+            data-bs-toggle="modal"
+            data-bs-target="#delete-user-backdrop"
+          ></i>
           <input
             className="form-check-input mr-2 shadow-none text-lg"
             type="checkbox"
@@ -62,7 +66,11 @@ export default function AdminListItem(props) {
           </p>
           <p className="mt-3">
             <strong className="text-base">Administrator - </strong>
-            <span className={`text-base ${props.admin.administrator ? "text-green-600" : "text-red-600"}`}>
+            <span
+              className={`text-base ${
+                props.admin.administrator ? "text-green-600" : "text-red-600"
+              }`}
+            >
               {props.admin.administrator ? "Yes" : "No"}
             </span>
           </p>

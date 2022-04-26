@@ -24,6 +24,10 @@ const initialState = {
   adminsIsSuccess: false,
   adminsIsLoading: false,
   adminsMessage: "",
+  deleteUserError: false,
+  deleteUserSuccess:false,
+  deleteUserLoading: false, 
+  deleteUserMessage: ""
 };
 
 // Get all users
@@ -84,6 +88,27 @@ export const login = createAsyncThunk("auth/login", async (admin, thunkAPI) => {
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
+
+// Delete user
+export const deleteUser = createAsyncThunk(
+  'user/delete',
+  async (id, thunkAPI) => {
+    try {
+      console.log("enter auth slice");
+      console.log(id);
+      const token = thunkAPI.getState().auth.admin.token
+      return await authService.deleteUser(id, token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
 
 // Exporting the authSlice.
 export const authSlice = createSlice({
@@ -165,13 +190,30 @@ export const authSlice = createSlice({
       .addCase(getUsers.fulfilled, (state, action) => {
         state.adminsIsLoading = false;
         state.adminsIsSuccess = true;
-        state.admins = action.payload;
+        state.admins = action.payload.filter(
+          (user) => user._id !== state.admin._id
+        )
       })
       .addCase(getUsers.rejected, (state, action) => {
         state.adminsIsLoading = false;
         state.adminsIsError = true;
         state.adminsMessage = action.payload;
-      });
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.deleteUserLoading = true
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.deleteUserLoading = false
+        state.deleteUserSuccess = true
+        state.admins = state.admins.filter(
+          (user) => user._id !== action.payload.id
+        )
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
   },
 });
 

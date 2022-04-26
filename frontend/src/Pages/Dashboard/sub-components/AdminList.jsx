@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUsers, reset } from "../../../features/auth/authSlice";
 import AdminListItem from "./AdminListItem";
 import AdminPlaceholder from "./AdminPlaceholder";
+import DeleteUserModal from "./DeleteUserModal";
 
 export default function AdminList() {
   // For Navigation
@@ -139,7 +140,10 @@ export default function AdminList() {
                   <i
                     className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-600 hover:scale-110 transition-all"
                     type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#delete-user${index}-backdrop`}
                   ></i>
+                  <DeleteUserModal user={admin} index={index} />
                 </div>
               </div>
             </div>

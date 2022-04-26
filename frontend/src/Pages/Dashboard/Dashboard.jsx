@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import DeleteUserModal from "./sub-components/DeleteUserModal";
 import LogoutModal from "./sub-components/LogoutModal";
 import UserSignupModal from "./sub-components/UserSignupModal";
 

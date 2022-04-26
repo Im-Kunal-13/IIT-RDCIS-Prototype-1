@@ -1,33 +1,25 @@
-import React, { useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { logout, reset } from "../../../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUser } from "../../../features/auth/authSlice";
 import { toast } from "react-toastify";
 
-export default function LogoutModal() {
-  const navigate = useNavigate();
+export default function DeleteUserModal({ user, index }) {
   const dispatch = useDispatch();
 
-  const { admin } = useSelector((state) => state.auth);
+  const onDelete = async () => {
+    console.log("entered delete user modal.");
+    console.log(user);
+    await dispatch(deleteUser(user._id));
 
-  const onLogout = async () => {
-    await dispatch(logout());
-    await dispatch(reset());
-
-    navigate("/");
-    if (window.innerWidth < 768) {
-      await window.location.reload();
-    } else {
-      toast.info("You're logged out.", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        toastId: "logoutSucces1",
-      });
-    }
+    toast.success("User deleted successfully.", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      toastId: "logoutSucces1",
+    });
   };
   return (
     <div
       className="modal fade"
-      id="staticBackdrop"
+      id={`delete-user${index}-backdrop`}
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       tabIndex="-1"
@@ -47,7 +39,7 @@ export default function LogoutModal() {
                 className="modal-title text-black font-bold"
                 id="staticBackdropLabel"
               >
-                Confirm Logout
+                Confirm Deletion
               </h5>
             </div>
             <i
@@ -56,13 +48,15 @@ export default function LogoutModal() {
               aria-label="Close"
             ></i>
           </div>
-          <div className="modal-body">Are you sure you want to Logout?</div>
+          <div className="modal-body">
+            Are you sure you want to delete this user?
+          </div>
           <div className="modal-footer">
             <button
               type="button"
               className="text-white border px-4 py-1 rounded-sm bg-lightBlue2 shadow hover:scale-x-110 transition-all"
               data-bs-dismiss="modal"
-              onClick={onLogout}
+              onClick={onDelete}
             >
               Yes
             </button>
