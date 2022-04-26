@@ -20,10 +20,7 @@ export default function Authentication() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const handleEyeClick = () => {
-    setPasswordVisibility(!passwordVisibility);
+    console.log((formData));
   };
 
   // For Navigation
@@ -50,7 +47,6 @@ export default function Authentication() {
       });
       navigate("/dashboard/administration/adminList");
     }
-
   }, [
     admin,
     loginError,
@@ -61,7 +57,7 @@ export default function Authentication() {
     dispatch,
   ]);
 
-  const onSubmit = async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const adminData = {
@@ -76,8 +72,10 @@ export default function Authentication() {
     // Full Container.
     <div className="flex flex-col-reverse md:flex-row justify-between">
       {/* Authentication Part  */}
-      <div className={`login md:w-1/2 md:mt-0 mt-24 md:h-screen flex justify-center items-center`}>
-        <form onSubmit={onSubmit} className={``}>
+      <div
+        className={`login md:w-1/2 md:mt-0 mt-24 md:h-screen flex justify-center items-center`}
+      >
+        <form onSubmit={onSubmit} className={`w-80`}>
           <div className="flex flex-col relative md:bottom-20 bottom-10">
             <div className="flex items-center">
               <img
@@ -96,27 +94,80 @@ export default function Authentication() {
             Welcome back! Please enter your details.
           </p>
           {/* Email Input Section */}
-          <div className="mb-3">
-            <label
-              htmlFor="exampleInputEmail1"
-              className="form-label font-semibold"
+          <label
+            htmlFor="exampleInputEmail1"
+            className="form-label font-semibold block"
+          >
+            Email
+          </label>
+          <div className="input-group mb-3">
+            <span
+              className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+              id="basic-addon1"
             >
-              Email
-            </label>
+              <i className="bi bi-envelope-open-fill text-2xl text-white"></i>
+            </span>
             <input
               type="email"
-              className="form-control shadow shadow-transparent border border-black"
+              className="form-control border-l-0 rounded-lg border-0 shadow"
               id="exampleInputEmail1"
-              aria-describedby="emailHelp"
               placeholder="Enter your email"
+              aria-label="email"
               name="email"
               value={formData.email}
               onChange={onFormDataChange}
+              aria-describedby="basic-addon-email"
               required
             />
           </div>
           {/* Password Input Section  */}
-          <div className="mb-3 pb-3">
+          <label
+            htmlFor="exampleInputPassword1"
+            className="form-label font-semibold"
+          >
+            Password
+          </label>
+          <div className="input-group mb-3 pb-3">
+            <span
+              className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+              id="basic-addon1"
+            >
+              <i className="bi bi-key-fill text-2xl text-white"></i>
+            </span>
+            <input
+              type={passwordVisibility ? "text" : "password"}
+              className="form-control border-l-0 rounded-lg border-0 shadow"
+              placeholder="Enter your password"
+              id="exampleInputPassword1"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              value={formData.password}
+              onChange={onFormDataChange}
+              name="password"
+              required
+              onPaste={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+              onCopy={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+            />
+            <span
+              className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
+              onClick={() => {
+                setPasswordVisibility(!passwordVisibility);
+              }}
+            >
+              <i
+                className={`bi ${
+                  passwordVisibility ? "bi-eye-slash" : "bi-eye-fill"
+                } text-lg text-white`}
+              ></i>
+            </span>
+          </div>
+          {/* <div className="mb-3 pb-3">
             <label
               htmlFor="exampleInputPassword1"
               className="form-label font-semibold"
@@ -145,7 +196,7 @@ export default function Authentication() {
                 ></i>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="mb-3 form-check flex justify-between">
             <span>
               <input
@@ -184,8 +235,8 @@ export default function Authentication() {
           </div>
           {/* Copyright  */}
           <div className="block md:hidden text-gray-500 text-base mt-16 pb-4">
-            {/* © Centre of Excellence in Advanced Manufacturing Technology */}
-            © IIT Kharagpur
+            {/* © Centre of Excellence in Advanced Manufacturing Technology */}©
+            IIT Kharagpur
           </div>
         </form>
       </div>
