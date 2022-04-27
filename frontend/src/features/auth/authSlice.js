@@ -27,7 +27,11 @@ const initialState = {
   deleteUserError: false,
   deleteUserSuccess:false,
   deleteUserLoading: false, 
-  deleteUserMessage: ""
+  deleteUserMessage: "",
+  updateUserError: false,
+  updateUserSuccess:false,
+  updateUserLoading: false, 
+  updateUserMessage: ""
 };
 
 // Get all users
@@ -88,6 +92,25 @@ export const login = createAsyncThunk("auth/login", async (admin, thunkAPI) => {
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
+
+// Delete user
+export const updateUser = createAsyncThunk(
+  'user/delete',
+  async (id, user, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.admin.token
+      return await authService.updateUser(id, user, token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
 
 // Delete user
 export const deleteUser = createAsyncThunk(

@@ -133,7 +133,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     throw new Error("Admin not logged in.");
   }
 
-  // Make sure the logged in user matches the goal user
+  // Make sure the logged in user is an administrator.
   if (!req.admin.administrator) {
     res.status(401);
     throw new Error("User not authorized");
@@ -144,6 +144,36 @@ const deleteUser = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json({ id: req.params.id, message: "User deleted successfully." });
+});
+
+// @desc    Update goal
+// @route   PUT /api/goals/:id
+// @access  Private
+const updateUser = asyncHandler(async (req, res) => {
+  const userExists = await Admin.findById(req.params.id);
+
+  if (!userExists) {
+    res.status(400);
+    throw new Error("User not found");
+  }
+
+  // // Check for user
+  // if (!req.admin) {
+  //   res.status(401);
+  //   throw new Error("Admin not logged in.");
+  // }
+
+  // // Make sure the logged in user is an administrator.
+  // if (!req.admin.administrator) {
+  //   res.status(401);
+  //   throw new Error("User not authorized");
+  // }
+
+  const updatedUser = await Admin.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+
+  res.status(200).json(updatedUser);
 });
 
 // Generate JWT
@@ -159,4 +189,5 @@ module.exports = {
   getMe,
   getAdmins,
   deleteUser,
+  updateUser,
 };

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUsers, reset } from "../../../features/auth/authSlice";
 import AdminListItem from "./AdminListItem";
 import DeleteUserModal from "./DeleteUserModal";
+import EditUserModal from "./EditUserModal";
 
 export default function AdminList() {
   // For Navigation
@@ -140,7 +141,10 @@ export default function AdminList() {
                     <i
                       className="bi bi-pen-fill mr-2 text-xl hover:bg-nav1Hover p-2 rounded-lg  text-lightCyan transition-all hover:scale-110"
                       type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#update-user-${index + "-large-"}-backdrop`}
                     ></i>
+                    <EditUserModal user={user} index={index + "-large-"} />
                     <i
                       className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-600 hover:scale-110 transition-all"
                       type="button"

@@ -9,6 +9,7 @@ const {
   getMe,
   getAdmins,
   deleteUser,
+  updateUser
 } = require("../controllers/adminController");
 // importing the function we created to protect routes.
 const { protect } = require("../middleware/authMiddleware");
@@ -19,6 +20,7 @@ router.post("/login", loginAdmin); // Public
 router.get("/me", protect, getMe); // Private
 router.get("/", protect, getAdmins); // Private
 router.delete("/:id", protect, deleteUser); //Private
+router.put("/:id", protect, updateUser); //Private
 
 // Exporting the router to whic we have made changes to.
 module.exports = router;

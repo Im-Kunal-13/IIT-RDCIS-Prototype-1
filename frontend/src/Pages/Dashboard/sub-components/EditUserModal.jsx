@@ -3,103 +3,114 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { register, resetRegister } from "../../../features/auth/authSlice";
 
-// INITIAL STATE OF THE FORM.
+export default function EditUserModal({user, index}) {
+    // INITIAL STATE OF THE FORM.
 const initialState = {
-  name: "",
-  email: "",
-  phone: "",
-  organization: "Steel Authority of India",
-  administrator: false,
-  password: "",
-  confirmPassword: "",
-};
-
-export default function UserSignupModal() {
-  // GETTING THE REFERENCE OF A BUTTON
-  const closeBtn = useRef(null);
-  // FORM STATE
-  const [form, setForm] = useState(initialState);
-
-  // PASSWORD VISIBILITY STATE
-  const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const [confirmPasswordVisibility, setConfirmPasswordVisibility] =
-    useState(false);
-
-  // TERMS AND CONDITIONS CHECKBOX
-  const [termsCheck, setTermsCheck] = useState(false);
-
-  //ADMIN STATE
-  const [isAdmnin, setIsAdmin] = useState(false);
-
-  // FUNCTION WHICH WILL BE TRIGERED ON FORM DATA CHANGE.
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    organization: user.organization,
+    administrator: user.administrator,
+    currentPassword: "",
+    newPassword: "",
+    confirmNewPassword: ""
   };
 
-  // For dispatching functions
-  const dispatch = useDispatch();
+    // GETTING THE REFERENCE OF A BUTTON
+    const closeBtn = useRef(null);
+    // FORM STATE
+    const [form, setForm] = useState(initialState);
+  
+    // PASSWORD VISIBILITY STATE
+    const [currentPasswordVisibility, setCurrentPasswordVisibility] = useState(false);
+    const [newPasswordVisibility, setNewPasswordVisibility] = useState(false);
+    const [confirmNewPasswordVisibility, setConfirmNewPasswordVisibility] =
+      useState(false);
+  
+    // TERMS AND CONDITIONS CHECKBOX
+    const [termsCheck, setTermsCheck] = useState(false);
+  
+    //ADMIN STATE
+    const [isAdmnin, setIsAdmin] = useState(false);
+  
+    // FUNCTION WHICH WILL BE TRIGERED ON FORM DATA CHANGE.
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+        console.log(form);
+    };
+  
+    // For dispatching functions
+    const dispatch = useDispatch();
+  
+    // Destructuring data.
+    const { updateUserError,
+        updateUserSuccess,
+        updateUserLoading, 
+        updateUserMessage} =
+      useSelector((state) => state.auth);
+  
+    // USE Effect
+    useEffect(() => {
+      if (updateUserError) {
+        console.log("something went wrong!");
+      }
+  
+      if (updateUserSuccess) {
+        closeBtn.current.click();
+  
+        toast.success(`User updated sucessfully.`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          toastId: "updateSucces1",
+        });
+        setForm(initialState);
+        setCurrentPasswordVisibility(false)
+        setNewPasswordVisibility(false)
+        setConfirmNewPasswordVisibility(false)
+  
+        // setTimeout(() => {
+        //   dispatch(resetUserUpdate());
+        // }, 100);
+      }
+    }, [
+      updateUserError,
+      updateUserLoading,
+      updateUserSuccess,
+      updateUserMessage,
+      dispatch,
+    ]);
+  
+    // SUBMIT BUTTON HANDLE FUNCTION
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+    //   console.log(form);
 
-  // Destructuring data.
-  const { registerError, registerSuccess, registerIsLoading, registerMessage } =
-    useSelector((state) => state.auth);
-
-  // USE STATE
-  useEffect(() => {
-    if (registerError) {
-      console.log("something went wrong!");
-    }
-
-    if (registerSuccess) {
-      closeBtn.current.click();
-
-      toast.success(`Registered successfully.`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        toastId: "loginSucces1",
-      });
-      setForm(initialState);
-      setPasswordVisibility(false);
-      setConfirmPasswordVisibility(false);
-
-      setTimeout(() => {
-        dispatch(resetRegister());
-      }, 100);
-    }
-  }, [
-    registerError,
-    registerIsLoading,
-    registerSuccess,
-    registerMessage,
-    dispatch,
-  ]);
-
-  // SUBMIT BUTTON HANDLE FUNCTION
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (form.password !== form.confirmPassword) {
-      toast.info("Passwords do not match.", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        toastId: "logoutSucces1",
-      });
-    } else {
-      const adminData = {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        organization: form.organization,
-        administrator: form.administrator,
-        password: form.password,
-      };
-
-      await dispatch(register(adminData));
-
-      // console.log(form);
-    }
-  };
+      if(!form.newPassword && !form.confirmNewPassword) {
+          
+      }
+  
+    //   if (form.password !== form.confirmPassword) {
+    //     toast.info("Passwords do not match.", {
+    //       position: toast.POSITION.BOTTOM_RIGHT,
+    //       toastId: "logoutSucces1",
+    //     });
+    //   } else {
+    //     const adminData = {
+    //       name: form.name,
+    //       email: form.email,
+    //       phone: form.phone,
+    //       organization: form.organization,
+    //       administrator: form.administrator,
+    //       password: form.password,
+    //     };
+  
+    //     await dispatch(updateUser(adminData));
+  
+        // console.log(form);
+      }
   return (
     <div
       className="modal fade"
-      id="register-user-backdrop"
+      id={`update-user-${index}-backdrop`}
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       tabIndex="-1"
@@ -126,7 +137,7 @@ export default function UserSignupModal() {
                 className="modal-title font-bold text-2xl "
                 id="staticBackdropLabel"
               >
-                Sign Up
+                User Profile
               </h5>
             </div>
           </div>
@@ -162,11 +173,12 @@ export default function UserSignupModal() {
                 </span>
                 <input
                   type="email"
-                  className="form-control border-l-0 rounded-lg border-0 shadow"
+                  className="form-control border-l-0 rounded-lg border-0 shadow bg-white"
                   placeholder="Email"
                   aria-label="email"
                   value={form.email}
                   name="email"
+                  disabled
                   onChange={handleChange}
                   aria-describedby="basic-addon-email"
                   required
@@ -246,7 +258,7 @@ export default function UserSignupModal() {
                   ></i>
                 </span>
               </div>
-              {/* PASSWORD.  */}
+              {/* CURRENT PASSWORD.  */}
               <div className="input-group my-4">
                 <span
                   className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
@@ -255,14 +267,14 @@ export default function UserSignupModal() {
                   <i className="bi bi-key-fill text-2xl text-white"></i>
                 </span>
                 <input
-                  type={passwordVisibility ? "text" : "password"}
+                  type={currentPasswordVisibility ? "text" : "password"}
                   className="form-control border-l-0 rounded-lg border-0 shadow"
-                  placeholder="Password"
+                  placeholder="Current Password"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                   onChange={handleChange}
-                  value={form.password}
-                  name="password"
+                  value={form.currentPassword}
+                  name="currentPassword"
                   required
                   onPaste={(e) => {
                     e.preventDefault();
@@ -276,17 +288,17 @@ export default function UserSignupModal() {
                 <span
                   className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
                   onClick={() => {
-                    setPasswordVisibility(!passwordVisibility);
+                    setNewPasswordVisibility(!currentPasswordVisibility);
                   }}
                 >
                   <i
                     className={`bi ${
-                      passwordVisibility ? "bi-eye-slash" : "bi-eye-fill"
+                        currentPasswordVisibility ? "bi-eye-slash" : "bi-eye-fill"
                     } text-lg text-white`}
                   ></i>
                 </span>
               </div>
-              {/* CONFIRM PASSWORD.  */}
+              {/* NEW PASSWORD.  */}
               <div className="input-group my-4">
                 <span
                   className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
@@ -295,14 +307,14 @@ export default function UserSignupModal() {
                   <i className="bi bi-key-fill text-2xl text-white"></i>
                 </span>
                 <input
-                  type={confirmPasswordVisibility ? "text" : "password"}
+                  type={newPasswordVisibility ? "text" : "password"}
                   className="form-control border-l-0 rounded-lg border-0 shadow"
-                  placeholder="Confirm Password"
+                  placeholder="New Password"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
-                  name="confirmPassword"
                   onChange={handleChange}
-                  value={form.confirmPassword}
+                  value={form.newPassword}
+                  name="newPassword"
                   required
                   onPaste={(e) => {
                     e.preventDefault();
@@ -316,12 +328,52 @@ export default function UserSignupModal() {
                 <span
                   className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
                   onClick={() => {
-                    setConfirmPasswordVisibility(!confirmPasswordVisibility);
+                    setNewPasswordVisibility(!newPasswordVisibility);
                   }}
                 >
                   <i
                     className={`bi ${
-                      confirmPasswordVisibility ? "bi-eye-slash" : "bi-eye-fill"
+                        newPasswordVisibility ? "bi-eye-slash" : "bi-eye-fill"
+                    } text-lg text-white`}
+                  ></i>
+                </span>
+              </div>
+              {/* CONFIRM NEW PASSWORD.  */}
+              <div className="input-group my-4">
+                <span
+                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  id="basic-addon1"
+                >
+                  <i className="bi bi-key-fill text-2xl text-white"></i>
+                </span>
+                <input
+                  type={confirmNewPasswordVisibility ? "text" : "password"}
+                  className="form-control border-l-0 rounded-lg border-0 shadow"
+                  placeholder="Confirm New Password"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  name="confirmNewPassword"
+                  onChange={handleChange}
+                  value={form.confirmNewPassword}
+                  required
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    return false;
+                  }}
+                  onCopy={(e) => {
+                    e.preventDefault();
+                    return false;
+                  }}
+                />
+                <span
+                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
+                  onClick={() => {
+                    setConfirmNewPasswordVisibility(!confirmNewPasswordVisibility);
+                  }}
+                >
+                  <i
+                    className={`bi ${
+                        confirmNewPasswordVisibility ? "bi-eye-slash" : "bi-eye-fill"
                     } text-lg text-white`}
                   ></i>
                 </span>
@@ -335,12 +387,12 @@ export default function UserSignupModal() {
                   onChange={() => {
                     setTermsCheck(!termsCheck);
                   }}
-                  id="terms-checkbox1"
+                  id={`terms-checkbox${index}`}
                   required
                 />
                 <label
                   className="form-check-label text-xs mt-1"
-                  htmlFor="terms-checkbox1"
+                  htmlFor={`terms-checkbox${index}`}
                 >
                   I have read and agreed to{" "}
                   <span className="text-lightBlue2 cursor-pointer">
@@ -354,7 +406,7 @@ export default function UserSignupModal() {
                   className="rounded-lg py-2 px-8 landing-review text-white form-labels hover:scale-x-110 transition-all w-52"
                   type="submit"
                 >
-                  {registerIsLoading ? (
+                  {updateUserLoading ? (
                     <>
                       <span
                         className="spinner-border spinner-border-sm"
@@ -364,7 +416,7 @@ export default function UserSignupModal() {
                       <span className="visually-hidden">Loading...</span>
                     </>
                   ) : (
-                    "CREATE ACCOUNT"
+                    "UPDATE PROFILE"
                   )}
                 </button>
               </div>
@@ -374,9 +426,9 @@ export default function UserSignupModal() {
                   className="form-check-label text-xs mt-1"
                   htmlFor="flexCheckDefault"
                 >
-                  Already have an account?{" "}
+                  Update your own account?{" "}
                   <span className="text-lightBlue1 cursor-pointer">
-                    Sign In
+                    Edit
                   </span>
                 </label>
               </div>
@@ -385,5 +437,5 @@ export default function UserSignupModal() {
         </div>
       </div>
     </div>
-  );
+  )
 }

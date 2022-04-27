@@ -18,7 +18,7 @@ export default function DeleteUserModal({ user, index }) {
 
   // Recaptcha handling
   const onRecaptchaChange = (value) => {
-    console.log("Captcha value:", value);
+    // console.log("Captcha value:", value);
 
     // Setting the recaptcha state value to true.
     if (value) {

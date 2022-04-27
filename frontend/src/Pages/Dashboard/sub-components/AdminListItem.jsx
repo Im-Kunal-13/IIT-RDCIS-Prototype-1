@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import DeleteUserModal from "./DeleteUserModal";
+import EditUserModal from "./EditUserModal";
 
 export default function AdminListItem({ user, index }) {
   const { admin } = useSelector((state) => state.auth);
@@ -21,13 +22,16 @@ export default function AdminListItem({ user, index }) {
         <div className="flex items-center">
           {admin?.administrator && (
             <div>
-              <i className="bi bi-pen-fill  text-lg hover:bg-offCanvasHover p-2 rounded-lg text-lightCyan hover:scale-110 transition-all"></i>
+              <i className="bi bi-pen-fill  text-lg hover:bg-offCanvasHover p-2 rounded-lg text-lightCyan hover:scale-110 transition-all"
+              data-bs-toggle="modal"
+              data-bs-target={`#update-user-${index}-backdrop`}></i>
               <i
                 className="bi bi-trash-fill mr-2 text-lg hover:bg-offCanvasHover p-2 rounded-lg text-red-500 hover:scale-110 transition-all"
                 data-bs-toggle="modal"
                 data-bs-target={`#delete-user-${index}-backdrop`}
               ></i>
               <DeleteUserModal user={user} index={index} />
+              <EditUserModal user={user} index={index} />
             </div>
           )}
           <input
