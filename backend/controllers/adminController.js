@@ -150,6 +150,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @route   PUT /api/goals/:id
 // @access  Private
 const updateUser = asyncHandler(async (req, res) => {
+  console.log("entered admin controller.");
   const userExists = await Admin.findById(req.params.id);
 
   if (!userExists) {
@@ -173,7 +174,7 @@ const updateUser = asyncHandler(async (req, res) => {
     new: true,
   });
 
-  res.status(200).json(updatedUser);
+  res.status(200).json({user: updatedUser, message: "user updated successfully"});
 });
 
 // Generate JWT

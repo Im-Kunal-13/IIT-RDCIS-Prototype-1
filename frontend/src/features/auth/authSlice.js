@@ -25,13 +25,17 @@ const initialState = {
   adminsIsLoading: false,
   adminsMessage: "",
   deleteUserError: false,
-  deleteUserSuccess:false,
-  deleteUserLoading: false, 
+  deleteUserSuccess: false,
+  deleteUserLoading: false,
   deleteUserMessage: "",
   updateUserError: false,
-  updateUserSuccess:false,
-  updateUserLoading: false, 
-  updateUserMessage: ""
+  updateUserSuccess: false,
+  updateUserLoading: false,
+  verifyUserMessage: "",
+  verifyUserError: false,
+  verifyUserSuccess: false,
+  verifyUserLoading: false,
+  verifyUserMessage: "",
 };
 
 // Get all users
@@ -88,6 +92,26 @@ export const login = createAsyncThunk("auth/login", async (admin, thunkAPI) => {
   }
 });
 
+// Login Admin.
+export const verifyUser = createAsyncThunk(
+  "auth/verify",
+  async (admin, thunkAPI) => {
+    try {
+      return await authService.verifyUser(admin);
+    } catch (error) {
+      const loginMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.loginMessage) ||
+        error.loginMessage ||
+        error.toString();
+
+      console.log("error you");
+      return thunkAPI.rejectWithValue(loginMessage);
+    }
+  }
+);
+
 // Exporting logout.
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
@@ -95,41 +119,42 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
 // Delete user
 export const updateUser = createAsyncThunk(
-  'user/delete',
-  async (id, user, thunkAPI) => {
+  "user/update",
+  async ({id, user}, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.admin.token
-      return await authService.updateUser(id, user, token)
+      console.log("Entered auth slice");
+      const token = thunkAPI.getState().auth.admin.token;
+      return await authService.updateUser(id, user, token);
     } catch (error) {
       const message =
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
-)
+);
 
 // Delete user
 export const deleteUser = createAsyncThunk(
-  'user/delete',
+  "user/delete",
   async (id, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.admin.token
-      return await authService.deleteUser(id, token)
+      const token = thunkAPI.getState().auth.admin.token;
+      return await authService.deleteUser(id, token);
     } catch (error) {
       const message =
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
-)
+);
 
 // Exporting the authSlice.
 export const authSlice = createSlice({
@@ -151,7 +176,7 @@ export const authSlice = createSlice({
       state.adminsIsSuccess = false;
       state.adminsIsLoading = false;
       state.adminsMessage = "";
-      state.admins = []
+      state.admins = [];
     },
     resetRegister: (state) => {
       state.registerSuccess = false;
@@ -172,7 +197,7 @@ export const authSlice = createSlice({
         state.registerError = false;
         state.registerSuccess = true;
         state.registerMessage = "";
-        state.admins.push(action.payload)
+        state.admins.push(action.payload);
       })
       .addCase(register.rejected, (state, action) => {
         state.registerIsLoading = false;
@@ -202,6 +227,27 @@ export const authSlice = createSlice({
         state.loginIsLoading = false;
         state.loginMessage = action.payload;
       })
+      // VERITY CASES
+      .addCase(verifyUser.pending, (state) => {
+        state.verifyUserLoading = true;
+        state.verifyUserError = true;
+        state.verifyUserError = false;
+        state.verifyUserSuccess = false;
+        state.verifyUserMessage = "";
+      })
+      .addCase(verifyUser.fulfilled, (state) => {
+        state.verifyUserError = false;
+        state.verifyUserSuccess = true;
+        state.verifyUserMessage = "";
+        state.verifyUserLoading = false;
+      })
+      .addCase(verifyUser.rejected, (state) => {
+        state.verifyUserError = false;
+        state.verifyUserError = true;
+        state.verifyUserSuccess = false;
+        state.verifyUserLoading = false;
+        // state.verifyUserMessage = action.payload;
+      })
       .addCase(logout.fulfilled, (state) => {
         state.admin = null;
       })
@@ -213,7 +259,7 @@ export const authSlice = createSlice({
         state.adminsIsSuccess = true;
         state.admins = action.payload.filter(
           (user) => user._id !== state.admin._id
-        )
+        );
       })
       .addCase(getUsers.rejected, (state, action) => {
         state.adminsIsLoading = false;
@@ -221,23 +267,45 @@ export const authSlice = createSlice({
         state.adminsMessage = action.payload;
       })
       .addCase(deleteUser.pending, (state) => {
-        state.deleteUserLoading = true
+        state.deleteUserLoading = true;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
-        state.deleteUserLoading = false
-        state.deleteUserSuccess = true
+        state.deleteUserLoading = false;
+        state.deleteUserSuccess = true;
         setTimeout(() => {
-          state.deleteUserSuccess = false
-        }, 3000)
+          state.deleteUserSuccess = false;
+        }, 3000);
         state.admins = state.admins.filter(
           (user) => user._id !== action.payload.id
-        )
+        );
       })
       .addCase(deleteUser.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
+      .addCase(updateUser.pending, (state) => {
+        state.updateUserLoading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.updateUserLoading = false;
+        state.updateUserSuccess = true;
+        setTimeout(() => {
+          state.updateUserSuccess = false;
+        }, 3000);
+        state.admins = state.admins.map((user) => {
+          if (user._id === action.payload.user._id) {
+            return action.payload.user;
+          } else {
+            return user;
+          }
+        });
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.updateUserLoading = false;
+        state.updateUserError = true;
+        state.updateUsermessage = action.payload;
+      });
   },
 });
 

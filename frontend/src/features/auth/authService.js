@@ -12,7 +12,7 @@ const register = async (adminData) => {
   return response.data;
 };
 
-// Login Admin
+// Login User
 const login = async (adminData) => {
   // Here we will wait for the response from the API_URL.
   const response = await axios.post(API_URL + "login", adminData);
@@ -20,6 +20,20 @@ const login = async (adminData) => {
   // Here we will save it in our local storage and use JSON.Stringify to save it.
   if (response.data) {
     localStorage.setItem("admin", JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
+// VerifyUser
+const verifyUser = async (adminData) => {
+  // Here we will wait for the response from the API_URL.
+  const response = await axios.post(API_URL + "login", adminData);
+
+  // Here we will save it in our local storage and use JSON.Stringify to save it.
+  if (response.data) {
+    // localStorage.setItem("admin", JSON.stringify(response.data));
+    console.log("Verify Success");
   }
 
   return response.data;
@@ -59,13 +73,14 @@ const deleteUser = async (userId, token) => {
 
 // Update user.
 const updateUser = async (userId, user, token) => {
+  console.log("Entered auth service.");
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const response = await axios.put(API_URL + userId, config, user);
+  const response = await axios.put(API_URL + userId, user, config);
 
   return response.data;
 };
@@ -78,6 +93,7 @@ const authService = {
   getUsers,
   deleteUser,
   updateUser,
+  verifyUser
 };
 
 // Exporting authService.
