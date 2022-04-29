@@ -17,7 +17,7 @@ export default function AdminListItem({ user, index }) {
           {user.email}
         </span>
         <span className="py-2 px-2 bg-offCanvasHover rounded-sm text-base inline sm:hidden">
-          {user.email.slice(0, 20)}...
+          {user.email.slice(0, 19)}...
         </span>
         <div className="flex items-center">
           {admin?.administrator ? (
