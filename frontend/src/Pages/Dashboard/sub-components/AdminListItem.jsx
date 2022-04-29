@@ -20,11 +20,13 @@ export default function AdminListItem({ user, index }) {
           {user.email.slice(0, 20)}...
         </span>
         <div className="flex items-center">
-          {admin?.administrator && (
+          {admin?.administrator ? (
             <div>
-              <i className="bi bi-pen-fill  text-lg hover:bg-offCanvasHover p-2 rounded-lg text-lightCyan hover:scale-110 transition-all"
-              data-bs-toggle="modal"
-              data-bs-target={`#update-user-${index}-backdrop`}></i>
+              <i
+                className="bi bi-pen-fill  text-lg hover:bg-offCanvasHover p-2 rounded-lg text-lightCyan hover:scale-110 transition-all"
+                data-bs-toggle="modal"
+                data-bs-target={`#update-user-${index}-backdrop`}
+              ></i>
               <i
                 className="bi bi-trash-fill mr-2 text-lg hover:bg-offCanvasHover p-2 rounded-lg text-red-500 hover:scale-110 transition-all"
                 data-bs-toggle="modal"
@@ -33,14 +35,21 @@ export default function AdminListItem({ user, index }) {
               <DeleteUserModal user={user} index={index} />
               <EditUserModal user={user} index={index} />
             </div>
+          ) : (
+            <div>
+              <i className="bi bi-pen-fill  text-lg hover:bg-offCanvasHover p-2 rounded-lg text-cyan-200 hover:scale-110 transition-all"></i>
+              <i className="bi bi-trash-fill mr-2 text-lg hover:bg-offCanvasHover p-2 rounded-lg text-red-300 hover:scale-110 transition-all"></i>
+            </div>
           )}
-          <input
-            className="form-check-input mr-2 shadow-none text-lg"
-            type="checkbox"
-            name="admin-checkbox"
-            defaultChecked={user.administrator}
-            id={`flexCheckDefault${index}`}
-          />
+          {user.administrator ? (
+            <i
+              className={`mr-2 text-lg text-green-400 bi bi-check-square-fill`}
+            />
+          ) : (
+            <i
+              className={`mr-2 text-lg text-white bi bi-square-fill`}
+            />
+          )}
           <i
             className="bi bi-chevron-down text-xl hover:bg-offCanvasHover p-2 rounded-lg"
             data-bs-toggle="collapse"

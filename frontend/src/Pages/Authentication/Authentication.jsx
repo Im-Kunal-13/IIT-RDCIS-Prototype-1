@@ -109,6 +109,7 @@ export default function Authentication() {
               id="exampleInputEmail1"
               placeholder="Enter your email"
               aria-label="email"
+              autoComplete="username"
               name="email"
               value={formData.email}
               onChange={onFormDataChange}
@@ -137,6 +138,7 @@ export default function Authentication() {
               id="exampleInputPassword1"
               aria-label="Username"
               aria-describedby="basic-addon1"
+              autoComplete="new-password"
               value={formData.password}
               onChange={onFormDataChange}
               name="password"
@@ -151,7 +153,7 @@ export default function Authentication() {
               }}
             />
             <span
-              className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
+              className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer"
               onClick={() => {
                 setPasswordVisibility(!passwordVisibility);
               }}
@@ -163,41 +165,11 @@ export default function Authentication() {
               ></i>
             </span>
           </div>
-          {/* <div className="mb-3 pb-3">
-            <label
-              htmlFor="exampleInputPassword1"
-              className="form-label font-semibold"
-            >
-              Password
-            </label>
-            <div className="flex items-center border border-black rounded-md shadow">
-              <input
-                type={passwordVisibility ? `text` : `password`}
-                className="form-control border-0 shadow-none"
-                id="exampleInputPassword1"
-                name="password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={onFormDataChange}
-                required
-              />
-              <div className="pr-5 text-gray-500 text-xl">
-                <i
-                  className={
-                    passwordVisibility
-                      ? `bi bi-eye-fill`
-                      : `bi bi-eye-slash-fill`
-                  }
-                  onClick={handleEyeClick}
-                ></i>
-              </div>
-            </div>
-          </div> */}
           <div className="mb-3 form-check flex justify-between">
             <span>
               <input
                 type="checkbox"
-                className="form-check-input"
+                className="form-check-input cursor-pointer"
                 id="exampleCheck1"
                 // required
               />

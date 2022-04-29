@@ -34,7 +34,6 @@ export default function DeleteUserModal({ user, index }) {
 
   const onDelete = async () => {
     closeBtn.current.click();
-    console.log("ondelete ");
     if (confirmEmail !== user?.email) {
       toast.info("Confirm email to proceed.", {
         position: toast.POSITION.BOTTOM_RIGHT,

@@ -232,9 +232,10 @@ export default function UserSignupModal() {
                   htmlFor="admin-checkbox"
                 >
                   <input
-                    className="form-check-input admin-checkbox m-0 h-6 w-6 border-none outline-none focus:shadow-none"
+                    className="form-check-input admin-checkbox m-0 h-6 w-6 border-none outline-none focus:shadow-none cursor-pointer"
                     type="checkbox"
                     checked={form.administrator}
+                    style={form.administrator ? {} : {opacity: ".5", borderRadius: "3px"}}
                     onChange={async (e) => {
                       setForm({ ...form, administrator: e.target.checked });
                     }}
@@ -271,7 +272,7 @@ export default function UserSignupModal() {
                   }}
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
+                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer"
                   onClick={() => {
                     setPasswordVisibility(!passwordVisibility);
                   }}
@@ -312,7 +313,7 @@ export default function UserSignupModal() {
                   }}
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
+                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer"
                   onClick={() => {
                     setConfirmPasswordVisibility(!confirmPasswordVisibility);
                   }}
@@ -327,7 +328,7 @@ export default function UserSignupModal() {
               {/* TERMS & CONDITIONS  */}
               <div className="form-check flex justify-center items-center mt-4">
                 <input
-                  className="form-check-input mr-2 terms-checkbox"
+                  className="form-check-input mr-2 terms-checkbox cursor-pointer"
                   type="checkbox"
                   value={termsCheck}
                   onChange={() => {

@@ -136,7 +136,7 @@ export default function Users() {
             </ul>
           </div>
           {/* UPLOAD */}
-          <div className={`dropdown ${admin?.administrator && "mr-7"}`}>
+          <div className={`dropdown mr-7`}>
             <i
               className="bi bi-cloud-arrow-up text-2xl hover:bg-offCanvasHover p-2 rounded-lg hover:scale-110 transition-all"
               type="button"
@@ -178,12 +178,17 @@ export default function Users() {
               </li>
             </ul>
           </div>
-          {admin?.administrator && (
+          {admin?.administrator ? (
             <div
               className="flex items-center px-3 py-2 border-2 rounded-md hover:bg-offCanvasHover hover:scale-110 transition-all cursor-pointer"
               data-bs-toggle="modal"
               data-bs-target="#register-user-backdrop"
             >
+              <i className="bi bi-plus-lg mr-2 text-xl"></i>
+              <span className="text-lg">Create New</span>
+            </div>
+          ) : (
+            <div className="flex items-center px-3 py-2 border-2 rounded-md bg-offCanvasHover transition-all cursor-pointer">
               <i className="bi bi-plus-lg mr-2 text-xl"></i>
               <span className="text-lg">Create New</span>
             </div>
@@ -197,12 +202,17 @@ export default function Users() {
             type="button"
           ></i>
           {/* CREATE NEW USER  */}
-          {admin?.administrator && (
+          {admin?.administrator ? (
             <i
               className="bi bi-plus text-2xl hover:bg-nav1Hover p-2 rounded-lg md:hidden transition-all hover:scale-110 mr-2"
               type="button"
               data-bs-toggle="modal"
               data-bs-target="#register-user-backdrop"
+            ></i>
+          ) : (
+            <i
+              className="bi bi-plus text-2xl p-2 rounded-lg md:hidden transition-all mr-2"
+              type="button"
             ></i>
           )}
 

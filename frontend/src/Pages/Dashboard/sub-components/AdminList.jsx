@@ -5,6 +5,7 @@ import { getUsers, reset } from "../../../features/auth/authSlice";
 import AdminListItem from "./AdminListItem";
 import DeleteUserModal from "./DeleteUserModal";
 import EditUserModal from "./EditUserModal";
+import { toast } from "react-toastify";
 
 export default function AdminList() {
   // For Navigation
@@ -63,28 +64,44 @@ export default function AdminList() {
         {/* EMAIL ADDRESS  */}
         <div>
           {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4">
+          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
             Email Address
           </div>
           {/* CONTENT  */}
           {admins.map((admin, index) => (
             <div key={index}>
               <hr style={{ height: ".5px" }} />
-              <div className="content my-3">{admin.email}</div>
+              <div
+                className="content my-3 text-center cursor-pointer hover:underline"
+                data-bs-toggle="tooltip"
+                data-bs-placement="left"
+                title="click to copy"
+                onClick={() => {
+                  navigator.clipboard.writeText(admin?.email);
+                  toast.success(`Copied to clipboard.`, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    toastId: "loginSucces1",
+                  });
+                }}
+              >
+                {admin.email.length <= 35
+                  ? admin.email
+                  : admin.email.slice(0, 31) + "..."}
+              </div>
             </div>
           ))}
         </div>
         {/* ORGANIZATION  */}
         <div>
           {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4">
+          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
             Organization
           </div>
           {/* CONTENT  */}
           {admins.map((admin, index) => (
             <div key={index}>
               <hr style={{ height: ".5px" }} />
-              <div className="content text-lightBlue2 my-3 hover:underline cursor-pointer">
+              <div className="content text-lightBlue2 my-3 hover:underline cursor-pointer text-center">
                 {admin.organization}
               </div>
             </div>
@@ -93,42 +110,42 @@ export default function AdminList() {
         {/* NAME  */}
         <div>
           {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4">
+          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
             Name
           </div>
           {/* CONTENT  */}
           {admins.map((admin, index) => (
             <div key={index}>
               <hr style={{ height: ".5px" }} />
-              <div className="content my-3">{admin.name}</div>
+              <div className="content my-3 text-center">{admin.name}</div>
             </div>
           ))}
         </div>
         {/* PHONE NUMBER  */}
         <div>
           {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4">
+          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
             Phone Number
           </div>
           {/* CONTENT  */}
           {admins.map((admin, index) => (
             <div key={index}>
               <hr style={{ height: ".5px" }} />
-              <div className="content my-3">{admin.phone}</div>
+              <div className="content my-3 text-center">{admin.phone}</div>
             </div>
           ))}
         </div>
         {/* ADMINISTRATOR  */}
         <div>
           {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4">
+          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
             Administrator
           </div>
           {/* CONTENT  */}
           {admins.map((user, index) => (
             <div key={index}>
               <hr style={{ height: ".5px" }} />
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center w-56 mx-auto">
                 <span
                   className={`content my-3 ${
                     user.administrator ? "text-green-500" : "text-red-500"
@@ -136,22 +153,37 @@ export default function AdminList() {
                 >
                   {user.administrator ? "Yes" : "No"}
                 </span>
-                {admin?.administrator && (
+                {admin?.administrator ? (
                   <div className="">
                     <i
                       className="bi bi-pen-fill mr-2 text-xl hover:bg-nav1Hover p-2 rounded-lg  text-lightCyan transition-all hover:scale-110"
                       type="button"
                       data-bs-toggle="modal"
-                      data-bs-target={`#update-user-${index + "-large-"}-backdrop`}
+                      data-bs-target={`#update-user-${
+                        index + "-large-"
+                      }-backdrop`}
                     ></i>
                     <EditUserModal user={user} index={index + "-large-"} />
                     <i
                       className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-600 hover:scale-110 transition-all"
                       type="button"
                       data-bs-toggle="modal"
-                      data-bs-target={`#delete-user-${index + "-large-"}-backdrop`}
+                      data-bs-target={`#delete-user-${
+                        index + "-large-"
+                      }-backdrop`}
                     ></i>
                     <DeleteUserModal user={user} index={index + "-large-"} />
+                  </div>
+                ) : (
+                  <div className="">
+                    <i
+                      className="bi bi-pen-fill mr-2 text-xl hover:bg-nav1Hover p-2 rounded-lg  text-cyan-200 transition-all hover:scale-110"
+                      type="button"
+                    ></i>
+                    <i
+                      className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-300 hover:scale-110 transition-all"
+                      type="button"
+                    ></i>
                   </div>
                 )}
               </div>
