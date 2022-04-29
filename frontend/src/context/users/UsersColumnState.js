@@ -1,15 +1,21 @@
 import React, { useState } from "react";
-import ThemeContext from "./themeContext";
+import UsersColumnContext from "./usersColumnContext";
 
 const ThemeState = (props) => {
-  const [state, setState] = useState("light");
-  const update = async() => {
+  const [state, setState] = useState({
+    email: true,
+    organization: true,
+    name: true,
+    phone: true,
+    administrator: true,
+  });
+  const update = async () => {
     await setState(state === "light" ? "dark" : "light");
   };
   return (
-    <ThemeContext.Provider value={{state, update}}>
+    <UsersColumnContext.Provider value={{ state, update }}>
       {props.children}
-    </ThemeContext.Provider>
+    </UsersColumnContext.Provider>
   );
 };
 

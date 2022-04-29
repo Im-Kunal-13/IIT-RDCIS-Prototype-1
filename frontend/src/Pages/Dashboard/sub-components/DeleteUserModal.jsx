@@ -89,8 +89,8 @@ export default function DeleteUserModal({ user, index }) {
 
             {/* EMAIL CONFIRMATION SECTION  */}
             <div className="mt-4">
-              <span className="mb-2 px-3">
-                Please type your email address to confirm.
+              <span className="mb-2 px-3 text-xs">
+                Please type user's email address to confirm.
               </span>
               <div className="input-group mb-2 mt-2 px-3">
                 <input
