@@ -73,7 +73,7 @@ export default function DeleteUserSelfModal() {
               ref={closeBtn}
             ></i>
           </div>
-          <div className="modal-body px-0">
+          <div className="modal-body px-0 text-sm">
             <p className="mb-4 px-3 font-semibold">
               Are you sure you want to delete your account?
             </p>
