@@ -87,9 +87,9 @@ export default function DeleteUserSelfModal() {
 
             {/* EMAIL CONFIRMATION SECTION  */}
             <div className="mt-4">
-              <span className="mb-2 px-3">
+              <div className="mb-2 px-3">
                 Please type your email address to confirm.
-              </span>
+              </div>
               <div className="input-group mb-2 mt-2 px-3">
                 <input
                   type="text"

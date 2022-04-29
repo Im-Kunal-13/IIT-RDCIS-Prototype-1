@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UsersColumnContext from "./usersColumnContext";
 
-const ThemeState = (props) => {
+const UsersColumnState = (props) => {
   const [state, setState] = useState({
     email: true,
     organization: true,
@@ -9,8 +9,8 @@ const ThemeState = (props) => {
     phone: true,
     administrator: true,
   });
-  const update = async () => {
-    await setState(state === "light" ? "dark" : "light");
+  const update = async (updatedState) => {
+    await setState(updatedState);
   };
   return (
     <UsersColumnContext.Provider value={{ state, update }}>
@@ -19,4 +19,4 @@ const ThemeState = (props) => {
   );
 };
 
-export default ThemeState;
+export default UsersColumnState;
