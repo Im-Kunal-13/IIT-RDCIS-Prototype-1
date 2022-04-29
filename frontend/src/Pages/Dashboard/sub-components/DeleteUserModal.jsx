@@ -75,7 +75,7 @@ export default function DeleteUserModal({ user, index }) {
               }}
             ></i>
           </div>
-          <div className="modal-body px-0">
+          <div className="modal-body px-0 sm:text-base text-sm">
             <p className="mb-4 px-3 font-semibold">
               Are you sure you want to delete your account?
             </p>
