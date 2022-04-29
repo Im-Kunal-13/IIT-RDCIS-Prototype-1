@@ -49,3 +49,8 @@ input:-webkit-autofill {
 .close-btn:hover {
   background: linear-gradient(135deg, red,red);
 }
+
+.admin-checkbox:checked {
+  background: linear-gradient(135deg, #015FF3,#77EFEC);
+  border: none;
+}

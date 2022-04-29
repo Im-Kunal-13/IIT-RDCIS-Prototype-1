@@ -28,10 +28,14 @@ const initialState = {
   deleteUserSuccess: false,
   deleteUserLoading: false,
   deleteUserMessage: "",
+  deleteSelfError: false,
+  deleteSelfSuccess: false,
+  deleteSelfLoading: false,
+  deleteSelfMessage: "",
   updateUserError: false,
   updateUserSuccess: false,
   updateUserLoading: false,
-  verifyUserMessage: "",
+  updateUserMessage: "",
   verifyUserError: false,
   verifyUserSuccess: false,
   verifyUserLoading: false,
@@ -120,9 +124,8 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 // Delete user
 export const updateUser = createAsyncThunk(
   "user/update",
-  async ({id, user}, thunkAPI) => {
+  async ({ id, user }, thunkAPI) => {
     try {
-      console.log("Entered auth slice");
       const token = thunkAPI.getState().auth.admin.token;
       return await authService.updateUser(id, user, token);
     } catch (error) {
@@ -140,6 +143,25 @@ export const updateUser = createAsyncThunk(
 // Delete user
 export const deleteUser = createAsyncThunk(
   "user/delete",
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.admin.token;
+      return await authService.deleteUser(id, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Delete self
+export const deleteSelf = createAsyncThunk(
+  "self/delete",
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.admin.token;
@@ -181,6 +203,21 @@ export const authSlice = createSlice({
     resetRegister: (state) => {
       state.registerSuccess = false;
     },
+    resetVerifyUser: (state) => {
+      state.verifyUserSuccess = false;
+    },
+    resetUpdateUser: (state) => {
+      state.updateUserSuccess = false;
+    },
+    resetDeleteUser: (state) => {
+      state.deleteUserSuccess = false
+    },
+    resetDeleteSelf: (state) => {
+      state.deleteSelfSuccess = false
+    },
+    resetLoginSuccess: (state) => {
+      state.loginSuccess = false
+    }
   },
   // Here all the functions will be asynchronous.
   extraReducers: (builder) => {
@@ -230,23 +267,16 @@ export const authSlice = createSlice({
       // VERITY CASES
       .addCase(verifyUser.pending, (state) => {
         state.verifyUserLoading = true;
-        state.verifyUserError = true;
-        state.verifyUserError = false;
-        state.verifyUserSuccess = false;
-        state.verifyUserMessage = "";
       })
       .addCase(verifyUser.fulfilled, (state) => {
-        state.verifyUserError = false;
         state.verifyUserSuccess = true;
-        state.verifyUserMessage = "";
         state.verifyUserLoading = false;
       })
-      .addCase(verifyUser.rejected, (state) => {
-        state.verifyUserError = false;
+      .addCase(verifyUser.rejected, (state, action) => {
         state.verifyUserError = true;
         state.verifyUserSuccess = false;
         state.verifyUserLoading = false;
-        // state.verifyUserMessage = action.payload;
+        state.verifyUserMessage = action.payload;
       })
       .addCase(logout.fulfilled, (state) => {
         state.admin = null;
@@ -272,17 +302,32 @@ export const authSlice = createSlice({
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.deleteUserLoading = false;
         state.deleteUserSuccess = true;
-        setTimeout(() => {
-          state.deleteUserSuccess = false;
-        }, 3000);
         state.admins = state.admins.filter(
           (user) => user._id !== action.payload.id
         );
+        if (state.admin._id === action.payload.id) {
+          state.admin = null;
+        }
       })
       .addCase(deleteUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
+        state.deleteUserLoading = false;
+        state.deleteUserError = true;
+        state.deleteUserMessage = action.payload;
+      })
+      .addCase(deleteSelf.pending, (state) => {
+        state.deleteSelfLoading = true;
+      })
+      .addCase(deleteSelf.fulfilled, (state, action) => {
+        state.deleteSelfLoading = false;
+        state.deleteSelfSuccess = true;
+        if (state.admin._id === action.payload.id) {
+          state.admin = null;
+        }
+      })
+      .addCase(deleteSelf.rejected, (state, action) => {
+        state.deleteSelfLoading = false;
+        state.deleteSelfError = true;
+        state.deleteSelfMessage = action.payload;
       })
       .addCase(updateUser.pending, (state) => {
         state.updateUserLoading = true;
@@ -290,9 +335,6 @@ export const authSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, action) => {
         state.updateUserLoading = false;
         state.updateUserSuccess = true;
-        setTimeout(() => {
-          state.updateUserSuccess = false;
-        }, 3000);
         state.admins = state.admins.map((user) => {
           if (user._id === action.payload.user._id) {
             return action.payload.user;
@@ -300,8 +342,12 @@ export const authSlice = createSlice({
             return user;
           }
         });
+        if (state.admin._id === action.payload.user._id) {
+          state.admin = action.payload.user;
+        }
       })
       .addCase(updateUser.rejected, (state, action) => {
+        state.updateUserSuccess = false;
         state.updateUserLoading = false;
         state.updateUserError = true;
         state.updateUsermessage = action.payload;
@@ -310,7 +356,8 @@ export const authSlice = createSlice({
 });
 
 // Whatever we put in the 'reset', we have to export it from the authSlice.actions section so that we can bring this reset into components where we can fire this off.
-export const { reset, resetRegister } = authSlice.actions;
+export const { reset, resetRegister, resetVerifyUser, resetUpdateUser, resetDeleteUser,resetLoginSuccess, resetDeleteSelf } =
+  authSlice.actions;
 
 // Exporting the authSlice.reducer
 export default authSlice.reducer;

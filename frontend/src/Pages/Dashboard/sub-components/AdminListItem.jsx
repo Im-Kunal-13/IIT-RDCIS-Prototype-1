@@ -39,7 +39,7 @@ export default function AdminListItem({ user, index }) {
             type="checkbox"
             name="admin-checkbox"
             defaultChecked={user.administrator}
-            id="flexCheckDefault"
+            id={`flexCheckDefault${index}`}
           />
           <i
             className="bi bi-chevron-down text-xl hover:bg-offCanvasHover p-2 rounded-lg"

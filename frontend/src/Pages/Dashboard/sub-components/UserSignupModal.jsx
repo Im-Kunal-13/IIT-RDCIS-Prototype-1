@@ -28,9 +28,6 @@ export default function UserSignupModal() {
   // TERMS AND CONDITIONS CHECKBOX
   const [termsCheck, setTermsCheck] = useState(false);
 
-  //ADMIN STATE
-  const [isAdmnin, setIsAdmin] = useState(false);
-
   // FUNCTION WHICH WILL BE TRIGERED ON FORM DATA CHANGE.
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -62,7 +59,7 @@ export default function UserSignupModal() {
 
       setTimeout(() => {
         dispatch(resetRegister());
-      }, 100);
+      }, 2000);
     }
   }, [
     registerError,
@@ -92,8 +89,6 @@ export default function UserSignupModal() {
       };
 
       await dispatch(register(adminData));
-
-      // console.log(form);
     }
   };
   return (
@@ -112,7 +107,7 @@ export default function UserSignupModal() {
       >
         <div className="modal-content rounded-lg border-0 md:px-20 shadow">
           {/* CLOSE BUTTON  */}
-          <span className="ml-auto relative top-12 right-4 hover:scale-110 transition-all text-white">
+          <span className="ml-auto relative top-12 right-4 hover:scale-110 transition-all text-white cursor-pointer">
             <i
               className="bi bi-x-lg text-2xl py-1 px-2 rounded-md form-labels close-btn"
               ref={closeBtn}
@@ -222,28 +217,29 @@ export default function UserSignupModal() {
                 <input
                   type="text"
                   className={`form-control bg-transparent border-l-0 rounded-lg border-0 shadow text-${
-                    isAdmnin ? "green-600" : "red-600"
+                    form.administrator ? "green-600" : "red-600"
                   } font-semibold`}
                   placeholder="Admin"
                   aria-label="Username"
-                  value={isAdmnin ? "True" : "False"}
+                  autoComplete="username"
+                  value={form.administrator ? "True" : "False"}
                   readOnly
                   aria-describedby="basic-addon1"
                   required
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
-                  onClick={async () => {
-                    await setIsAdmin(!isAdmnin);
-                    setForm({ ...form, administrator: !isAdmnin });
-                  }}
+                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow flex items-center px-2.5"
                   htmlFor="admin-checkbox"
                 >
-                  <i
-                    className={`bi ${
-                      isAdmnin ? "bi-check-lg" : "bi-x-lg"
-                    } text-lg text-white`}
-                  ></i>
+                  <input
+                    className="form-check-input admin-checkbox m-0 h-6 w-6 border-none outline-none focus:shadow-none"
+                    type="checkbox"
+                    checked={form.administrator}
+                    onChange={async (e) => {
+                      setForm({ ...form, administrator: e.target.checked });
+                    }}
+                    id="flexCheckDefault"
+                  />
                 </span>
               </div>
               {/* PASSWORD.  */}
@@ -260,6 +256,7 @@ export default function UserSignupModal() {
                   placeholder="Password"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
+                  autoComplete="new-password"
                   onChange={handleChange}
                   value={form.password}
                   name="password"
@@ -301,6 +298,7 @@ export default function UserSignupModal() {
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                   name="confirmPassword"
+                  autoComplete="new-password"
                   onChange={handleChange}
                   value={form.confirmPassword}
                   required

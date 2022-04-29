@@ -51,7 +51,7 @@ export default function LogoutModal() {
               </h5>
             </div>
             <i
-              className="bi bi-x-lg text-2xl py-1 px-2 bg-offCanvasHover hover:bg-red-600 hover:text-white rounded-lg hover:scale-110 transition-all"
+              className="bi bi-x-lg text-2xl py-1 px-2 bg-offCanvasHover hover:bg-red-600 hover:text-white rounded-lg hover:scale-110 transition-all cursor-pointer"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></i>

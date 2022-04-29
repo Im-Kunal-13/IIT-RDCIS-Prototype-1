@@ -20,7 +20,6 @@ export default function Authentication() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    console.log((formData));
   };
 
   // For Navigation
@@ -33,28 +32,25 @@ export default function Authentication() {
 
   useEffect(() => {
     if (loginError) {
-      console.log("something went wrong!");
+      toast.error("Incorrect credentials.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId: "logoutSucces1",
+      });
     }
 
-    if (admin) {
-      toast.success("You're logged in.", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        toastId: "loginSucces1",
-      });
+    if (admin && loginSuccess) {
       setFormData({
         email: "",
         password: "",
       });
       navigate("/dashboard/administration/adminList");
+      // window.location.reload()
     }
   }, [
     admin,
     loginError,
-    loginIsLoading,
     loginSuccess,
-    loginMessage,
     navigate,
-    dispatch,
   ]);
 
   const onSubmit = async (e) => {
@@ -203,10 +199,10 @@ export default function Authentication() {
                 type="checkbox"
                 className="form-check-input"
                 id="exampleCheck1"
-                required
+                // required
               />
               <label className="form-check-label" htmlFor="exampleCheck1">
-                Check me out
+                Keep me logged in
               </label>
             </span>
             <a href="*" className={`text-blue-700`}>

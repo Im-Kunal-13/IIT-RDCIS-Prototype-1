@@ -33,7 +33,7 @@ const verifyUser = async (adminData) => {
   // Here we will save it in our local storage and use JSON.Stringify to save it.
   if (response.data) {
     // localStorage.setItem("admin", JSON.stringify(response.data));
-    console.log("Verify Success");
+    console.log("User Verification Success");
   }
 
   return response.data;
@@ -73,7 +73,6 @@ const deleteUser = async (userId, token) => {
 
 // Update user.
 const updateUser = async (userId, user, token) => {
-  console.log("Entered auth service.");
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,

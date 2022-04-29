@@ -24,13 +24,13 @@ export default function AdminList() {
 
   // Loading the admins on useEffect.
   useEffect(() => {
-    // if (isError) {
-    //   console.log(message);
-    // }
+    if (adminsIsError) {
+      console.log(adminsMessage);
+    }
 
     // Getting all the admins
     dispatch(getUsers());
-  }, [admin, navigate, adminsIsError, adminsMessage, dispatch]);
+  }, [adminsIsError, adminsMessage, dispatch]);
 
   return (
     <>

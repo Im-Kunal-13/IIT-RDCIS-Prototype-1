@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUser, resetDeleteUser } from "../../../features/auth/authSlice";
+import { deleteSelf, resetDeleteSelf } from "../../../features/auth/authSlice";
 import { toast } from "react-toastify";
-import ReCAPTCHA from "react-google-recaptcha";
 
-export default function DeleteUserModal({ user, index }) {
+export default function DeleteUserSelfModal() {
+  // Destructuring data.
+  const { admin } = useSelector((state) => state.auth);
+
   //   CONFIRM EMAIL STATE
   const [confirmEmail, setConfirmEmail] = useState("");
   const dispatch = useDispatch();
@@ -13,14 +15,14 @@ export default function DeleteUserModal({ user, index }) {
   const closeBtn = useRef(null);
   // Destructuring data.
   const {
-    deleteUserError,
-    deleteUserSuccess,
-    deleteUserLoading,
-    deleteUserMessage,
+    deleteSelfError,
+    deleteSelfSuccess,
+    deleteSelfLoading,
+    deleteSelfMessage,
   } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (deleteUserSuccess) {
+    if (deleteSelfSuccess) {
       closeBtn.current.click();
 
       toast.success("User deleted successfully.", {
@@ -28,26 +30,24 @@ export default function DeleteUserModal({ user, index }) {
         toastId: "logoutSucces1",
       });
 
-      dispatch(resetDeleteUser());
+      dispatch(resetDeleteSelf());
     }
-  }, [deleteUserSuccess, dispatch]);
+  }, [deleteSelfSuccess, dispatch]);
 
   const onDelete = async () => {
-    closeBtn.current.click();
-    console.log("ondelete ");
-    if (confirmEmail !== user?.email) {
+    if (confirmEmail !== admin?.email) {
       toast.info("Confirm email to proceed.", {
         position: toast.POSITION.BOTTOM_RIGHT,
         toastId: "confirmEmail1",
       });
     } else {
-      await dispatch(deleteUser(user?._id));
+      await dispatch(deleteSelf(admin?._id));
     }
   };
   return (
     <div
       className="modal fade"
-      id={`delete-user-${index}-backdrop`}
+      id="delete-user-self-modal"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       tabIndex="-1"
@@ -71,9 +71,6 @@ export default function DeleteUserModal({ user, index }) {
               data-bs-dismiss="modal"
               aria-label="Close"
               ref={closeBtn}
-              onClick={() => {
-                setConfirmEmail("");
-              }}
             ></i>
           </div>
           <div className="modal-body px-0">
@@ -115,9 +112,9 @@ export default function DeleteUserModal({ user, index }) {
               type="button"
               className="border px-4 py-1 rounded-md bg-red-500 disabled:bg-red-300 shadow hover:scale-x-95 transition-all w-full text-white font-semibold"
               onClick={onDelete}
-              disabled={!(confirmEmail === user.email)}
+              disabled={!(confirmEmail === admin?.email)}
             >
-              {deleteUserLoading ? (
+              {deleteSelfLoading ? (
                 <>
                   <span
                     className="spinner-border spinner-border-sm"

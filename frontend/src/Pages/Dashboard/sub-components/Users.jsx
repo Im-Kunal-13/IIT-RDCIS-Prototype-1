@@ -16,7 +16,7 @@ export default function Users() {
         {/* CONTROLS  */}
         <div className="items-center hidden md:flex">
           {/* SEARCH  */}
-          <i className="bi bi-search text-2xl mr-7 hover:bg-offCanvasHover p-2 rounded-lg hover:scale-110 transition-all"></i>
+          <i className="bi bi-search text-2xl mr-7 hover:bg-offCanvasHover p-2 rounded-lg hover:scale-110 transition-all cursor-pointer"></i>
           {/* COLUMNS  */}
           <div className="dropdown mr-7">
             <i

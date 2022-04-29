@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUser } from "../../../features/auth/authSlice";
+import { updateUser, resetUpdateUser } from "../../../features/auth/authSlice";
 
 export default function EditUserModal({ user, index }) {
   // INITIAL STATE OF THE FORM.
@@ -42,9 +42,9 @@ export default function EditUserModal({ user, index }) {
 
   // USE Effect
   useEffect(() => {
-    // if (updateUserError) {
-    //   console.log("something went wrong!");
-    // }
+    if (updateUserError) {
+      console.log("something went wrong!");
+    }
 
     if (updateUserSuccess) {
       closeBtn.current.click();
@@ -53,15 +53,10 @@ export default function EditUserModal({ user, index }) {
         position: toast.POSITION.BOTTOM_RIGHT,
         toastId: "updateSucces1",
       });
-      setForm(initialState);
+
+      dispatch(resetUpdateUser());
     }
-  }, [
-    updateUserError,
-    updateUserLoading,
-    updateUserSuccess,
-    updateUserMessage,
-    dispatch,
-  ]);
+  }, [updateUserError, updateUserSuccess, updateUserMessage, dispatch]);
 
   // SUBMIT BUTTON HANDLE FUNCTION
   const handleSubmit = async (e) => {
@@ -76,7 +71,7 @@ export default function EditUserModal({ user, index }) {
       administrator: form.administrator,
     };
 
-    await dispatch(updateUser({id: user._id, user: adminData}));
+    await dispatch(updateUser({ id: user._id, user: adminData }));
   };
   return (
     <div
@@ -94,13 +89,13 @@ export default function EditUserModal({ user, index }) {
       >
         <div className="modal-content rounded-lg border-0 md:px-20 shadow">
           {/* CLOSE BUTTON  */}
-          <span className="ml-auto relative top-12 right-4 hover:scale-110 transition-all text-white">
-            <i
-              className="bi bi-x-lg text-2xl py-1 px-2 rounded-md form-labels close-btn"
-              ref={closeBtn}
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></i>
+          <span
+            className="ml-auto relative top-12 right-4 hover:scale-110 transition-all text-white"
+            ref={closeBtn}
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i className="bi bi-x-lg text-2xl py-1 px-2 rounded-md form-labels close-btn"></i>
           </span>
           <div className="modal-header flex justify-center pb-2 border-0">
             <div>
@@ -194,7 +189,7 @@ export default function EditUserModal({ user, index }) {
                   <option>Micro System Foundation</option>
                 </select>
               </div>
-              {/* ADMIN OR NOT  */}
+              {/* ADMINISTRATOR OR NOT  */}
               <div className="input-group my-4">
                 <span
                   className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
@@ -208,6 +203,7 @@ export default function EditUserModal({ user, index }) {
                     isAdmnin ? "green-600" : "red-600"
                   } font-semibold`}
                   placeholder="Admin"
+                  autoComplete="username"
                   aria-label="Username"
                   value={isAdmnin ? "True" : "False"}
                   readOnly

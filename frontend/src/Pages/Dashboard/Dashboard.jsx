@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import DeleteUserModal from "./sub-components/DeleteUserModal";
 import LogoutModal from "./sub-components/LogoutModal";
 import UserSignupModal from "./sub-components/UserSignupModal";
+import EditUserSelfModal from "./sub-components/EditUserSelfModal";
+import { resetLoginSuccess } from "../../features/auth/authSlice";
+import DeleteUserSelfModal from "./sub-components/DeleteUserSelfModal";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -16,50 +18,31 @@ export default function Dashboard() {
   };
 
   // Destructuring data.
-  const {
-    admin,
-    loginIsLoading,
-    loginError,
-    loginSuccess,
-    loginMessage,
-    deleteUserError,
-    deleteUserSuccess,
-    deleteUserLoading,
-    deleteUserMessage,
-  } = useSelector((state) => state.auth);
+  const { admin, loginSuccess } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (loginError) {
-      console.log("something went wrong!");
-    }
     // If admin not present then redirecting to the navigation page.
-    // if (!admin) {
-    //   navigate("/");
-    //   if (window.innerWidth < 768) {
-    //     window.location.reload();
-    //   } else {
-    //     toast.info("You're logged out.", {
-    //       position: toast.POSITION.BOTTOM_RIGHT,
-    //       toastId: "logoutSucces1",
-    //     });
-    //   }
-    // }
-    if(deleteUserSuccess) {
-      toast.success("User deleted successfully.", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        toastId: "logoutSucces1",
-      });
+    if (!admin) {
+      navigate("/");
+      if (window.innerWidth < 768) {
+        window.location.reload();
+      } else {
+        toast.info("You're logged out.", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          toastId: "logoutSucces1",
+        });
+      }
     }
-  }, [
-    admin,
-    loginError,
-    loginIsLoading,
-    loginSuccess,
-    loginMessage,
-    deleteUserSuccess,
-    navigate,
-    dispatch,
-  ]);
+
+    if (loginSuccess) {
+      toast.success("You're logged in.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId: "loginSucces1",
+      });
+
+      dispatch(resetLoginSuccess());
+    }
+  }, [admin, loginSuccess, navigate, dispatch]);
 
   return (
     <div>
@@ -85,7 +68,7 @@ export default function Dashboard() {
         </div>
         <div className="items-center hidden md:flex">
           {/* NOTIFICATIONS  */}
-          <i className="bi bi-bell text-2xl mr-6 hover:bg-nav1Hover p-2 rounded-lg hover:scale-110 transition-all"></i>
+          <i className="bi bi-bell text-2xl mr-6 hover:bg-nav1Hover p-2 rounded-lg hover:scale-110 transition-all cursor-pointer"></i>
           {/* SETTINGS */}
           <div className="dropdown">
             <i
@@ -99,7 +82,7 @@ export default function Dashboard() {
               className="dropdown-menu px-2 shadow"
               aria-labelledby="settings-dropdown-button"
             >
-              <li className="py-2 px-2 my-2 bg-offCanvasSelected rounded-md text-base">
+              <li className="py-2 px-2 my-2 bg-gray-200 rounded-md text-base">
                 2002kunalmondal13@gmail.com
               </li>
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover">
@@ -129,28 +112,57 @@ export default function Dashboard() {
               className="dropdown-menu px-2 z-20 shadow"
               aria-labelledby="sign-in-dropdown-button"
             >
-              <li className="p-2 my-2 bg-gray-200 rounded-md text-base">
+              <li
+                className={`p-2 my-2 ${
+                  admin?.administrator ? "bg-green-100" : "bg-gray-200"
+                } rounded-md text-base cursor-pointer transition-all hover:scale-95`}
+                data-bs-toggle="tooltip"
+                data-bs-placement="left"
+                title="Copy Email"
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(admin?.email);
+                  toast.success(`Copied to clipboard.`, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    toastId: "loginSucces1",
+                  });
+                }}
+              >
                 {admin?.email}
               </li>
-              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover">
+              <li
+                className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover cursor-pointer transition-all hover:scale-90"
+                data-bs-toggle="modal"
+                data-bs-target={`#edit-user-self-backdrop`}
+              >
+                <div className="flex items-center">
+                  <i
+                    className={`bi bi-person${
+                      admin?.administrator ? "-check" : ""
+                    } text-xl mr-4`}
+                  ></i>
+                  <span className="text-lg">Account</span>
+                </div>
+              </li>
+              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover cursor-pointer transition-all hover:scale-90">
                 <div className="flex items-center">
                   <i className="bi bi-question-square text-lg mr-4"></i>
                   <span className="text-lg">Support</span>
                 </div>
               </li>
-              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover">
+              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover cursor-pointer transition-all hover:scale-90">
                 <div className="flex items-center">
                   <i className="bi bi-journals text-lg mr-4"></i>
                   <span className="text-lg">Documentation</span>
                 </div>
               </li>
-              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover">
+              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover cursor-pointer transition-all hover:scale-90">
                 <div className="flex items-center">
                   <i className="bi bi-clock text-lg mr-4"></i>
                   <span className="text-lg">Platform Unique</span>
                 </div>
               </li>
-              <li className="py-2 px-2 my-2 rounded-md hover:bg-red-500 hover:text-white">
+              <li className="py-2 px-2 my-2 rounded-md hover:bg-red-500 hover:text-white cursor-pointer transition-all hover:scale-90">
                 {/* <!-- Button trigger modal --> */}
                 <div
                   className="flex items-center"
@@ -177,7 +189,7 @@ export default function Dashboard() {
           style={selectedTab === "monitoring" ? tabSelectedCss : {}}
           to="/dashboard/monitoring"
         >
-          Monitoring
+          <span className="sm:px-1">Monitoring</span>
         </Link>
         {/* CONFIGURATION  */}
         <Link
@@ -188,7 +200,7 @@ export default function Dashboard() {
           style={selectedTab === "configuration" ? tabSelectedCss : {}}
           to="/dashboard/configuration"
         >
-          Configuration
+          <span className="sm:px-1">Configuration</span>
         </Link>
         {/* ADMINISTRATION */}
         <Link
@@ -199,7 +211,7 @@ export default function Dashboard() {
           style={selectedTab === "administration" ? tabSelectedCss : {}}
           to="/dashboard/administration/adminList"
         >
-          Administration
+          <span className="md:px-1">Administration</span>
         </Link>
       </div>
       {/* LEFT OFFCANVAS  */}
@@ -207,6 +219,8 @@ export default function Dashboard() {
       {/* <!-- Modal --> */}
       <LogoutModal />
       <UserSignupModal />
+      <EditUserSelfModal />
+      <DeleteUserSelfModal />
     </div>
   );
 }

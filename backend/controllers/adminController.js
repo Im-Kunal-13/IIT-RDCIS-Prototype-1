@@ -133,12 +133,6 @@ const deleteUser = asyncHandler(async (req, res) => {
     throw new Error("Admin not logged in.");
   }
 
-  // Make sure the logged in user is an administrator.
-  if (!req.admin.administrator) {
-    res.status(401);
-    throw new Error("User not authorized");
-  }
-
   await userExists.remove();
 
   res
@@ -150,12 +144,33 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @route   PUT /api/goals/:id
 // @access  Private
 const updateUser = asyncHandler(async (req, res) => {
-  console.log("entered admin controller.");
   const userExists = await Admin.findById(req.params.id);
 
   if (!userExists) {
     res.status(400);
     throw new Error("User not found");
+  }
+
+  const { name, email, phone, organization, administrator, password } =
+    req.body;
+
+  let updateUserData;
+  if (!password) {
+    updateUserData = { name, email, phone, organization, administrator };
+  } else {
+    // Hash password.
+    // Creating Salt for the password.
+    const salt = await bcrypt.genSalt(10);
+    // Hasing the text password using the text password and the salt.
+    const hashedPassword = await bcrypt.hash(password, salt);
+    updateUserData = {
+      name,
+      email,
+      phone,
+      organization,
+      administrator,
+      password: hashedPassword,
+    };
   }
 
   // // Check for user
@@ -170,11 +185,17 @@ const updateUser = asyncHandler(async (req, res) => {
   //   throw new Error("User not authorized");
   // }
 
-  const updatedUser = await Admin.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
+  const updatedUser = await Admin.findByIdAndUpdate(
+    req.params.id,
+    updateUserData,
+    {
+      new: true,
+    }
+  );
 
-  res.status(200).json({user: updatedUser, message: "user updated successfully"});
+  res
+    .status(200)
+    .json({ user: updatedUser, message: "user updated successfully" });
 });
 
 // Generate JWT
