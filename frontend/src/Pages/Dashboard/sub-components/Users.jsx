@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AdminList from "./AdminList";
+import UsersColumnContext from "../../../context/users/usersColumnContext";
 
 export default function Users() {
+  // IMPORTING THE COLUMNS CONTEXT
+  const columns = useContext(UsersColumnContext);
+
   const { admin } = useSelector((state) => state.auth);
+  useEffect(() => {
+    console.log(columns.state);
+  }, []);
   return (
     <div className="py-3">
       {/* HEADER  */}
@@ -24,25 +31,69 @@ export default function Users() {
             ></i>
             {/* GRID DROPDOWN  */}
             <ul
-              className="dropdown-menu px-2"
+              className="dropdown-menu px-2 w-52 shadow"
               aria-labelledby="settings-dropdown-button"
+              onClick={(e) => {e.stopPropagation()}}
             >
-              <li className="py-2 px-2 my-2 bg-offCanvasSelected rounded-md text-base">
+              <li className="py-2 px-2 my-2 bg-gray-200 rounded-md text-base">
                 <pre>Show Columns </pre>
-                {/* 2002kunalmondal13 */}
               </li>
-              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover">
+              {/* EMAIL ADDRESS  */}
+              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
-                  <i className="bi bi-question-square text-lg mr-4"></i>
-                  <span className="text-lg">Admin Service</span>
+                  <input
+                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    type="checkbox"
+                    id="email-column-checkbox"
+                  />
+                  <label className="text-lg cursor-pointer" htmlFor="email-column-checkbox">Email Address</label>
                 </div>
               </li>
-              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover">
+              {/* ORGANIZATION  */}
+              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
-                  <i className="bi bi-journals text-lg mr-4"></i>
-                  <span className="text-lg">Reliability Services</span>
+                  <input
+                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    type="checkbox"
+                    id="organization-column-checkbox"
+                  />
+                  <label className="text-lg cursor-pointer" htmlFor="organization-column-checkbox">Organization</label>
                 </div>
               </li>
+              {/* NAME  */}
+              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
+                <div className="flex items-center">
+                  <input
+                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    type="checkbox"
+                    id="name-column-checkbox"
+                  />
+                  <label className="text-lg cursor-pointer" htmlFor="name-column-checkbox" >Name</label>
+                </div>
+              </li>
+              {/* PHONE NUMBER  */}
+              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
+                <div className="flex items-center">
+                  <input
+                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    type="checkbox"
+                    id="phone-column-checkbox"
+                  />
+                  <label className="text-lg cursor-pointer" htmlFor="phone-column-checkbox" >Phone Number</label>
+                </div>
+              </li>
+              {/* ADMINISTRATOR  */}
+              <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
+                <div className="flex items-center">
+                  <input
+                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    type="checkbox"
+                    id="administrator-column-checkbox"
+                  />
+                  <label className="text-lg cursor-pointer" htmlFor="administrator-column-checkbox">Administrator</label>
+                </div>
+              </li>
+
             </ul>
           </div>
           {/* TABLE */}

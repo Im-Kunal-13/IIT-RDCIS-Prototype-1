@@ -10,11 +10,12 @@ import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import ThemeState from "./context/theme/ThemeState";
+import UsersColumnState from "./context/users/UsersColumnState";
 
 function App() {
   return (
     <>
-      <ThemeState>
+      <UsersColumnState>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Authentication />} />
@@ -30,7 +31,7 @@ function App() {
           </Routes>
         </BrowserRouter>
         <ToastContainer autoClose={2000} className="p-4 md:p-0" />
-      </ThemeState>
+      </UsersColumnState>
     </>
   );
 }
