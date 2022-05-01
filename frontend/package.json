@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
+    "@syncfusion/ej2-react-calendars": "^20.1.47",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
@@ -23,6 +24,7 @@
     "react-redux": "^7.2.8",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "react-timekeeper": "^2.2.1",
     "react-toastify": "^8.2.0",
     "redux": "^4.1.2",
     "stream-browserify": "^3.0.0",

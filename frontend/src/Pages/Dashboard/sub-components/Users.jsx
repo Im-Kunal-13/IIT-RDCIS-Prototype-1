@@ -42,7 +42,7 @@ export default function Users() {
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
                     type="checkbox"
                     id="email-column-checkbox"
                   />
@@ -53,7 +53,7 @@ export default function Users() {
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
                     type="checkbox"
                     id="organization-column-checkbox"
                   />
@@ -64,7 +64,7 @@ export default function Users() {
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
                     type="checkbox"
                     id="name-column-checkbox"
                   />
@@ -75,7 +75,7 @@ export default function Users() {
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
                     type="checkbox"
                     id="phone-column-checkbox"
                   />
@@ -86,7 +86,7 @@ export default function Users() {
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    class="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
                     type="checkbox"
                     id="administrator-column-checkbox"
                   />

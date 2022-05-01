@@ -3,35 +3,36 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function AdministrationOffCanvas() {
+export default function MonitoringOffCanvas() {
   const [selectedTab, setSelectedTab] = useState("users");
   const selectedTabCss = { backgroundColor: "rgba(0, 0, 0, 0.150)" };
 
   // Plant dropdown select
   const [plant, setPlant] = useState("");
+  const [tab, setTab] = useState("summary")
 
   // Destructuring data.
   const { admin } = useSelector((state) => state.auth);
 
   return (
     <div className="offcanvas-body">
-      {/* ORGANIZATION SELECT  */}
-      <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border h-12 shadow cursor-pointer hover:scale-95 transition-all">
-        {/* <i className="bi bi-building text-lg mr-4"></i> */}
-        <img
-          src={require("./sail-logo-transparent.png")}
-          alt=""
-          className="w-8 pr-2"
-        />
-        <div
-          className="bg-transparent border-none outline-none w-full"
-          value={plant}
+      {/* Summary / Detailed Dashboard  SELECT  */}
+      <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border h-12 shadow hover:scale-95 transition-all">
+        <select
+          className="bg-transparent border-none outline-none w-full cursor-pointer text-lg"
+          value={tab}
           onChange={(e) => {
-            setPlant(e.target.value);
+            setTab(e.target.value);
           }}
         >
-          Steel Authority of India Limited
-        </div>
+          <option className="text-lg">
+            Summary
+          </option>
+          <option className="text-lg">
+            Detailed Dashboard
+          </option>
+          );
+        </select>
       </div>
       {/* DIFFERENT PAGES  */}
       <div className="">
@@ -48,7 +49,6 @@ export default function AdministrationOffCanvas() {
         </div>
         {/* PLANT SELECT  */}
         <div className="flex items-center my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow hover:scale-95 transition-all">
-          <i className="bi bi-ticket-detailed text-lg mr-4"></i>
           <select
             className="bg-transparent border-none outline-none w-full cursor-pointer"
             value={plant}
@@ -70,18 +70,7 @@ export default function AdministrationOffCanvas() {
               })}
           </select>
         </div>
-        {/* USERS TAB */}
-        <Link
-          className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border shadow hover:scale-95 transition-all"
-          to="/dashboard/administration/adminList"
-          onClick={() => {
-            setSelectedTab("users");
-          }}
-          style={selectedTab === "users" ? selectedTabCss : {}}
-        >
-          <i className="bi bi-people-fill text-lg mr-4"></i>
-          <span className="text-lg">Users</span>
-        </Link>
+        {/* SMALLER SCREENS  */}
         <div className="md:hidden">
           {/* NOTIFICATIONS TAB  */}
           <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg shadow border cursor-pointer hover:scale-95 transition-all">
