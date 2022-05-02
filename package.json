@@ -7,7 +7,6 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "dependencies": {
-    "@syncfusion/ej2-react-calendars": "^20.1.47",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
@@ -16,8 +15,7 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
-    "mongoose": "^6.2.10",
-    "react-calendar": "^3.7.0"
+    "mongoose": "^6.2.10"
   },
   "devDependencies": {
     "concurrently": "^7.1.0",

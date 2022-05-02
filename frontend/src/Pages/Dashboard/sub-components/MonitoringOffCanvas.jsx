@@ -9,7 +9,9 @@ export default function MonitoringOffCanvas() {
 
   // Plant dropdown select
   const [plant, setPlant] = useState("");
-  const [tab, setTab] = useState("summary")
+  const [machineName, setMachineName] = useState("Hammer Crusher 28");
+  const [monitorName, setMonitorName] = useState("Hammer Crusher 28");
+  const [tab, setTab] = useState("summary");
 
   // Destructuring data.
   const { admin } = useSelector((state) => state.auth);
@@ -25,12 +27,8 @@ export default function MonitoringOffCanvas() {
             setTab(e.target.value);
           }}
         >
-          <option className="text-lg">
-            Summary
-          </option>
-          <option className="text-lg">
-            Detailed Dashboard
-          </option>
+          <option className="text-lg">Summary</option>
+          <option className="text-lg">Detailed Dashboard</option>
           );
         </select>
       </div>
@@ -57,7 +55,7 @@ export default function MonitoringOffCanvas() {
             }}
           >
             {/* Sorting the plant names and displaying them accordingly.  */}
-            {["Durgapur", "Borako", "Bhilai", "Burnpur", "RDCIS"]
+            {["Durgapur", "Bokaro", "Bhilai", "Burnpur", "RDCIS"]
               .sort()
               .map((item, index) => {
                 return (
@@ -65,6 +63,72 @@ export default function MonitoringOffCanvas() {
                     {item === "RDCIS"
                       ? `${item} Ranchi`
                       : `${item} Steel Plant`}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
+        {/* MACHINE NAME TAB */}
+        <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border shadow cursor-pointer hover:scale-95 transition-all">
+          <i className="bi bi-motherboard text-lg mr-4"></i>
+          <span className="text-lg">Machine Name</span>
+        </div>
+        {/* MACHINE NAME SELECT  */}
+        <div className="flex items-center my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow hover:scale-95 transition-all">
+          <select
+            className="bg-transparent border-none outline-none w-full cursor-pointer"
+            value={machineName}
+            onChange={(e) => {
+              setMachineName(e.target.value);
+            }}
+          >
+            {/* Sorting the plant names and displaying them accordingly.  */}
+            {[
+              "Hammer Crusher 28",
+              "Hammer Crusher 29",
+              "Hammer Crusher 30",
+              "Hammer Crusher 31",
+              "Hammer Crusher 32",
+              "Hammer Crusher 33",
+              "Hammer Crusher 34",
+              "Hammer Crusher 35",
+            ]
+              .sort()
+              .map((item, index) => {
+                return (
+                  <option key={index} className="text-lg">
+                    {item}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
+        {/* MONITOR NAME TAB */}
+        <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border shadow cursor-pointer hover:scale-95 transition-all">
+          <i className="bi bi-clipboard-data text-lg mr-4"></i>
+          <span className="text-lg">Monitor Name</span>
+        </div>
+        {/* MONITOR NAME SELECT  */}
+        <div className="flex items-center my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow hover:scale-95 transition-all">
+          <select
+            className="bg-transparent border-none outline-none w-full cursor-pointer"
+            value={monitorName}
+            onChange={(e) => {
+              setMonitorName(e.target.value);
+            }}
+          >
+            {/* Sorting the plant names and displaying them accordingly.  */}
+            {[
+              "HC28-CDE",
+              "HC28-CNDE",
+              "HC28-MDE",
+              "HC28-MNDE",
+            ]
+              .sort()
+              .map((item, index) => {
+                return (
+                  <option key={index} className="text-lg">
+                    {item}
                   </option>
                 );
               })}

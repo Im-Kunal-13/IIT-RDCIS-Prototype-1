@@ -29,10 +29,13 @@ module.exports = {
         offCanvasSelected: "rgba(0, 0, 0, 0.150)",
         accordianBgBlue: "#e7f1ff",
         lightBlack1: "#101010",
-        
+        bgGray: "#f1f1f1",
       }),
       boxShadow: {
         nav2Hover: "0 0 2px 1px rgba(255, 255, 255, 0.200)",
+      },
+      rotate: {
+        360: "360deg",
       },
     },
   },

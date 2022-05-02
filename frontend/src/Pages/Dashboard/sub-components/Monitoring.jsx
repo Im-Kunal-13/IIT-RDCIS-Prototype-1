@@ -1,12 +1,22 @@
-import React from 'react'
-import MonitoringOffCanvas from './MonitoringOffCanvas'
-import MonitoringTab from './MonitoringTab'
+import React from "react";
+import MonitoringOffCanvas from "./MonitoringOffCanvas";
+import MonitoringTab from "./MonitoringTab";
+import TrendHistory from "./TrendHistory";
 
 export default function Monitoring() {
   return (
-    <div>
+    <div className="bg-bgGray px-4">
       <MonitoringTab />
-        {/* OFF CANVAS SKELETON  */}
+      {/* ANALYTICS CONTENT  */}
+      <div className="grid grid-cols-2">
+        {/* TREND HISTORY  */}
+        <div className="">
+          <TrendHistory />
+        </div>
+        <div>
+        </div>
+      </div>
+      {/* OFF CANVAS SKELETON  */}
       <div
         className="offcanvas offcanvas-start"
         tabIndex="-1"
@@ -24,13 +34,11 @@ export default function Monitoring() {
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           >
-            <i
-              className="bi bi-x-lg text-2xl py-1 px-2 text-white bg-nav2Hover rounded-lg hover:bg-red-600 shadow shadow-white"
-            ></i>
+            <i className="bi bi-x-lg text-2xl py-1 px-2 text-white bg-nav2Hover rounded-lg hover:bg-red-600 shadow shadow-white"></i>
           </button>
         </div>
         <MonitoringOffCanvas />
       </div>
     </div>
-  )
+  );
 }

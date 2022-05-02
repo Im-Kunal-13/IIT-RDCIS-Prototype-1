@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import TimeKeeper from "react-timekeeper";
 import "react-calendar/dist/Calendar.css";
+import Select from "react-select";
 import Calendar from "react-calendar";
 import moment from "moment";
 
@@ -14,26 +15,40 @@ export default function MonitoringTab() {
     setDate(e);
   };
 
+  //   TIME DURATION SELECT OPTIONS
+  const options = [
+    { value: "Today", label: "Today" },
+    { value: "This Month", label: "This Month" },
+    { value: "30 Min", label: "30 Min" },
+    { value: "1 Hour", label: "1 Hour" },
+    { value: "1 Day", label: "1 Day" },
+    { value: "1 Week", label: "1 Week" },
+    { value: "1 Month", label: "1 Month" },
+    { value: "1 Year", label: "1 Year" },
+    { value: "All", label: "All" },
+  ];
+
+  //   STATE FOR TIME DURATION SELECTED OPTION
+  const [selectedOption, setSelectedOption] = useState("Time Duration");
+
   const { admin } = useSelector((state) => state.auth);
   useEffect(() => {}, []);
   return (
     <div className="py-3">
       {/* HEADER  */}
-      <div className="flex justify-between items-center px-4">
-        <h1 className="font-semibold text-2xl">SAIL BOKARO_CRUSHER AREA</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="font-semibold text-2xl">BOKARO STEEL PLANT</h1>
         {/* CONTROLS  */}
         <div className="items-center hidden md:flex">
-          {/* SEARCH  */}
-          <i className="bi bi-search text-2xl mr-5 hover:bg-offCanvasHover p-2 rounded-lg hover:scale-110 transition-all cursor-pointer"></i>
           {/* SEARCH START  */}
           {/* <p>
             Current selected date is <b>{value.getDay.toString()}</b>
           </p> */}
           <div className="flex items-center mr-3">
             <p className="mr-2">START</p>
-            <div className="flex items-center my-3 pl-1 pr-3 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
+            <div className="flex items-center pl-1 pr-3 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
               <div className="dropdown ">
-              {/* DATE DROPDOWN BUTTON  */}
+                {/* DATE DROPDOWN BUTTON  */}
                 <div
                   className="cursor-pointer bg-transparent border-none outline-none text-lg w-36 flex justify-between pl-2 pr-3"
                   id="date-start-select-dropdown-button"
@@ -46,7 +61,7 @@ export default function MonitoringTab() {
                       .calendar()
                       .replaceAll("/", "-")}
                   </span>
-                  <i class="bi bi-calendar"></i>
+                  <i className="bi bi-calendar"></i>
                 </div>
                 {/* DATE START DROPDOWN  */}
                 <ul
@@ -72,7 +87,7 @@ export default function MonitoringTab() {
                   aria-expanded="false"
                 >
                   <span className="mr-2">{time}</span>
-                  <i class="fa-solid fa-chevron-down text-xs"></i>
+                  <i className="fa-solid fa-chevron-down text-xs"></i>
                 </div>
                 {/*  DROPDOWN  */}
                 <ul
@@ -94,9 +109,9 @@ export default function MonitoringTab() {
           {/* SEARCH END  */}
           <div className="flex items-center mr-2">
             <p className="mr-2">END</p>
-            <div className="flex items-center my-3 pl-1 pr-3 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
+            <div className="flex items-center pl-1 pr-3 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
               <div className="dropdown ">
-              {/* DATE DROPDOWN BUTTON  */}
+                {/* DATE DROPDOWN BUTTON  */}
                 <div
                   className="cursor-pointer bg-transparent border-none outline-none text-lg w-36 flex justify-between pl-2 pr-3"
                   id="date-start-select-dropdown-button"
@@ -109,7 +124,7 @@ export default function MonitoringTab() {
                       .calendar()
                       .replaceAll("/", "-")}
                   </span>
-                  <i class="bi bi-calendar"></i>
+                  <i className="bi bi-calendar"></i>
                 </div>
                 {/* DATE START DROPDOWN  */}
                 <ul
@@ -135,7 +150,7 @@ export default function MonitoringTab() {
                   aria-expanded="false"
                 >
                   <span className="mr-2">{time}</span>
-                  <i class="fa-solid fa-chevron-down text-xs"></i>
+                  <i className="fa-solid fa-chevron-down text-xs"></i>
                 </div>
                 {/*  DROPDOWN  */}
                 <ul
@@ -155,30 +170,21 @@ export default function MonitoringTab() {
             </div>
           </div>
           {/* TIME DURATION DROPDOWN */}
-          <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-56">
-            <i className="bi bi-clock-history mr-2 text-xl"></i>
-            <select
-              className="bg-transparent border-none outline-none w-full cursor-pointer text-lg"
-              //   value={tab}
-              //   onChange={(e) => {
-              //     setTab(e.target.value);
-              //   }}
-            >
-              <option className="text-lg" defaultChecked>
-                Time Duration
-              </option>
-              <option className="text-lg">Today</option>
-              <option className="text-lg">This Month</option>
-              <option className="text-lg">30 Min</option>
-              <option className="text-lg">1 Hour</option>
-              <option className="text-lg">1 Day</option>
-              <option className="text-lg">1 Week</option>
-              <option className="text-lg">1 Month</option>
-              <option className="text-lg">1 Year</option>
-              <option className="text-lg">All</option>
-              );
-            </select>
+          <div className="flex items-center py-2 px-3 hover:bg-offCanvasHover mr-2 rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-56 cursor-pointer">
+            <i className="bi bi-clock-history mr-1 text-xl"></i>
+            <Select
+              value={selectedOption}
+              onChange={setSelectedOption}
+              placeholder="Time Duration"
+              options={options}
+              className="border-none cursor-pointer"
+            />
+            <i className="fa-solid fa-chevron-down text-xs relative right-7"></i>
           </div>
+          <i
+            className="bi bi-arrow-clockwise text-white text-xl shadow border bg-lightBlue2 py-2 px-3 rounded-md transition-all bg-opacity-80 hover:bg-opacity-100 hover:scale-110"
+            type="button"
+          ></i>
         </div>
         {/* SMALLER SCREENS  */}
         <div className="md:hidden">
