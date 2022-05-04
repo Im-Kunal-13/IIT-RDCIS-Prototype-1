@@ -2,19 +2,62 @@ import React from "react";
 import MonitoringOffCanvas from "./MonitoringOffCanvas";
 import MonitoringTab from "./MonitoringTab";
 import TrendHistory from "./TrendHistory";
+import Tilt from "react-parallax-tilt";
+import InstantateousParameters from "./InstantateousParameters";
 
 export default function Monitoring() {
   return (
-    <div className="bg-bgGray px-4">
+    // <div className="bg-bgGray px-4 pt-3 min-h-screen">
+    //   <InstantateousParameters />
+    // </div>
+    <div className="bg-bgGray px-4 pt-3">
       <MonitoringTab />
-      {/* ANALYTICS CONTENT  */}
-      <div className="grid grid-cols-2">
+      {/* ANALYTICS CONTENT GRID */}
+      <div className="grid grid-cols-2 gap-4">
         {/* TREND HISTORY  */}
         <div className="">
-          <TrendHistory />
+          <Tilt
+            glareEnable={true}
+            glareColor="#015FF3"
+            glareMaxOpacity={0.3}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <TrendHistory />
+          </Tilt>
         </div>
-        <div>
+        {/* INSTANTATEOUS PARAMETERS  */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Tilt
+              glareEnable={true}
+              glareColor="#015FF3"
+              glareMaxOpacity={0.3}
+              tiltMaxAngleX={5}
+              tiltMaxAngleY={5}
+              glarePosition="all"
+              glareBorderRadius="8px"
+            >
+              <InstantateousParameters name={"Total Acceleration(m/s²)²(rms)"}/>
+            </Tilt>
+          </div>
+          <div>
+            <Tilt
+              glareEnable={true}
+              glareColor="#015FF3"
+              glareMaxOpacity={0.3}
+              tiltMaxAngleX={5}
+              tiltMaxAngleY={5}
+              glarePosition="all"
+              glareBorderRadius="8px"
+            >
+              <InstantateousParameters name={"Axial Velocity mm/s(rms)"}/>
+            </Tilt>
+          </div>
         </div>
+        <div></div>
       </div>
       {/* OFF CANVAS SKELETON  */}
       <div

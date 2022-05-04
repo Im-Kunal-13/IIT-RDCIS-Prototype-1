@@ -3,10 +3,15 @@ const trendHistoryOptions = {
     selected: 1,
   },
   legend: {
-    enabled: false,
+    align: "left",
+    symbolHeight: 12,
+    symbolWidth: 12,
+    symbolRadius: 4,
   },
   title: {
-    text: "AAPL Stock Price",
+    text: '<div class="font-semibold relative right-10">Trend History (HC28-CDE)</div>',
+    align: "left",
+    margin: 100,
   },
   credits: {
     enabled: false,
@@ -534,6 +539,137 @@ const trendHistoryOptions = {
   ],
 };
 
-const options = { trendHistoryOptions };
+const gaugeOptions = {
+  chart: {
+    type: "gauge",
+    plotBackgroundColor: null,
+    plotBackgroundImage: null,
+    plotBorderWidth: 0,
+    plotShadow: false,
+  },
+  plotOptions: {
+    gauge: {
+      pivot: {
+        radius: 7,
+        borderWidth: 0,
+        backgroundColor: "#CFD8DC",
+      },
+    },
+  },
+
+  title: {
+    text: "",
+    align: "left",
+    margin: -60,
+  },
+  credits: {
+    enabled: false,
+  },
+  pane: {
+    startAngle: -130,
+    endAngle: 130,
+    size: "95%",
+    background: [
+      {
+        backgroundColor: "#FFF",
+        borderWidth: 0,
+        outerRadius: "0%",
+        innerRadius: "110%",
+      },
+    ],
+  },
+
+  // the value axis
+  yAxis: {
+    min: 0,
+    max: 200,
+
+    minorTicks: false,
+    // minorTickInterval: "auto",
+    // minorTickWidth: 1,
+    // minorTickLength: 10,
+    // minorTickPosition: "inside",
+    // minorTickColor: "#666",
+
+    tickPixelInterval: 60,
+    tickWidth: 2,
+    tickPosition: "inside",
+    tickLength: 10,
+    tickColor: "#FFF",
+    labels: {
+      step: 1,
+      rotation: "auto",
+    },
+    title: {
+      text: "mm/s",
+      style: {
+        fontWeight: "bold",
+      },
+    },
+    plotBands: [
+      // MAIN COLOR PLOT BANDS 
+      {
+        from: 0,
+        to: 20,
+        color: "#015FF3", // green
+      },
+      {
+        from: 20,
+        to: 120,
+        color: "rgb(34, 197, 94)", // yellow
+      },
+      {
+        from: 120,
+        to: 160,
+        color: "rgb(234, 179, 8)", // red
+      },
+      {
+        from: 160,
+        to: 200,
+        color: "rgb(239, 68, 68)", // red
+      },
+      // OUTER  PLOT BAND 
+      {
+        from: 0,
+        to: 200,
+        color: "rgb(209, 213, 219)", // red
+        innerRadius: "105%",
+        // thickness: 30,
+        outerRadius: "113 %",
+      },
+    ],
+  },
+
+  series: [
+    {
+      name: "Speed",
+      data: [80],
+      rounded: true,
+      dataLabels: {
+        verticalAlign: "bottom",
+        y: 100,
+        borderWidth: 0,
+        useHtml: true,
+        style: {
+          fontSize: "30px",
+          fontWeight: "bold",
+        },
+      },
+      dial: {
+        backgroundColor: "#58585E",
+        baseWidth: 5,
+        topWidth: 2,
+        baseLength: "70%",
+        rearLength: "5%",
+        radius: "75%",
+      },
+      tooltip: {
+        valueSuffix: "mm/s",
+      },
+    },
+  ],
+};
+
+const options = { trendHistoryOptions, gaugeOptions };
 
 export default options;

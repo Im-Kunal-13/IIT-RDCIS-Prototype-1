@@ -34,7 +34,7 @@ export default function MonitoringTab() {
   const { admin } = useSelector((state) => state.auth);
   useEffect(() => {}, []);
   return (
-    <div className="py-3">
+    <div className="py-2 px-3 bg-white rounded-lg shadow border mb-3">
       {/* HEADER  */}
       <div className="flex justify-between items-center">
         <h1 className="font-semibold text-2xl">BOKARO STEEL PLANT</h1>
@@ -46,7 +46,7 @@ export default function MonitoringTab() {
           </p> */}
           <div className="flex items-center mr-3">
             <p className="mr-2">START</p>
-            <div className="flex items-center pl-1 pr-3 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
+            <div className="flex items-center pl-1 pr-3 hover:bg-blue-200 rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
               <div className="dropdown ">
                 {/* DATE DROPDOWN BUTTON  */}
                 <div
@@ -109,7 +109,7 @@ export default function MonitoringTab() {
           {/* SEARCH END  */}
           <div className="flex items-center mr-2">
             <p className="mr-2">END</p>
-            <div className="flex items-center pl-1 pr-3 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
+            <div className="flex items-center pl-1 pr-3 hover:bg-blue-200 rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
               <div className="dropdown ">
                 {/* DATE DROPDOWN BUTTON  */}
                 <div
@@ -170,7 +170,7 @@ export default function MonitoringTab() {
             </div>
           </div>
           {/* TIME DURATION DROPDOWN */}
-          <div className="flex items-center py-2 px-3 hover:bg-offCanvasHover mr-2 rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-56 cursor-pointer">
+          <div className="flex items-center py-2 px-3 hover:bg-blue-200 mr-2 rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-56 cursor-pointer">
             <i className="bi bi-clock-history mr-1 text-xl"></i>
             <Select
               value={selectedOption}
@@ -181,6 +181,7 @@ export default function MonitoringTab() {
             />
             <i className="fa-solid fa-chevron-down text-xs relative right-7"></i>
           </div>
+          {/* REFRESH BUTTON  */}
           <i
             className="bi bi-arrow-clockwise text-white text-xl shadow border bg-lightBlue2 py-2 px-3 rounded-md transition-all bg-opacity-80 hover:bg-opacity-100 hover:scale-110"
             type="button"
