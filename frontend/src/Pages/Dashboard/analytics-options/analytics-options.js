@@ -607,7 +607,7 @@ const gaugeOptions = {
       },
     },
     plotBands: [
-      // MAIN COLOR PLOT BANDS 
+      // MAIN COLOR PLOT BANDS
       {
         from: 0,
         to: 20,
@@ -628,7 +628,7 @@ const gaugeOptions = {
         to: 200,
         color: "rgb(239, 68, 68)", // red
       },
-      // OUTER  PLOT BAND 
+      // OUTER  PLOT BAND
       {
         from: 0,
         to: 200,
@@ -670,6 +670,76 @@ const gaugeOptions = {
   ],
 };
 
-const options = { trendHistoryOptions, gaugeOptions };
+const maintenanceOptions = {
+  chart: {
+    plotBackgroundColor: null,
+    plotBorderWidth: null,
+    plotShadow: false,
+    type: "pie",
+  },
+  credits: {
+    enabled: false,
+  },
+  title: {
+    text: '<div class="font-semibold relative right-10">Maintenance Index</div>',
+    align: "left",
+    margin: -10,
+  },
+  tooltip: {
+    pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+  },
+  accessibility: {
+    point: {
+      valueSuffix: "%",
+    },
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: "pointer",
+      dataLabels: {
+        enabled: false,
+        format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+      },
+    },
+  },
+  series: [
+    {
+      name: "Brands",
+      colorByPoint: true,
+      data: [
+        {
+          name: "Idle",
+          y: 40,
+          color: "#015FF3",
+          sliced: true,
+          // selected: true,
+        },
+        {
+          name: "Operational",
+          y: 25,
+          color: "#31E802"
+        },
+        {
+          name: "Caution",
+          y: 10,
+          color: "#ffc107"
+        },
+        {
+          name: "Warning",
+          y: 5,
+          color: "#FF0022"
+        },
+        {
+          name: "Disconnected",
+          y: 20,
+          color: "#9e9e9e"
+        },
+      ],
+    },
+  ],
+};
+
+const options = { trendHistoryOptions, gaugeOptions, maintenanceOptions };
 
 export default options;

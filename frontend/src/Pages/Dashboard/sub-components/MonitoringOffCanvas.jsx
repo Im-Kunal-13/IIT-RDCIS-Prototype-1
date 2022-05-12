@@ -1,36 +1,70 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { FaChevronDown } from "react-icons/fa";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 export default function MonitoringOffCanvas() {
   const [selectedTab, setSelectedTab] = useState("users");
   const selectedTabCss = { backgroundColor: "rgba(0, 0, 0, 0.150)" };
 
   // Plant dropdown select
-  const [plant, setPlant] = useState("");
+  const [plant, setPlant] = useState("Bokaro Steel Plant");
   const [machineName, setMachineName] = useState("Hammer Crusher 28");
   const [monitorName, setMonitorName] = useState("Hammer Crusher 28");
   const [tab, setTab] = useState("summary");
 
+  //   PLANTS SELECT OPTIONS
+  const plantOptions = [
+    { value: "Durgapur Steel Plant", label: "Durgapur Steel Plant" },
+    { value: "Bokaro Steel Plant", label: "Bokaro Steel Plant" },
+    { value: "Bhilai Steel Plant", label: "Bhilai Steel Plant" },
+    { value: "Burnpur Steel Plant", label: "Burnpur Steel Plant" },
+    { value: "RDCIS Ranchi", label: "RDCIS Ranchi" },
+  ];
+
+  // TAB SELECT OPTIONS
+  const tabOptions = [
+    { value: "Summary", label: "Summary" },
+    { value: "Detailed Dashboard", label: "Detailed Dashboard" },
+  ];
+
+  // MACHINE NAME SELECT OPTIONS
+  const machineNameOptions = [
+    { value: "Hammer Crusher 28", label: "Hammer Crusher 28" },
+    { value: "Hammer Crusher 29", label: "Hammer Crusher 29" },
+    { value: "Hammer Crusher 30", label: "Hammer Crusher 30" },
+    { value: "Hammer Crusher 31", label: "Hammer Crusher 31" },
+    { value: "Hammer Crusher 32", label: "Hammer Crusher 32" },
+    { value: "Hammer Crusher 33", label: "Hammer Crusher 33" },
+    { value: "Hammer Crusher 34", label: "Hammer Crusher 34" },
+    { value: "Hammer Crusher 35", label: "Hammer Crusher 35" },
+  ];
+
+  // MONITOR NAME SELECT OPTIONS
+  const monitorNameOptions = [
+    { value: "HC28-CDE", label: "HC28-CDE" },
+    { value: "HC28-CNDE", label: "HC28-CNDE" },
+    { value: "HC28-MDE", label: "HC28-MDE" },
+    { value: "HC28-MNDE", label: "HC28-MNDE" },
+  ];
   // Destructuring data.
   const { admin } = useSelector((state) => state.auth);
 
   return (
     <div className="offcanvas-body">
       {/* Summary / Detailed Dashboard  SELECT  */}
-      <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border h-12 shadow hover:scale-95 transition-all">
-        <select
-          className="bg-transparent border-none outline-none w-full cursor-pointer text-lg"
+      <div className="flex items-center justify-between my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border h-12 shadow transition-all">
+        <Select
           value={tab}
-          onChange={(e) => {
-            setTab(e.target.value);
-          }}
-        >
-          <option className="text-lg">Summary</option>
-          <option className="text-lg">Detailed Dashboard</option>
-          );
-        </select>
+          defaultValue={tab}
+          onChange={setTab}
+          placeholder="Select Tab"
+          options={tabOptions}
+          className="border-none cursor-pointer"
+        />
+        <FaChevronDown size={".8rem"} />
       </div>
       {/* DIFFERENT PAGES  */}
       <div className="">
@@ -46,62 +80,33 @@ export default function MonitoringOffCanvas() {
           <span className="text-lg">Plants</span>
         </div>
         {/* PLANT SELECT  */}
-        <div className="flex items-center my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow hover:scale-95 transition-all">
-          <select
-            className="bg-transparent border-none outline-none w-full cursor-pointer"
+        <div className="flex items-center justify-between my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow  transition-all h-11 bg-white">
+          <Select
             value={plant}
-            onChange={(e) => {
-              setPlant(e.target.value);
-            }}
-          >
-            {/* Sorting the plant names and displaying them accordingly.  */}
-            {["Durgapur", "Bokaro", "Bhilai", "Burnpur", "RDCIS"]
-              .sort()
-              .map((item, index) => {
-                return (
-                  <option key={index} className="text-lg">
-                    {item === "RDCIS"
-                      ? `${item} Ranchi`
-                      : `${item} Steel Plant`}
-                  </option>
-                );
-              })}
-          </select>
+            defaultValue={plant}
+            onChange={setPlant}
+            placeholder="Select Plant Name"
+            options={plantOptions}
+            className="border-none cursor-pointer"
+          />
+          <FaChevronDown size={".8rem"} />
         </div>
         {/* MACHINE NAME TAB */}
-        <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border shadow cursor-pointer hover:scale-95 transition-all">
+        <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border shadow cursor-pointer hover:scale-95 transition-all ">
           <i className="bi bi-motherboard text-lg mr-4"></i>
           <span className="text-lg">Machine Name</span>
         </div>
         {/* MACHINE NAME SELECT  */}
-        <div className="flex items-center my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow hover:scale-95 transition-all">
-          <select
-            className="bg-transparent border-none outline-none w-full cursor-pointer"
+        <div className="flex items-center justify-between my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow transition-all h-11 ">
+          <Select
             value={machineName}
-            onChange={(e) => {
-              setMachineName(e.target.value);
-            }}
-          >
-            {/* Sorting the plant names and displaying them accordingly.  */}
-            {[
-              "Hammer Crusher 28",
-              "Hammer Crusher 29",
-              "Hammer Crusher 30",
-              "Hammer Crusher 31",
-              "Hammer Crusher 32",
-              "Hammer Crusher 33",
-              "Hammer Crusher 34",
-              "Hammer Crusher 35",
-            ]
-              .sort()
-              .map((item, index) => {
-                return (
-                  <option key={index} className="text-lg">
-                    {item}
-                  </option>
-                );
-              })}
-          </select>
+            defaultValue={machineName}
+            onChange={setMachineName}
+            placeholder="Select Machine Name"
+            options={machineNameOptions}
+            className="border-none cursor-pointer w-48"
+          />
+          <FaChevronDown size={".8rem"} />
         </div>
         {/* MONITOR NAME TAB */}
         <div className="flex items-center my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border shadow cursor-pointer hover:scale-95 transition-all">
@@ -109,30 +114,16 @@ export default function MonitoringOffCanvas() {
           <span className="text-lg">Monitor Name</span>
         </div>
         {/* MONITOR NAME SELECT  */}
-        <div className="flex items-center my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow hover:scale-95 transition-all">
-          <select
-            className="bg-transparent border-none outline-none w-full cursor-pointer"
+        <div className="flex items-center justify-between my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow transition-all h-11">
+          <Select
             value={monitorName}
-            onChange={(e) => {
-              setMonitorName(e.target.value);
-            }}
-          >
-            {/* Sorting the plant names and displaying them accordingly.  */}
-            {[
-              "HC28-CDE",
-              "HC28-CNDE",
-              "HC28-MDE",
-              "HC28-MNDE",
-            ]
-              .sort()
-              .map((item, index) => {
-                return (
-                  <option key={index} className="text-lg">
-                    {item}
-                  </option>
-                );
-              })}
-          </select>
+            defaultValue={monitorName}
+            onChange={setMonitorName}
+            placeholder="Select Monitor Name"
+            options={monitorNameOptions}
+            className="border-none cursor-pointer"
+          />
+          <FaChevronDown size={".8rem"} />
         </div>
         {/* SMALLER SCREENS  */}
         <div className="md:hidden">

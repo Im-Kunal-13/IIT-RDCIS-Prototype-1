@@ -109,7 +109,7 @@ export default function Dashboard() {
             ></i>
             {/* ACCOUNT DROPDOWN  */}
             <ul
-              className="dropdown-menu px-2 z-20 shadow"
+              className="dropdown-menu px-2 z-30 shadow"
               aria-labelledby="sign-in-dropdown-button"
             >
               <li
@@ -179,7 +179,7 @@ export default function Dashboard() {
         </div>
       </div>
       {/* SECNOD NAVBAR  */}
-      <div className="navbar2 flex items-center justify-evenly h-16 mt-1 sticky-top z-10 dashboard-review">
+      <div className="navbar2 flex items-center justify-evenly h-16 mt-1 sticky-top z-20 dashboard-review">
         {/* MONITORING  */}
         <Link
           className="px-2 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"

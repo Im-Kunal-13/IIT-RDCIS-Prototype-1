@@ -15,7 +15,7 @@ require("highcharts/modules/map")(Highcharts);
 
 export default function InstantateousParameters({name}) {
   return (
-    <div className="bg-white rounded-lg py-3 px-4 shadow border overflow-hidden" style={{height: "325px"}}>
+    <div className="bg-white rounded-lg py-3 px-4 shadow border overflow-hidden mb-3" style={{height: "325px"}}>
       <div className="default">
         <HighchartsReact
           containerProps={{ style: { height: "300px" } }}

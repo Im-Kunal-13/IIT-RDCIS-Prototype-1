@@ -115,3 +115,8 @@ abbr {
   margin-top: 20px !important;
   border: none !important;
 }
+
+/* REACT TIMEKEEPER  */
+.react-timekeeper__tb-hour.react-timekeeper__tb-hour--active.css-1igvx5z-timeSelected-time-TopBar {
+  
+}
