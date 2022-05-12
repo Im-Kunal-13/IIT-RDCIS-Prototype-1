@@ -6,7 +6,7 @@ export default function UsersTab({admin}) {
     // IMPORTING THE COLUMNS CONTEXT
   const columns = useContext(UsersColumnContext);
   return (
-    <div className="py-2 px-3 bg-white rounded-lg shadow border mb-3">
+    <div className="py-2 px-3 bg-white rounded-lg shadow border mb-3 mx-3 sticky-top top-20 z-0">
         <div className="flex justify-between items-center">
         <h1 className="font-semibold text-2xl">Users</h1>
         {/* CONTROLS  */}

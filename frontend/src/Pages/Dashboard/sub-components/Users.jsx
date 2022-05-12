@@ -10,15 +10,23 @@ export default function Users() {
     // console.log(columns.state);
   }, []);
   return (
-    <div className="bg-bgGray px-4 pt-3 min-h-screen">
+    <div className="bg-bgGray pt-3 min-h-screen">
       {/* HEADER  */}
       <UsersTab admin={admin} />
       {/* USERS  */}
-      <Tilt>
-        <div className="items-start mt-4 sm:px-4 py-4 px-4 bg-white rounded-lg shadow border">
+      {/* <Tilt
+        glareEnable={true}
+        glareColor="#015FF3"
+        glareMaxOpacity={0.3}
+        tiltMaxAngleX={5}
+        tiltMaxAngleY={5}
+        glarePosition="all"
+        glareBorderRadius="8px"
+      > */}
+        <div className="items-start mt-4 sm:px-4 sm:mx-4 py-4 bg-white rounded-lg shadow border">
           <AdminList />
         </div>
-      </Tilt>
+      {/* </Tilt> */}
     </div>
   );
 }

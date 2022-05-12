@@ -30,6 +30,10 @@ module.exports = {
         accordianBgBlue: "#e7f1ff",
         lightBlack1: "#101010",
         bgGray: "#f1f1f1",
+        infoCardLightGreen: "#E1FCD9", 
+        infoCardDarkGreen: "#31E802",
+        infoCardLightRed: "#FFD9DE", 
+        infoCardDarkRed: "#FF0022",
       }),
       boxShadow: {
         nav2Hover: "0 0 2px 1px rgba(255, 255, 255, 0.200)",

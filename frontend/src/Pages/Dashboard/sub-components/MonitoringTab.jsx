@@ -34,19 +34,19 @@ export default function MonitoringTab() {
   const { admin } = useSelector((state) => state.auth);
   useEffect(() => {}, []);
   return (
-    <div className="py-2 px-3 bg-white rounded-lg shadow border mb-3">
+    <div className="py-2 px-3 mx-4 bg-white rounded-lg shadow border mb-3 sticky-top top-20 z-10">
       {/* HEADER  */}
       <div className="flex justify-between items-center">
-        <h1 className="font-semibold text-2xl">BOKARO STEEL PLANT</h1>
+        <h1 className="font-semibold text-xl sm:text-2xl">BOKARO STEEL PLANT</h1>
         {/* CONTROLS  */}
-        <div className="items-center hidden md:flex">
+        <div className="items-center hidden lg2:flex">
           {/* SEARCH START  */}
           {/* <p>
             Current selected date is <b>{value.getDay.toString()}</b>
           </p> */}
           <div className="flex items-center mr-3">
             <p className="mr-2">START</p>
-            <div className="flex items-center pl-1 pr-3 hover:bg-blue-200 rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
+            <div className="flex items-center pl-1 pr-3 hover:bg-blue-200 rounded-md border-2 h-12 shadow hover:scale-95 transition-all z-10">
               <div className="dropdown ">
                 {/* DATE DROPDOWN BUTTON  */}
                 <div
@@ -65,7 +65,7 @@ export default function MonitoringTab() {
                 </div>
                 {/* DATE START DROPDOWN  */}
                 <ul
-                  className="dropdown-menu p-3 z-20 mt-4 border-none rounded-md overflow-hidden shadow"
+                  className="dropdown-menu p-3 mt-4 border-none rounded-md overflow-hidden shadow"
                   aria-labelledby="date-start-select-dropdown-button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -109,7 +109,7 @@ export default function MonitoringTab() {
           {/* SEARCH END  */}
           <div className="flex items-center mr-2">
             <p className="mr-2">END</p>
-            <div className="flex items-center pl-1 pr-3 hover:bg-blue-200 rounded-md border-2 h-12 shadow hover:scale-95 transition-all ">
+            <div className="flex items-center pl-1 pr-3 hover:bg-blue-200 rounded-md border-2 h-12 shadow hover:scale-95 transition-all z-10">
               <div className="dropdown ">
                 {/* DATE DROPDOWN BUTTON  */}
                 <div
@@ -170,7 +170,7 @@ export default function MonitoringTab() {
             </div>
           </div>
           {/* TIME DURATION DROPDOWN */}
-          <div className="flex items-center py-2 px-3 hover:bg-blue-200 mr-2 rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-56 cursor-pointer">
+          <div className="flex items-center py-2 px-3 hover:bg-blue-200 mr-2 rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-56 cursor-pointer z-10">
             <i className="bi bi-clock-history mr-1 text-xl"></i>
             <Select
               value={selectedOption}
@@ -188,27 +188,7 @@ export default function MonitoringTab() {
           ></i>
         </div>
         {/* SMALLER SCREENS  */}
-        <div className="md:hidden">
-          {/* SEARCH  */}
-          <i
-            className="bi bi-search text-xl hover:bg-nav1Hover p-2 rounded-lg md:hidden transition-all hover:scale-110 mr-2"
-            type="button"
-          ></i>
-          {/* CREATE NEW USER  */}
-          {admin?.administrator ? (
-            <i
-              className="bi bi-plus text-2xl hover:bg-nav1Hover p-2 rounded-lg md:hidden transition-all hover:scale-110 mr-2"
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#register-user-backdrop"
-            ></i>
-          ) : (
-            <i
-              className="bi bi-plus text-2xl p-2 rounded-lg md:hidden transition-all mr-2"
-              type="button"
-            ></i>
-          )}
-
+        <div className="lg2:hidden">
           {/* Grid icon  */}
           <i
             className="bi bi-grid-3x3-gap text-2xl hover:bg-nav1Hover p-2 rounded-lg transition-all hover:scale-110"
