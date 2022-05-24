@@ -3,7 +3,7 @@
 import axios from "axios";
 
 // Url of the api we are going to hit.
-const API_URL = "http://localhost:5000/api/analytics/";
+const API_URL = "/api/analytics/";
 
 // Get all analytics data
 const getData = async (token) => {
