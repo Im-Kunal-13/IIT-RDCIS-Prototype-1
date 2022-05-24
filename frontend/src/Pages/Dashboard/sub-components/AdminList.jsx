@@ -131,7 +131,7 @@ export default function AdminList() {
                         className="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap flex items-center justify-between"
                         style={{ maxHeight: "70px" }}
                       >
-                        <span>{admin.administrator}</span>
+                        <span className={`font-bold ${admin.administrator ? "text-infoCardDarkGreen" : "text-infoCardDarkRed"}`}>{admin.administrator ? "Yes" : "No"}</span>
                         <span className="flex items-center">
                           <i
                             className="bi bi-pen-fill mr-2 text-lg hover:bg-nav1Hover py-2.5 px-3 rounded-full  text-lightBlue2 transition-all hover:scale-105 shadow"
@@ -156,138 +156,6 @@ export default function AdminList() {
               </table>
             </div>
           </div>
-        </div>
-      </div>
-      {/* LARGER  */}
-      <div className="grid-cols-5 hidden xl:hidden">
-        {/* EMAIL ADDRESS  */}
-        <div>
-          {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
-            Email Address
-          </div>
-          {/* CONTENT  */}
-          {admins.map((admin, index) => (
-            <div key={index}>
-              <hr style={{ height: ".5px" }} />
-              <div
-                className="content my-3 text-center cursor-pointer hover:underline"
-                data-bs-toggle="tooltip"
-                data-bs-placement="left"
-                title="click to copy"
-                onClick={() => {
-                  navigator.clipboard.writeText(admin?.email);
-                  toast.success(`Copied to clipboard.`, {
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                    toastId: "loginSucces1",
-                  });
-                }}
-              >
-                {admin.email.length <= 35
-                  ? admin.email
-                  : admin.email.slice(0, 31) + "..."}
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* ORGANIZATION  */}
-        <div>
-          {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
-            Organization
-          </div>
-          {/* CONTENT  */}
-          {admins.map((admin, index) => (
-            <div key={index}>
-              <hr style={{ height: ".5px" }} />
-              <div className="content text-lightBlue2 my-3 hover:underline cursor-pointer text-center">
-                {admin.organization}
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* NAME  */}
-        <div>
-          {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
-            Name
-          </div>
-          {/* CONTENT  */}
-          {admins.map((admin, index) => (
-            <div key={index}>
-              <hr style={{ height: ".5px" }} />
-              <div className="content my-3 text-center">{admin.name}</div>
-            </div>
-          ))}
-        </div>
-        {/* PHONE NUMBER  */}
-        <div>
-          {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
-            Phone Number
-          </div>
-          {/* CONTENT  */}
-          {admins.map((admin, index) => (
-            <div key={index}>
-              <hr style={{ height: ".5px" }} />
-              <div className="content my-3 text-center">{admin.phone}</div>
-            </div>
-          ))}
-        </div>
-        {/* ADMINISTRATOR  */}
-        <div>
-          {/* HEADER  */}
-          <div className="header font-semibold text-gray-500 text-lg mb-4 text-center">
-            Administrator
-          </div>
-          {/* CONTENT  */}
-          {admins.map((user, index) => (
-            <div key={index}>
-              <hr style={{ height: ".5px" }} />
-              <div className="flex justify-between items-center w-56 mx-auto">
-                <span
-                  className={`content my-3 ${
-                    user.administrator ? "text-green-500" : "text-red-500"
-                  }`}
-                >
-                  {user.administrator ? "Yes" : "No"}
-                </span>
-                {admin?.administrator ? (
-                  <div className="">
-                    <i
-                      className="bi bi-pen-fill mr-2 text-xl hover:bg-nav1Hover p-2 rounded-lg  text-lightCyan transition-all hover:scale-110"
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target={`#update-user-${
-                        index + "-large-"
-                      }-backdrop`}
-                    ></i>
-                    <EditUserModal user={user} index={index + "-large-"} />
-                    <i
-                      className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-600 hover:scale-110 transition-all"
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target={`#delete-user-${
-                        index + "-large-"
-                      }-backdrop`}
-                    ></i>
-                    <DeleteUserModal user={user} index={index + "-large-"} />
-                  </div>
-                ) : (
-                  <div className="">
-                    <i
-                      className="bi bi-pen-fill mr-2 text-xl hover:bg-nav1Hover p-2 rounded-lg  text-cyan-200 transition-all hover:scale-110"
-                      type="button"
-                    ></i>
-                    <i
-                      className="bi bi-trash-fill text-xl hover:bg-nav1Hover p-2 rounded-lg text-red-300 hover:scale-110 transition-all"
-                      type="button"
-                    ></i>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </>
