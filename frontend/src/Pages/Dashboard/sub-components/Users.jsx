@@ -23,9 +23,7 @@ export default function Users() {
         glarePosition="all"
         glareBorderRadius="8px"
       > */}
-        <div className="items-start mt-4 sm:px-4 sm:mx-4 py-4 bg-white rounded-lg shadow border">
-          <AdminList />
-        </div>
+      <AdminList />
       {/* </Tilt> */}
     </div>
   );
