@@ -116,146 +116,146 @@ export default function Analytics() {
   // Socket io Event Listener
   useEffect(() => {
     // Event for new Data Insert in the Analytics Collection
-    socket.on("analytics_newData", (analyticsNewDataDoc) => {
-      if (currentDocId !== analyticsNewDataDoc._id) {
-        currentDocId = analyticsNewDataDoc._id;
+    // socket.on("analytics_newData", (analyticsNewDataDoc) => {
+    //   if (currentDocId !== analyticsNewDataDoc._id) {
+    //     currentDocId = analyticsNewDataDoc._id;
 
-        if (data && dataState.length && analyticsData) {
-          setDataState((prevState) => prevState.concat([analyticsNewDataDoc]));
-          // Total Acceleration
-          let totalAcceleration = [
-            [
-              analyticsNewDataDoc.time,
-              analyticsNewDataDoc.total_acceleration_avg,
-            ],
-          ];
+    //     if (data && dataState.length && analyticsData) {
+    //       setDataState((prevState) => prevState.concat([analyticsNewDataDoc]));
+    //       // Total Acceleration
+    //       let totalAcceleration = [
+    //         [
+    //           analyticsNewDataDoc.time,
+    //           analyticsNewDataDoc.total_acceleration_avg,
+    //         ],
+    //       ];
 
-          // Axial Velocity
-          let axialVelocity = [
-            [analyticsNewDataDoc.time, analyticsNewDataDoc.axial_velocity_avg],
-          ];
+    //       // Axial Velocity
+    //       let axialVelocity = [
+    //         [analyticsNewDataDoc.time, analyticsNewDataDoc.axial_velocity_avg],
+    //       ];
 
-          // Vertical Velocity
-          let verticalVelocity = [
-            [
-              analyticsNewDataDoc.time,
-              analyticsNewDataDoc.vertical_velocity_avg,
-            ],
-          ];
+    //       // Vertical Velocity
+    //       let verticalVelocity = [
+    //         [
+    //           analyticsNewDataDoc.time,
+    //           analyticsNewDataDoc.vertical_velocity_avg,
+    //         ],
+    //       ];
 
-          // Horizontal Velocity
-          let horizontalVelocity = [
-            [
-              analyticsNewDataDoc.time,
-              analyticsNewDataDoc.horizontal_velocity_avg,
-            ],
-          ];
+    //       // Horizontal Velocity
+    //       let horizontalVelocity = [
+    //         [
+    //           analyticsNewDataDoc.time,
+    //           analyticsNewDataDoc.horizontal_velocity_avg,
+    //         ],
+    //       ];
 
-          // Temperature
-          let temperature = [
-            [analyticsNewDataDoc.time, analyticsNewDataDoc.temperature_avg],
-          ];
+    //       // Temperature
+    //       let temperature = [
+    //         [analyticsNewDataDoc.time, analyticsNewDataDoc.temperature_avg],
+    //       ];
 
-          // Audio
-          let audio = [
-            [analyticsNewDataDoc.time, analyticsNewDataDoc.audio_avg],
-          ];
+    //       // Audio
+    //       let audio = [
+    //         [analyticsNewDataDoc.time, analyticsNewDataDoc.audio_avg],
+    //       ];
 
-          // Angular Misalignment
-          let angularMisalignment = [
-            [
-              analyticsNewDataDoc.time,
-              analyticsNewDataDoc.angular_misalignment_avg,
-            ],
-          ];
+    //       // Angular Misalignment
+    //       let angularMisalignment = [
+    //         [
+    //           analyticsNewDataDoc.time,
+    //           analyticsNewDataDoc.angular_misalignment_avg,
+    //         ],
+    //       ];
 
-          // Bearing Fault Bpfi
-          let bearingFaultBpfi = [
-            [
-              analyticsNewDataDoc.time,
-              analyticsNewDataDoc.bearing_fault_bpfi_avg,
-            ],
-          ];
+    //       // Bearing Fault Bpfi
+    //       let bearingFaultBpfi = [
+    //         [
+    //           analyticsNewDataDoc.time,
+    //           analyticsNewDataDoc.bearing_fault_bpfi_avg,
+    //         ],
+    //       ];
 
-          // Bearing Fault Bpf0
-          let bearingFaultBpfo = [
-            [
-              analyticsNewDataDoc.time,
-              analyticsNewDataDoc.bearing_fault_bpfo_avg,
-            ],
-          ];
+    //       // Bearing Fault Bpf0
+    //       let bearingFaultBpfo = [
+    //         [
+    //           analyticsNewDataDoc.time,
+    //           analyticsNewDataDoc.bearing_fault_bpfo_avg,
+    //         ],
+    //       ];
 
-          // Bearing Fault Bsf
-          let bearingFaultBsf = [
-            [
-              analyticsNewDataDoc.time,
-              analyticsNewDataDoc.bearing_fault_bsf_avg,
-            ],
-          ];
+    //       // Bearing Fault Bsf
+    //       let bearingFaultBsf = [
+    //         [
+    //           analyticsNewDataDoc.time,
+    //           analyticsNewDataDoc.bearing_fault_bsf_avg,
+    //         ],
+    //       ];
 
-          // Bearing Fault Ftf
-          let bearingFaultFtf = [
-            [
-              analyticsNewDataDoc.time,
-              analyticsNewDataDoc.bearing_fault_ftf_avg,
-            ],
-          ];
+    //       // Bearing Fault Ftf
+    //       let bearingFaultFtf = [
+    //         [
+    //           analyticsNewDataDoc.time,
+    //           analyticsNewDataDoc.bearing_fault_ftf_avg,
+    //         ],
+    //       ];
 
-          // Looseness
-          let looseness = [
-            [analyticsNewDataDoc.time, analyticsNewDataDoc.looseness_avg],
-          ];
+    //       // Looseness
+    //       let looseness = [
+    //         [analyticsNewDataDoc.time, analyticsNewDataDoc.looseness_avg],
+    //       ];
 
-          // Parallel Misalignment
-          let parallelMisalignment = [
-            [
-              analyticsNewDataDoc.time,
-              analyticsNewDataDoc.parallel_misalignment_avg,
-            ],
-          ];
-          console.log(totalAcceleration);
-          console.log(axialVelocity);
-          setAnalyticsData({
-            ...analyticsData,
-            totalAcceleration: analyticsData.totalAcceleration
-              .concat(totalAcceleration)
-              .slice(-150),
-            axialVelocity: analyticsData.axialVelocity
-              .concat(axialVelocity)
-              .slice(-150),
-            verticalVelocity: analyticsData.verticalVelocity
-              .concat(verticalVelocity)
-              .slice(-150),
-            horizontalVelocity: analyticsData.horizontalVelocity
-              .concat(horizontalVelocity)
-              .slice(-150),
-            temperature: analyticsData.temperature
-              .concat(temperature)
-              .slice(-150),
-            audio: analyticsData.audio.concat(audio).slice(-150),
-            angularMisalignment: analyticsData.angularMisalignment
-              .concat(angularMisalignment)
-              .slice(-150),
-            bearingFaultBpfi: analyticsData.bearingFaultBpfi
-              .concat(bearingFaultBpfi)
-              .slice(-150),
-            bearingFaultBpfo: analyticsData.bearingFaultBpfo
-              .concat(bearingFaultBpfo)
-              .slice(-150),
-            bearingFaultBsf: analyticsData.bearingFaultBsf
-              .concat(bearingFaultBsf)
-              .slice(-150),
-            bearingFaultFtf: analyticsData.bearingFaultFtf
-              .concat(bearingFaultFtf)
-              .slice(-150),
-            looseness: analyticsData.looseness.concat(looseness).slice(-150),
-            parallelMisalignment: analyticsData.parallelMisalignment
-              .concat(parallelMisalignment)
-              .slice(-150),
-          });
-        }
-      }
-    });
+    //       // Parallel Misalignment
+    //       let parallelMisalignment = [
+    //         [
+    //           analyticsNewDataDoc.time,
+    //           analyticsNewDataDoc.parallel_misalignment_avg,
+    //         ],
+    //       ];
+    //       console.log(totalAcceleration);
+    //       console.log(axialVelocity);
+    //       setAnalyticsData({
+    //         ...analyticsData,
+    //         totalAcceleration: analyticsData.totalAcceleration
+    //           .concat(totalAcceleration)
+    //           .slice(-150),
+    //         axialVelocity: analyticsData.axialVelocity
+    //           .concat(axialVelocity)
+    //           .slice(-150),
+    //         verticalVelocity: analyticsData.verticalVelocity
+    //           .concat(verticalVelocity)
+    //           .slice(-150),
+    //         horizontalVelocity: analyticsData.horizontalVelocity
+    //           .concat(horizontalVelocity)
+    //           .slice(-150),
+    //         temperature: analyticsData.temperature
+    //           .concat(temperature)
+    //           .slice(-150),
+    //         audio: analyticsData.audio.concat(audio).slice(-150),
+    //         angularMisalignment: analyticsData.angularMisalignment
+    //           .concat(angularMisalignment)
+    //           .slice(-150),
+    //         bearingFaultBpfi: analyticsData.bearingFaultBpfi
+    //           .concat(bearingFaultBpfi)
+    //           .slice(-150),
+    //         bearingFaultBpfo: analyticsData.bearingFaultBpfo
+    //           .concat(bearingFaultBpfo)
+    //           .slice(-150),
+    //         bearingFaultBsf: analyticsData.bearingFaultBsf
+    //           .concat(bearingFaultBsf)
+    //           .slice(-150),
+    //         bearingFaultFtf: analyticsData.bearingFaultFtf
+    //           .concat(bearingFaultFtf)
+    //           .slice(-150),
+    //         looseness: analyticsData.looseness.concat(looseness).slice(-150),
+    //         parallelMisalignment: analyticsData.parallelMisalignment
+    //           .concat(parallelMisalignment)
+    //           .slice(-150),
+    //       });
+    //     }
+    //   }
+    // });
   }, [socket, data]);
   return (
     <div>

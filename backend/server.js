@@ -98,20 +98,20 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connected".cyan.underline);
 
-  console.log("Setting change streams...".green);
-  const thoughtChangeStream = connection.collection("analytics").watch();
+  // console.log("Setting change streams...".green);
+  // const thoughtChangeStream = connection.collection("analytics").watch();
 
-  thoughtChangeStream.on("change", (change) => {
-    switch (change.operationType) {
-      case "insert":
-        console.log(`Document with id ${change.fullDocument._id} has been inserted.`)
-        // console.log("New Data Inserted.");
-        io.emit("analytics_newData", change.fullDocument);
-        break;
+  // thoughtChangeStream.on("change", (change) => {
+  //   switch (change.operationType) {
+  //     case "insert":
+  //       console.log(`Document with id ${change.fullDocument._id} has been inserted.`)
+  //       // console.log("New Data Inserted.");
+  //       io.emit("analytics_newData", change.fullDocument);
+  //       break;
 
-      case "delete":
-        io.of("/api/socket").emit("deletedThought", change.documentKey._id);
-        break;
-    }
-  });
+  //     case "delete":
+  //       io.of("/api/socket").emit("deletedThought", change.documentKey._id);
+  //       break;
+  //   }
+  // });
 });
