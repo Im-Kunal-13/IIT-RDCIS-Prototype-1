@@ -1,19 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Select from "react-select";
 
-export default function MonitoringOffCanvas() {
+export default function MonitoringOffCanvas({ closeBtn }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Tab States.
   const [selectedTab, setSelectedTab] = useState("users");
   const selectedTabCss = { backgroundColor: "rgba(0, 0, 0, 0.150)" };
+  // Setting the default icon for the useState
+  let iconClass;
+
+  switch (location.pathname.replace("/dashboard/monitoring/", "")) {
+    case "analytics":
+      iconClass = "activity";
+      break;
+    case "summary":
+      iconClass = "journal-text";
+      break;
+    case "logs":
+      iconClass = "files";
+      break;
+    default:
+      break;
+  }
+  const [tab, setTab] = useState({
+    value: location.pathname.replace("/dashboard/monitoring/", ""),
+    label: (
+      <p>
+        <i className={`bi bi-${iconClass} mr-2`}></i>
+        {location.pathname
+          .replace("/dashboard/monitoring/", "")[0]
+          .toUpperCase() +
+          location.pathname.replace("/dashboard/monitoring/", "").slice(1)}
+      </p>
+    ),
+  });
 
   // Plant dropdown select
   const [plant, setPlant] = useState("Bokaro Steel Plant");
   const [machineName, setMachineName] = useState("Hammer Crusher 28");
   const [monitorName, setMonitorName] = useState("Hammer Crusher 28");
-  const [tab, setTab] = useState("summary");
 
   //   PLANTS SELECT OPTIONS
   const plantOptions = [
@@ -26,8 +57,30 @@ export default function MonitoringOffCanvas() {
 
   // TAB SELECT OPTIONS
   const tabOptions = [
-    { value: "Summary", label: "Summary" },
-    { value: "Detailed Dashboard", label: "Detailed Dashboard" },
+    {
+      value: "analytics",
+      label: (
+        <p>
+          <i className="bi bi-activity mr-2"></i>Analytics
+        </p>
+      ),
+    },
+    {
+      value: "summary",
+      label: (
+        <p>
+          <i className="bi bi-journal-text mr-2"></i>Summary
+        </p>
+      ),
+    },
+    {
+      value: "logs",
+      label: (
+        <p>
+          <i className="bi bi-files mr-2"></i>Logs
+        </p>
+      ),
+    },
   ];
 
   // MACHINE NAME SELECT OPTIONS
@@ -52,17 +105,24 @@ export default function MonitoringOffCanvas() {
   // Destructuring data.
   const { admin } = useSelector((state) => state.auth);
 
+  // Tab change function
+  const onTabChange = (currentTab) => {
+    setTab(currentTab);
+    navigate(`/dashboard/monitoring/${currentTab.value}`);
+    closeBtn.current.click();
+  };
+
   return (
     <div className="offcanvas-body">
       {/* Summary / Detailed Dashboard  SELECT  */}
       <div className="flex items-center justify-between my-3 py-2 px-3 hover:bg-offCanvasHover rounded-lg border h-12 shadow transition-all">
         <Select
           value={tab}
-          defaultValue={tab}
-          onChange={setTab}
+          onChange={onTabChange}
           placeholder="Select Tab"
           options={tabOptions}
-          className="border-none cursor-pointer"
+          className="border-none cursor-pointer text-lg"
+          isSearchable={false}
         />
         <FaChevronDown size={".8rem"} />
       </div>

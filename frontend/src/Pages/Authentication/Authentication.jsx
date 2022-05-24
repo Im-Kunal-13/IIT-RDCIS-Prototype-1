@@ -43,8 +43,7 @@ export default function Authentication() {
         email: "",
         password: "",
       });
-      navigate("/dashboard/administration/adminList");
-      // window.location.reload()
+      navigate("/dashboard/monitoring/analytics");
     }
   }, [
     admin,
@@ -199,7 +198,7 @@ export default function Authentication() {
             )}
           </button>
           <div className="text-right text-xs text-gray-500 pt-3">
-            Version: 2.18.0
+            Version: 1.1.0
           </div>
           {/* Copyright  */}
           <div className="block md:hidden text-gray-500 text-base mt-16 pb-4">

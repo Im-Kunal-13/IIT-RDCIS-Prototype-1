@@ -11,6 +11,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ThemeState from "./context/theme/ThemeState";
 import UsersColumnState from "./context/users/UsersColumnState";
+import Analytics from "./Pages/Dashboard/sub-components/Analytics";
+import Summary from "./Pages/Dashboard/sub-components/Summary";
+import Logs from "./Pages/Dashboard/sub-components/Logs";
 
 function App() {
   return (
@@ -20,7 +23,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Authentication />} />
             <Route path="dashboard/*" element={<Dashboard />}>
-              <Route path="monitoring/*" element={<Monitoring />} />
+              <Route path="monitoring/*" element={<Monitoring />}>
+                <Route path="analytics/*" element={<Analytics />} />
+                <Route path="summary/*" element={<Summary />} />
+                <Route path="logs/*" element={<Logs />} />
+              </Route>
               <Route path="configuration/*" element={<Configuration />} />
               <Route path="administration/*" element={<Administration />}>
                 <Route path="adminList/*" element={<AdminList />} />

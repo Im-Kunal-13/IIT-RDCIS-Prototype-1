@@ -12,9 +12,16 @@ require("highcharts/indicators/macd")(Highcharts);
 require("highcharts/modules/exporting")(Highcharts);
 require("highcharts/modules/map")(Highcharts);
 
-export default function TrendHistory(props) {
+export default function TrendHistory({ analyticsData }) {
   Highcharts.seriesTypes.line.prototype.drawLegendSymbol =
     Highcharts.seriesTypes.area.prototype.drawLegendSymbol;
+
+  // State for the data
+  const [dataState, setDataState] = useState([]);
+
+  //   STATE FOR FEATURE SELECTED OPTION
+  const [selectedFeature, setSelectedFeature] = useState("Time Duration");
+
   //   STATE FOR INTERVAL SELECTED OPTION
   const [selectedOption, setSelectedOption] = useState("Time Duration");
 
@@ -89,67 +96,50 @@ export default function TrendHistory(props) {
     { value: "1 Month", label: "1 Month" },
     { value: "7 Day", label: "7 Day" },
   ];
+
+  //   FEATURE SELECT OPTIONS
+  const featureOptions = [
+    { value: "Total Acceleration", label: "Total Acceleration" },
+    { value: "Axial Velocity", label: "Axial Velocity" },
+    { value: "Vertical Velocity", label: "Vertical Velocity" },
+    { value: "Horizontal Velocity", label: "Horizontal Velocity" },
+    { value: "Temperature", label: "Temperature" },
+    { value: "Audio", label: "Audio" },
+    { value: "Bearing Fault BPFI", label: "Bearing Fault BPFI" },
+    { value: "Bearing Fault BPFO", label: "Bearing Fault BPFO" },
+    { value: "Bearing Fault BSF", label: "Bearing Fault BSF" },
+    { value: "Bearing Fault FTF", label: "Bearing Fault FTF" },
+    { value: "Looseness", label: "Looseness" },
+    { value: "Parallel Misalignment", label: "Parallel Misalignment" },
+    { value: "Angular Misalignment", label: "Angular Misalignment" },
+  ];
   return (
     <div
-      className="bg-white rounded-lg p-3 pt-0 shadow border overflow-hidden"
-      style={{ height: "565px" }}
+      className="bg-white rounded-lg p-3 pt-0 shadow border overflow-hidden mb-3"
+      style={{ height: "50.5rem" }}
     >
       {/* Feature & Interval Dropdowns  */}
       <div className="flex mt-16">
         {/* FEATURES SECTION  */}
-        <div className="flex items-center px-2 z-30">
+        <div className="flex items-center px-2 z-10">
           <p className="mr-2 font-semibold text-gray-400">FEATURES</p>
-          <div className="dropdown hover:scale-95 transition-all">
-            <div
-              className="flex items-center py-2 px-3 justify-between hover:bg-offCanvasHover rounded-md border-2 h-12 shadow w-48 cursor-pointer"
-              id="features-dropdown-button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <span>0 Selected</span>
-              <i className="fa-solid fa-chevron-down text-xs"></i>
-            </div>
-            <ul
-              className="dropdown-menu px-2 w-fit shadow max-h-96 overflow-y-scroll"
-              style={{ scrollbarWidth: "thin", overflowX: "unset" }}
-              aria-labelledby="features-dropdown-button"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              <li className="py-2 px-2 my-2 bg-gray-200 rounded-md text-sm">
-                <pre>Features</pre>
-              </li>
-              {featureNames.map((feature, index) => (
-                <li
-                  key={index}
-                  className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer"
-                >
-                  <div className="flex items-center">
-                    <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
-                      type="checkbox"
-                      id={`feature${index}`}
-                    />
-                    <label
-                      className="text-sm cursor-pointer"
-                      htmlFor={`feature${index}`}
-                    >
-                      {feature}
-                    </label>
-                  </div>
-                </li>
-              ))}
-            </ul>
+          <div className="flex items-center py-2 px-1 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-48 cursor-pointer z-10">
+            <Select
+              value={selectedFeature}
+              onChange={setSelectedFeature}
+              placeholder="Select Feature"
+              options={featureOptions}
+            />
+            <i className="fa-solid fa-chevron-down text-xs relative right-7"></i>
           </div>
         </div>
         {/* INTERVAL SECTION  */}
-        <div className="flex items-center mr-2 px-2 z-30">
+        <div className="items-center mr-2 px-2 z-10 hidden sm:flex">
           <p className="mr-2 font-semibold text-gray-400">INTERVAL</p>
           <div className="flex items-center py-2 px-1 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-48 cursor-pointer z-10">
             <Select
-              value={selectedOption}
-              onChange={setSelectedOption}
+              value={selectedFeature}
+              onChange={setSelectedFeature}
               placeholder="Select Interval"
               options={intervalOptions}
             />
@@ -160,10 +150,73 @@ export default function TrendHistory(props) {
       {/* SPLINE CHART  */}
       <div className="relative bottom-24">
         <HighchartsReact
-          containerProps={{ style: { height: "550px" } }}
+          containerProps={{ style: { height: "49rem" } }}
           highcharts={Highcharts}
-          options={options.trendHistoryOptions}
+          options={options.trendHistoryOptions(analyticsData, selectedFeature)}
         />
+        {!analyticsData && (
+          <p
+            className="card-text placeholder-wave relative px-2"
+            style={{ bottom: "40rem" }}
+          >
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-7 bg-gray-400 my-2"></span>
+              <span className="placeholder col-4 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-4 bg-gray-400 my-2"></span>
+              <span className="placeholder col-6 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-8 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-7 bg-gray-400 my-2"></span>
+              <span className="placeholder col-4 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-4 bg-gray-400 my-2"></span>
+              <span className="placeholder col-6 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-8 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-6 bg-gray-400 my-2"></span>
+              <span className="placeholder col-4 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-4 bg-gray-400 my-2"></span>
+              <span className="placeholder col-5 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-7 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-7 bg-gray-400 my-2"></span>
+              <span className="placeholder col-4 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-4 bg-gray-400 my-2"></span>
+              <span className="placeholder col-6 bg-gray-400 my-2"></span>
+            </span>
+            <span className="block">
+              <span className="placeholder w-4 h-4 mr-2 bg-gray-400 my-2 rounded-sm"></span>
+              <span className="placeholder col-8 bg-gray-400 my-2"></span>
+            </span>
+          </p>
+        )}
       </div>
     </div>
   );

@@ -1,25 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import LogoutModal from "./sub-components/LogoutModal";
 import UserSignupModal from "./sub-components/UserSignupModal";
 import EditUserSelfModal from "./sub-components/EditUserSelfModal";
 import { resetLoginSuccess } from "../../features/auth/authSlice";
+import { getData } from "../../features/analytics/analyticSlice";
 import DeleteUserSelfModal from "./sub-components/DeleteUserSelfModal";
 
+// Event listener handler function
+const useEventListener = (eventName, handler, element = window) => {
+  const savedHandler = useRef();
+
+  useEffect(() => {
+    savedHandler.current = handler;
+  }, [handler]);
+
+  useEffect(() => {
+    const eventListener = (event) => savedHandler.current(event);
+    element.addEventListener(eventName, eventListener);
+    return () => {
+      element.removeEventListener(eventName, eventListener);
+    };
+  }, [eventName, element]);
+};
+
 export default function Dashboard() {
+  // INITIALIZATIONS
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [selectedTab, setSelectedTab] = useState("administration");
+  const offCanvasBtn = useRef(null);
   const tabSelectedCss = {
     backgroundColor: "rgba(255, 255, 255, 0.300)",
   };
 
+  // STATES
   // Destructuring data.
   const { admin, loginSuccess } = useSelector((state) => state.auth);
 
+  // FUNCTIONS
+  // Escape key handler function
+  const handler = (event) => {
+    if (event.shiftKey && event.keyCode === 77) {
+      offCanvasBtn.current.click()
+    }
+  };
+
+  useEventListener("keydown", handler);
+
+  // USE EFFECTS
   useEffect(() => {
     // If admin not present then redirecting to the navigation page.
     if (!admin) {
@@ -44,6 +75,11 @@ export default function Dashboard() {
     }
   }, [admin, loginSuccess, navigate, dispatch]);
 
+  // Getting all the Monitoring Data once we enter the Dashboard Route.
+  useEffect(() => {
+    dispatch(getData());
+  }, [dispatch]);
+
   return (
     <div>
       {/* FIRST NAVBAR  */}
@@ -52,6 +88,7 @@ export default function Dashboard() {
         <div className="flex items-center">
           <button
             className="border-0 mr-5"
+            ref={offCanvasBtn}
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasExample"
@@ -183,21 +220,23 @@ export default function Dashboard() {
         {/* MONITORING  */}
         <Link
           className="px-2 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
-          onClick={() => {
-            setSelectedTab("monitoring");
-          }}
-          style={selectedTab === "monitoring" ? tabSelectedCss : {}}
-          to="/dashboard/monitoring"
+          style={
+            location.pathname.includes(`/dashboard/monitoring/`)
+              ? tabSelectedCss
+              : {}
+          }
+          to="/dashboard/monitoring/analytics"
         >
           <span className="sm:px-1">Monitoring</span>
         </Link>
         {/* CONFIGURATION  */}
         <Link
           className="px-2 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
-          onClick={() => {
-            setSelectedTab("configuration");
-          }}
-          style={selectedTab === "configuration" ? tabSelectedCss : {}}
+          style={
+            location.pathname === "/dashboard/configuration"
+              ? tabSelectedCss
+              : {}
+          }
           to="/dashboard/configuration"
         >
           <span className="sm:px-1">Configuration</span>
@@ -205,10 +244,11 @@ export default function Dashboard() {
         {/* ADMINISTRATION */}
         <Link
           className="px-2 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
-          onClick={() => {
-            setSelectedTab("administration");
-          }}
-          style={selectedTab === "administration" ? tabSelectedCss : {}}
+          style={
+            location.pathname === "/dashboard/administration/adminList"
+              ? tabSelectedCss
+              : {}
+          }
           to="/dashboard/administration/adminList"
         >
           <span className="md:px-1">Administration</span>

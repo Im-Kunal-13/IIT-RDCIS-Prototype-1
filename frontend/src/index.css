@@ -61,6 +61,89 @@ input:-webkit-autofill {
   border: none;
 }
 
+/* INFO-CARD  */
+.card-rotate {
+  animation: slidein 0.5s normal;
+}
+
+@keyframes slidein {
+  from {
+    transform: rotateX(0deg);
+  }
+
+  to {
+    transform: rotateX(360deg);
+  }
+}
+
+/* LOG-CARD  */
+.forward-ping {
+  animation: forward-ping 0.75s cubic-bezier(0, 0, 0.2, 1) normal;
+}
+
+@keyframes forward-ping {
+  0% {
+    transform: scale(2) rotateY(0deg);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotateY(1440deg);
+  }
+}
+
+.backward-ping {
+  animation: backward-ping 1s cubic-bezier(0, 0, 0.2, 1) normal;
+}
+
+@keyframes backward-ping {
+  0% {
+    transform: scale(1) rotateY(1440deg);
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2) rotateY(0deg);
+  }
+}
+/* REACT SLICK  */
+.slick-prev {
+  backdrop-filter: blur(1.5px);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  height: 3rem !important;
+  width: 3rem !important;
+  text-align: center;
+  color: black !important;
+  font-size: 10px !important;
+  left: 2% !important;
+  z-index: 1;
+}
+.slick-next {
+  backdrop-filter: blur(1.5px);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  height: 3rem !important;
+  width: 3rem !important;
+  text-align: center;
+  color: black !important;
+  font-size: 10px !important;
+  right: 2% !important;
+  z-index: 1;
+}
+.slick-prev::before {
+  display: none;
+}
+.slick-next::before {
+  display: none;
+}
+.slick-dots li button:before {
+  color: #015ff3 !important;
+}
 /* REACT CALENDAR  */
 .react-calendar {
   border: none !important;
@@ -118,5 +201,4 @@ abbr {
 
 /* REACT TIMEKEEPER  */
 .react-timekeeper__tb-hour.react-timekeeper__tb-hour--active.css-1igvx5z-timeSelected-time-TopBar {
-  
 }

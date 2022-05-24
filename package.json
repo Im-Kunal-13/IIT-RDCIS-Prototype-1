@@ -15,7 +15,12 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
-    "mongoose": "^6.2.10"
+    "mongoose": "^6.2.10",
+    "mongoose-double": "^0.0.1",
+    "react-slick": "^0.29.0",
+    "react-tooltip": "^4.2.21",
+    "slick-carousel": "^1.8.1",
+    "socket.io": "^4.5.1"
   },
   "devDependencies": {
     "concurrently": "^7.1.0",

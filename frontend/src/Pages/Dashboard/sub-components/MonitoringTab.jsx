@@ -34,7 +34,7 @@ export default function MonitoringTab() {
   const { admin } = useSelector((state) => state.auth);
   useEffect(() => {}, []);
   return (
-    <div className="py-2 px-3 mx-4 bg-white rounded-lg shadow border mb-3 sticky-top top-20 z-10">
+    <div className="py-2 px-3 mx-3 bg-white rounded-lg shadow border mb-3 sticky-top top-20 z-20 transition-all">
       {/* HEADER  */}
       <div className="flex justify-between items-center">
         <h1 className="font-semibold text-xl sm:text-2xl">BOKARO STEEL PLANT</h1>
