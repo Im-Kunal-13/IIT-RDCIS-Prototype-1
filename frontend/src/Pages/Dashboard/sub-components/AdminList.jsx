@@ -47,7 +47,7 @@ export default function AdminList() {
           <span className="visually-hidden">Loading...</span>
         </div>
       ) : (
-        <div className="accordion flex xl:hidden" id="accordionExample">
+        <div className="accordion flex hidden" id="accordionExample">
           {admins.length > 0 ? (
             <div className="admins w-full">
               {admins.map((user, index) => (
@@ -131,17 +131,32 @@ export default function AdminList() {
                         className="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap flex items-center justify-between"
                         style={{ maxHeight: "70px" }}
                       >
-                        <span className={`font-bold ${admin.administrator ? "text-infoCardDarkGreen" : "text-infoCardDarkRed"}`}>{admin.administrator ? "Yes" : "No"}</span>
+                        <span
+                          className={`font-bold ${
+                            admin.administrator
+                              ? "text-infoCardDarkGreen"
+                              : "text-infoCardDarkRed"
+                          }`}
+                        >
+                          {admin.administrator ? "Yes" : "No"}
+                        </span>
                         <span className="flex items-center">
                           <i
-                            className="bi bi-pen-fill mr-2 text-lg hover:bg-nav1Hover py-2.5 px-3 rounded-full  text-lightBlue2 transition-all hover:scale-105 shadow"
+                            className="bi bi-pen-fill mr-2 text-lg hover:bg-nav1Hover py-2.5 px-3 rounded-full  text-lightBlue2 transition-all hover:scale-110 shadow"
                             type="button"
-                            // data-bs-toggle="modal"
-                            // data-bs-target={`#update-user-${
-                            //   index + "-large-"
-                            // }-backdrop`}
+                            data-bs-toggle="modal"
+                            data-bs-target={`#update-user-${
+                              index + "-large-"
+                            }-backdrop`}
                           />
-                          <button className="hover:bg-nav1Hover py-3 px-3 rounded-full shadow transition-all hover:scale-105">
+                          <button
+                            className="hover:bg-nav1Hover py-3 px-3 rounded-full shadow transition-all hover:scale-110"
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target={`#delete-user-${
+                              index + "-large-"
+                            }-backdrop`}
+                          >
                             <FaTrash
                               size={"1.05rem"}
                               color="#FF0022"
@@ -158,6 +173,16 @@ export default function AdminList() {
           </div>
         </div>
       </div>
+      {admins.map((user, index) => (
+        <div key={index}>
+          <EditUserModal
+            user={user}
+            index={`${index + "-large-"}`}
+          
+          />
+          <DeleteUserModal user={user} index={`${index + "-large-"}`} />
+        </div>
+      ))}
     </>
   );
 }

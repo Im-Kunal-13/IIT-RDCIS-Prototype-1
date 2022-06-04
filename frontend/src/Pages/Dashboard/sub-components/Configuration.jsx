@@ -40,7 +40,7 @@ export default function Configuration() {
 
   useEventListener("keydown", handler);
   return (
-    <div className="py-3 bg-bgGray">
+    <div className="py-3 bg-bgGray w-full">
       {/* CONFIGURATION TAB  */}
       <div className="py-2 px-3 bg-white rounded-lg shadow border mb-3 mx-3 sticky-top top-20 z-0">
         <div className="flex justify-between items-center">

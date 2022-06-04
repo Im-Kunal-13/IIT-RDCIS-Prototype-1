@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import Select from "react-select";
 import InfoCard from "./InfoCard";
+import { useSelector, useDispatch } from "react-redux";
+import logSlice, { getLogs, reset } from "../../../features/logs/logSlice";
 import Draggable from "react-draggable";
 // import the react-json-view component
 import ReactJson from "react-json-view";
@@ -27,6 +29,12 @@ const useEventListener = (eventName, handler, element = window) => {
 
 export default function Logs() {
   // INITIALIZATIONS
+  // For Dispatching.
+  const dispatch = useDispatch();
+  // Taking out variables from the state.
+  const { logs, logError, logSuccess, logIsLoading, logMessage } = useSelector(
+    (state) => state.logs
+  );
   const logCloseBtn = useRef(null);
   const nodeRef = useRef(null);
   const intervalStateOptions = [
@@ -177,6 +185,18 @@ export default function Logs() {
     stage: "Detection",
     status: "Warning",
   };
+
+  // Loading the admins on useEffect.
+  useEffect(() => {
+    if (logError) {
+      console.log(logMessage);
+    }
+
+    // Getting all the logs
+    dispatch(getLogs());
+
+    console.log(logs)
+  }, [logError, logMessage, dispatch]);
 
   return (
     <div>

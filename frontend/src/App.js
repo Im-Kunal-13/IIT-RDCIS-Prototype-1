@@ -14,6 +14,7 @@ import UsersColumnState from "./context/users/UsersColumnState";
 import Analytics from "./Pages/Dashboard/sub-components/Analytics";
 import Summary from "./Pages/Dashboard/sub-components/Summary";
 import Logs from "./Pages/Dashboard/sub-components/Logs";
+import Sidebar from "./Pages/Dashboard/sub-components/Sidebar";
 
 function App() {
   return (

@@ -1,3 +1,5 @@
+import Highcharts from "highcharts";
+
 const trendHistoryOptions = (analyticsData, selectedFeature) => ({
   rangeSelector: {
     selected: 1,
@@ -41,7 +43,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      // visible: selectedFeature == "Total Acceleration",
+      visible: selectedFeature === "Total Acceleration",
     },
     {
       name: "Axial Velocity",
@@ -50,7 +52,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Axial Velocity",
     },
     {
       name: "Vertical Velocity",
@@ -59,7 +61,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Vertical Velocity",
     },
     {
       name: "Horizontal Velocity",
@@ -68,7 +70,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Horizontal Velocity",
     },
     {
       name: "Temperature",
@@ -77,7 +79,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Temperature",
     },
     {
       name: "Audio",
@@ -86,7 +88,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Audio",
     },
     {
       name: "Bearing Fault BPFI",
@@ -95,7 +97,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Bearing Fault BPFI",
     },
     {
       name: "Bearing Fault BPFO",
@@ -104,7 +106,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Bearing Fault BPFO",
     },
     {
       name: "Bearing Fault BSF",
@@ -113,7 +115,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Bearing Fault BSF",
     },
     {
       name: "Bearing Fault FTF",
@@ -122,7 +124,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Bearing Fault FTF",
     },
     {
       name: "Looseness",
@@ -131,7 +133,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Looseness",
     },
     {
       name: "Parallel Misalignment",
@@ -140,7 +142,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
+      visible: selectedFeature === "Parallel Misalignment",
     },
     {
       name: "Angular Misalignment",
@@ -149,8 +151,105 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       tooltip: {
         valueDecimals: 2,
       },
-      visible: false,
-    }
+      visible: selectedFeature === "Angular Misalignment",
+    },
+  ],
+});
+
+const waterFallOptions = (analyticsData) => ({
+  chart: {
+    type: "waterfall",
+  },
+  rangeSelector: {
+    selected: 1,
+  },
+  plotOptions: {
+    waterfall: {
+      stacking: "normal",
+      borderWidth: 0,
+      borderRadius: 5,
+    },
+  },
+  legend: {
+    align: "left",
+    symbolHeight: 12,
+    symbolWidth: 12,
+    symbolRadius: 4,
+  },
+  title: {
+    text: '<div class="font-semibold relative right-10">Waterfall Diagram (HC28-CDE)</div>',
+    align: "left",
+  },
+  credits: {
+    enabled: false,
+  },
+  xAxis: {
+    type: "category",
+    labels: {
+      align: "right",
+      x: 45,
+      step: 20,
+    },
+  },
+
+  yAxis: {
+    title: {
+      enabled: false,
+    },
+  },
+
+  tooltip: {
+    pointFormat: "<b>${point.y:,.2f}</b> USD",
+  },
+
+  series: [
+    {
+      name: "Series 1",
+      upColor: "#015FF3",
+      color: "rgb(255, 193, 7)",
+      data: [
+        {
+          name: "Start",
+          y: 120000,
+        },
+        {
+          name: "Product Revenue",
+          y: 569000,
+        },
+        {
+          name: "Service Revenue",
+          y: 231000,
+        },
+        {
+          name: "Positive Balance",
+          isIntermediateSum: true,
+          color: "rgb(158 158 158)",
+        },
+        {
+          name: "Fixed Costs",
+          y: -342000,
+        },
+        {
+          name: "Variable Costs",
+          y: -233000,
+        },
+        {
+          name: "Balance",
+          isSum: true,
+          color: "rgb(158 158 158)",
+        },
+      ],
+      dataLabels: {
+        enabled: true,
+        formatter: function () {
+          return Highcharts.numberFormat(this.y / 1000, 0, ",") + "k";
+        },
+        style: {
+          fontWeight: "bold",
+        },
+      },
+      pointPadding: 0,
+    },
   ],
 });
 
@@ -359,6 +458,7 @@ const options = {
   trendHistoryOptions,
   gaugeOptions,
   maintenanceOptions,
+  waterFallOptions,
 };
 
 export default options;

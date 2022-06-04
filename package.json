@@ -27,6 +27,7 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "systemjs": "^6.12.1",
+    "twilio": "^3.77.1",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -6,8 +6,8 @@ import LogoutModal from "./sub-components/LogoutModal";
 import UserSignupModal from "./sub-components/UserSignupModal";
 import EditUserSelfModal from "./sub-components/EditUserSelfModal";
 import { resetLoginSuccess } from "../../features/auth/authSlice";
-import { getData } from "../../features/analytics/analyticSlice";
 import DeleteUserSelfModal from "./sub-components/DeleteUserSelfModal";
+import Sidebar from "./sub-components/Sidebar";
 
 // Event listener handler function
 const useEventListener = (eventName, handler, element = window) => {
@@ -44,7 +44,7 @@ export default function Dashboard() {
   // Escape key handler function
   const handler = (event) => {
     if (event.shiftKey && event.keyCode === 77) {
-      offCanvasBtn.current.click()
+      offCanvasBtn.current.click();
     }
   };
 
@@ -74,11 +74,6 @@ export default function Dashboard() {
       dispatch(resetLoginSuccess());
     }
   }, [admin, loginSuccess, navigate, dispatch]);
-
-  // Getting all the Monitoring Data once we enter the Dashboard Route.
-  useEffect(() => {
-    dispatch(getData());
-  }, [dispatch]);
 
   return (
     <div>
@@ -255,7 +250,12 @@ export default function Dashboard() {
         </Link>
       </div>
       {/* LEFT OFFCANVAS  */}
-      <Outlet />
+      <div className="flex">
+        <div style={{width: "78px"}}>
+          <Sidebar />
+        </div>
+        <Outlet />
+      </div>
       {/* <!-- Modal --> */}
       <LogoutModal />
       <UserSignupModal />

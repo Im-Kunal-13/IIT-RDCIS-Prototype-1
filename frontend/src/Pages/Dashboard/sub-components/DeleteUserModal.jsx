@@ -55,80 +55,37 @@ export default function DeleteUserModal({ user, index }) {
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
-          <div className="modal-header">
-            <div className="flex items-center">
-              <i className="bi bi-exclamation-circle text-2xl pr-2 text-red-500"></i>
-              <h5
-                className="modal-title text-black font-bold"
-                id="staticBackdropLabel"
-              >
-                Confirm Deletion
-              </h5>
-            </div>
+          <div className="modal-header flex items-center justify-center">
             <i
-              className="bi bi-x-lg text-2xl py-1 px-2 bg-offCanvasHover hover:bg-red-500 hover:text-white rounded-lg hover:scale-110 transition-all cursor-pointer"
+              className="bi bi-exclamation-triangle-fill text-2xl rounded-full text-infoCardDarkRed bg-infoCardLightRed"
+              style={{ padding: "1rem 1.25rem" }}
+            ></i>
+          </div>
+          <div className="modal-body px-0 text-center mx-auto flex items-center flex-col">
+            <p className="font-semibold text-xl mb-2">
+              Delete {user.administrator ? "Admin" : "User"}
+            </p>
+            <p className="px-10">
+              You're proceeding to delete the{" "}
+              {user.administrator ? "admin" : "user"}'s account. Are you sure?
+            </p>
+          </div>
+          <div className="modal-footer sm:px-4 flex items-center justify-between">
+            <button
+              className="bg-pieChartGray bg-opacity-30 hover:bg-opacity-40 rounded-full font-semibold hover:scale-105 transition-all  text-base"
+              style={{ padding: ".8rem 2rem" }}
               data-bs-dismiss="modal"
               aria-label="Close"
               ref={closeBtn}
-              onClick={() => {
-                setConfirmEmail("");
-              }}
-            ></i>
-          </div>
-          <div className="modal-body px-0 text-sm">
-            <p className="mb-4 px-3 font-semibold">
-              Are you sure you want to delete your account?
-            </p>
-
-            <p className="px-3 mb">
-              This action <span className="font-semibold">cannot</span> be
-              undone. This will{" "}
-              <span className="font-semibold">permanently</span> delete this
-              user's account from the server. Proceed with caution.
-            </p>
-
-            {/* EMAIL CONFIRMATION SECTION  */}
-            <div className="mt-4">
-              <div className="mb-2 px-3">
-                Please type user's email address to confirm.
-              </div>
-              <div className="input-group mb-2 mt-2 px-3">
-                <input
-                  type="text"
-                  className="form-control rounded-lg shadow border-2 focus:border-red-500 transition-all"
-                  placeholder="Enter your email to confirm"
-                  aria-label="name"
-                  value={confirmEmail}
-                  name="name"
-                  onChange={(e) => {
-                    setConfirmEmail(e.target.value);
-                  }}
-                  aria-describedby="basic-addon1"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <div className="modal-footer justify-start px-3">
-            <button
-              type="button"
-              className="border px-4 py-1 rounded-md bg-red-500 disabled:bg-red-300 shadow hover:scale-x-95 transition-all w-full text-white font-semibold"
-              onClick={onDelete}
-              disabled={!(confirmEmail === user.email)}
             >
-              {deleteUserLoading ? (
-                <>
-                  <span
-                    className="spinner-border spinner-border-sm"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="ml-2">DELETING</span>
-                  <span className="visually-hidden">Loading...</span>
-                </>
-              ) : (
-                <>DELETE ACCOUNT</>
-              )}
+              No, Keep it.
+            </button>
+            <button
+              className="bg-infoCardDarkRed bg-opacity-80 hover:bg-opacity-100 text-white rounded-full font-semibold hover:scale-105 transition-all  text-base"
+              style={{ padding: ".8rem 2rem" }}
+              // onClick={onDelete}
+            >
+              Yes, Delete!
             </button>
           </div>
         </div>

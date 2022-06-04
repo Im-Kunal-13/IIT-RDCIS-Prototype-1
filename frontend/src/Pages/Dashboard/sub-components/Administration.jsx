@@ -4,7 +4,7 @@ import Users from "./Users";
 
 export default function Administration() {
   return (
-    <div>
+    <div className="w-full">
       {/* <Routes>
           <Route path="/" element={<Users />} />
           <Route path="/users" element={<Users />} />

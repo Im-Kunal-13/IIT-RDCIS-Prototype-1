@@ -90,7 +90,7 @@ export default function EditUserModal({ user, index }) {
         <div className="modal-content rounded-lg border-0 md:px-20 shadow">
           {/* CLOSE BUTTON  */}
           <span
-            className="ml-auto relative top-12 right-4 hover:scale-110 transition-all text-white"
+            className="ml-auto relative top-12 right-4 hover:scale-110 transition-all text-white cursor-pointer"
             ref={closeBtn}
             data-bs-dismiss="modal"
             aria-label="Close"

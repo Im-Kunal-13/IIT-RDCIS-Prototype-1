@@ -8,7 +8,7 @@ export default function Monitoring() {
   const tabSelectCloseBtn = useRef(null);
 
   return (
-    <div className="bg-bgGray pt-3 min-h-screen">
+    <div className="bg-bgGray pt-3 min-h-screen w-full">
       <Outlet />
       {/* OFF CANVAS SKELETON  */}
       <div

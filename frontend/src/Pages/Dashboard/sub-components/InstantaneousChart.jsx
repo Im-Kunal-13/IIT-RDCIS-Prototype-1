@@ -17,7 +17,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
     const { className, style, onClick } = props;
     return (
       <div
-        className="slick-next rounded-full shadow-carouselArrowHover transition-all hover:shadow-carouselArrowHover"
+        className="slick-next rounded-full shadow-carouselArrowHover transition-all"
         onClick={onClick}
       >
         <i className="bi bi-caret-right-fill text-lightBlue2 text-lg"></i>
@@ -29,7 +29,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
     const { className, style, onClick } = props;
     return (
       <div
-        className="slick-prev rounded-full shadow-carouselArrowHover transition-all hover:shadow-carouselArrowHover"
+        className="slick-prev rounded-full shadow-carouselArrowHover transition-all"
         onClick={onClick}
       >
         <i className="bi bi-caret-left-fill text-lightBlue2 text-xs"></i>
@@ -171,7 +171,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
   }, [])
 
   return (
-    <div className={`bg-transparent rounded-lg p-3 shadow border overflow-hidden ${isDotActive ? "pb-5" : ""}`}>
+    <div className={`bg-white rounded-lg p-3 shadow border overflow-hidden ${isDotActive ? "pb-5" : ""}`}>
       {/* TITLE  */}
       <p className="text-xl font-semibold ml-2 mb-4">
         {`Instantaneous Parameters ${isDotActive ? "(HC28-CDE)" : ""}`}

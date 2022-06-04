@@ -6,13 +6,18 @@ import MaintenanceIndex from "./MaintenanceIndex";
 import InstantaneousChart from "./InstantaneousChart";
 import { reset, getData } from "../../../features/analytics/analyticSlice";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import io from "socket.io-client";
+import ScatterPlot from "./ScatterPlot";
+import Waterfall from "./Waterfall";
+import DetailsPanel from "./DetailsPanel";
 
 // Getting the socket from the io object we imported.
 const socket = io.connect("http://localhost:5000");
 
 export default function Analytics() {
+  const dispatch = useDispatch();
+
   // Charts all data state
   const [dataState, setDataState] = useState([]);
 
@@ -110,6 +115,11 @@ export default function Analytics() {
       });
     }
   }, [dataSuccess]);
+
+  // Getting all the Monitoring Data once we enter the Dashboard Route.
+  useEffect(() => {
+    dispatch(getData());
+  }, [dispatch]);
 
   // Initializing the id of the current document entered as null
   let currentDocId = null;
@@ -213,8 +223,6 @@ export default function Analytics() {
               analyticsNewDataDoc.parallel_misalignment_avg,
             ],
           ];
-          console.log(totalAcceleration);
-          console.log(axialVelocity);
           setAnalyticsData({
             ...analyticsData,
             totalAcceleration: analyticsData.totalAcceleration
@@ -309,8 +317,8 @@ export default function Analytics() {
             />
           </div>
         </div>
-        {/* TREND HISTORY  */}
         <div className="col-span-4 lg2:col-span-3">
+          {/* TREND HISTORY  */}
           <Tilt
             glareEnable={true}
             glareColor="#015FF3"
@@ -322,10 +330,32 @@ export default function Analytics() {
           >
             <TrendHistory analyticsData={analyticsData} />
           </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareColor="#015FF3"
+            glareMaxOpacity={0.1}
+            tiltMaxAngleX={2}
+            tiltMaxAngleY={2}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <Waterfall analyticsData={analyticsData} />
+          </Tilt>
         </div>
-          {/* MAINTENANCE INDEX  */}
+        {/* MAINTENANCE INDEX  */}
         <div className="col-span-4 lg2:col-span-1">
           <MaintenanceIndex />
+          <Tilt
+            glareEnable={true}
+            glareColor="#015FF3"
+            glareMaxOpacity={0.1}
+            tiltMaxAngleX={2}
+            tiltMaxAngleY={2}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <DetailsPanel />
+          </Tilt>
         </div>
         <div className="col-span-4">
           <InstantaneousChart instantaneousDataDoc={dataState.slice(-1)[0]} />
