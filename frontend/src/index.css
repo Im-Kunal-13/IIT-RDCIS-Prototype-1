@@ -8,11 +8,10 @@
 @import url("../node_modules/@syncfusion/ej2-lists/styles/material.css");
 @import url("../node_modules/@syncfusion/ej2-react-calendars/styles/material.css");
 
-
 :root {
   --toastify-color-dark: white !important;
-  --toastify-color-progress-light: #BA01FF !important;
-  --toastify-color-info: #015FF3 !important;
+  --toastify-color-progress-light: #ba01ff !important;
+  --toastify-color-info: #015ff3 !important;
 }
 
 body {
@@ -174,7 +173,7 @@ input:-webkit-autofill {
   display: none;
 }
 .slick-dots li button:before {
-  color: #015ff3 !important;
+  color: #7944f6 !important;
 }
 /* REACT CALENDAR  */
 .react-calendar {
@@ -239,6 +238,21 @@ abbr {
 /* REACT TIMEKEEPER  */
 .react-timekeeper__tb-hour.react-timekeeper__tb-hour--active.css-1igvx5z-timeSelected-time-TopBar {
   color: #7944f6;
+}
+.react-timekeeper__tb-minute.react-timekeeper__tb-minute--active.css-rt16tf-timeSelected-time {
+  color: #7944f6;
+}
+.react-timekeeper__clock-hand.css-yxfhll-line {
+  stroke: rgb(121, 68, 246, 0.3) !important;
+}
+.react-timekeeper__hand-circle-center.css-uby47j-centerCircle {
+  fill: rgb(121, 68, 246, 0.3) !important;
+}
+.react-timekeeper__hand-circle-outer.css-200z2t-outerCircle {
+  fill: rgb(121, 68, 246, 0.3) !important;
+}
+.react-timekeeper__hand-intermediate-circle.css-14lwqju-intermediateMinuteCircle {
+  fill: rgb(121, 68, 246, 0.3) !important;
 }
 .react-timekeeper-button-reset.react-timekeeper__meridiem-toggle.react-timekeeper__meridiem--active.css-dlroum-meridiem {
   background-color: rgb(121, 68, 246, 0.2);
@@ -389,20 +403,20 @@ body {
 
 /* BOOTSTRAP CHECKBOX  */
 .form-check-input:checked.checkbox-purple {
-  background-color: #7944F6;
-  border-color: #7944F6;
+  background-color: #7944f6;
+  border-color: #7944f6;
 }
 .form-check-input.checkbox-purple:focus {
-    border-color: rgb(121, 68, 246, .3);
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgb(121, 68, 246, .3);
+  border-color: rgb(121, 68, 246, 0.3);
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgb(121, 68, 246, 0.3);
 }
 .form-check-input:checked.checkbox-blue {
-  background-color: #015FF3;
-  border-color: #015FF3;
+  background-color: #015ff3;
+  border-color: #015ff3;
 }
 .form-check-input.checkbox-blue:focus {
-  border-color: rgb(0, 93, 242, .3);
+  border-color: rgb(0, 93, 242, 0.3);
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgb(0, 93, 242, .3);
+  box-shadow: 0 0 0 0.25rem rgb(0, 93, 242, 0.3);
 }

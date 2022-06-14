@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import options from "../analytics-options/analytics-options";
+import ThemeContext from "../../../context/theme/themeContext";
 
 // Load Highcharts modules
 require("highcharts/highcharts-more")(Highcharts);
@@ -13,10 +14,11 @@ require("highcharts/indicators/macd")(Highcharts);
 require("highcharts/modules/exporting")(Highcharts);
 require("highcharts/modules/map")(Highcharts);
 
-export default function InstantateousParameters({ name, gaugeData, bands }) {
+export default function InstantateousParameter({ name, gaugeData, bands }) {
+  const theme = useContext(ThemeContext)
   return (
     <div
-      className="bg-white rounded-lg py-3 px-4 shadow border overflow-hidden mb-3 mx-1  hover:scale-95 transition-all"
+      className="bg-white rounded-lg py-3 px-4 shadow border overflow-hidden mb-3 mx-1  hover:scale-95 transition-all cursor-pointer"
       style={{ height: "327px" }}
     >
       {gaugeData ? (
@@ -24,7 +26,7 @@ export default function InstantateousParameters({ name, gaugeData, bands }) {
           <HighchartsReact
             containerProps={{ style: { height: "300px" } }}
             highcharts={Highcharts}
-            options={options.gaugeOptions(gaugeData, bands)}
+            options={options.gaugeOptions(gaugeData, bands, theme.state)}
           />
           <div className="text-center relative bottom-8 font-semibold">
             {name}

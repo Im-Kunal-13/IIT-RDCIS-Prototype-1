@@ -1,48 +1,99 @@
-import React, { useEffect } from "react";
-import HighchartsReact from "highcharts-react-official";
-import Highcharts from "highcharts";
-import options from "../analytics-options/analytics-options";
+import React, { useContext, useEffect } from "react";
 import Tilt from "react-parallax-tilt";
 import Select from "react-select";
 import { useState } from "react";
-import InstantateousParameters from "./InstantateousParameters";
+import InstantateousParameter from "./InstantateousParameter";
 // Import css files for React Slice
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import ThemeContext from "../../../context/theme/themeContext";
+import InstantateousParameterMin from "./InstantateousParameterMin";
 
 export default function InstantaneousChart({ instantaneousDataDoc }) {
   // INITIALIZATIONS
+  // Theme
+  const theme = useContext(ThemeContext);
+
+  // Slick Next Arrow
   function SampleNextArrow(props) {
     const { className, style, onClick } = props;
     return (
       <div
-        className="slick-next rounded-full shadow-carouselArrowHover transition-all"
+        className={`slick-next rounded-full transition-all ${
+          theme.state === "purple"
+            ? "shadow-carouselArrowHoverPurple"
+            : "shadow-carouselArrowHoverBlue"
+        }`}
         onClick={onClick}
       >
-        <i className="bi bi-caret-right-fill text-lightBlue2 text-lg"></i>
-        <i className="bi bi-caret-right-fill text-lightBlue2 text-xs"></i>
+        <i
+          className={`bi bi-caret-right-fill text-lg ${
+            theme.state === "purple" ? "text-themeBlue1" : "text-lightBlue2"
+          }`}
+        ></i>
+        <i
+          className={`bi bi-caret-right-fill text-xs ${
+            theme.state === "purple" ? "text-themeBlue1" : "text-lightBlue2"
+          }`}
+        ></i>
       </div>
     );
   }
+  // Slick Previous Arrow
   function SamplePrevArrow(props) {
     const { className, style, onClick } = props;
     return (
       <div
-        className="slick-prev rounded-full shadow-carouselArrowHover transition-all"
+        className={`slick-prev rounded-full transition-all ${
+          theme.state === "purple"
+            ? "shadow-carouselArrowHoverPurple"
+            : "shadow-carouselArrowHoverBlue"
+        }`}
         onClick={onClick}
       >
-        <i className="bi bi-caret-left-fill text-lightBlue2 text-xs"></i>
-        <i className="bi bi-caret-left-fill text-lightBlue2 text-lg"></i>
+        <i
+          className={`bi bi-caret-left-fill text-xs ${
+            theme.state === "purple" ? "text-themeBlue1" : "text-lightBlue2"
+          }`}
+        ></i>
+        <i
+          className={`bi bi-caret-left-fill text-lg ${
+            theme.state === "purple" ? "text-themeBlue1" : "text-lightBlue2"
+          }`}
+        ></i>
       </div>
     );
   }
 
-  //   STATE FOR INTERVAL SELECTED OPTION
-  const [selectedOption, setSelectedOption] = useState("Time Duration");
+  // React-Select Custom Styles.
+  const colorStyles = {
+    option: (styles, { isFocused, isSelected, isActive }) => ({
+      ...styles,
+      background:
+        isFocused & !isSelected
+          ? `${
+              theme.state === "purple"
+                ? "rgb(187, 1, 255, .2)"
+                : "rgb(1, 95, 243, .2);"
+            }`
+          : isSelected
+          ? `${theme.state === "purple" ? "#BA01FF" : "#015ff3;"}`
+          : isActive
+          ? `${theme.state === "purple" ? "#BA01FF" : "#015ff3;"}`
+          : undefined,
+      zIndex: 1,
+    }),
+  };
 
-  //   STATE FOR INTERVAL SELECTED OPTION
-  const [trendFeature, setTrendFeature] = useState("Time Duration");
+  const [intervalOption, setIntervalOption] = useState({
+    value: "Real-time",
+    label: "Real-time",
+  });
+  const [viewOption, setViewOption] = useState({
+    label: "Full",
+    value: "Full",
+  });
 
   //   STATE FOR FEATURES DROPDOWN
   const [features, setFeatures] = useState({
@@ -113,6 +164,11 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
     { value: "1 Month", label: "1 Month" },
     { value: "7 Day", label: "7 Day" },
   ];
+  //   VIEW SELECT OPTIONS
+  const viewOptions = [
+    { value: "Full", label: "Full" },
+    { value: "Carousel", label: "Carousel" },
+  ];
   // State for no of slides to show
   const [slidesToShow, setSlidesToShow] = useState(4);
   // State for the dot to show or not
@@ -152,7 +208,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
       setIsDotActive(true);
     }
   });
-  
+
   useEffect(() => {
     if (window.innerWidth >= 1200) {
       setSlidesToShow(4);
@@ -168,10 +224,14 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
     } else {
       setIsDotActive(true);
     }
-  }, [])
+  }, []);
 
   return (
-    <div className={`bg-white rounded-lg p-3 shadow border overflow-hidden ${isDotActive ? "pb-5" : ""}`}>
+    <div
+      className={`bg-white rounded-lg p-3 shadow border overflow-hidden ${
+        isDotActive ? "pb-5" : ""
+      }`}
+    >
       {/* TITLE  */}
       <p className="text-xl font-semibold ml-2 mb-4">
         {`Instantaneous Parameters ${isDotActive ? "(HC28-CDE)" : ""}`}
@@ -209,7 +269,11 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
                 >
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input border-2 cursor-pointer mr-3 h-5 w-5 ${
+                        theme.state === "purple"
+                          ? "checkbox-purple"
+                          : "checkbox-blue"
+                      }`}
                       type="checkbox"
                       id={`feature${index}`}
                     />
@@ -226,201 +290,311 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
           </div>
         </div>
         {/* INTERVAL SECTION  */}
-        <div className="hidden items-center mr-2 px-2 z-10 sm:flex">
+        <div className="hidden items-center px-2 z-10 sm:flex">
           <p className="mr-2 font-semibold text-gray-400">INTERVAL</p>
           <div className="flex items-center py-2 px-1 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-48 cursor-pointer z-10">
             <Select
-              value={selectedOption}
-              onChange={setSelectedOption}
+              value={intervalOption}
+              onChange={setIntervalOption}
               placeholder="Select Interval"
+              styles={colorStyles}
               options={intervalOptions}
+            />
+            <i className="fa-solid fa-chevron-down text-xs relative right-7"></i>
+          </div>
+        </div>
+        {/* VIEW SECTION  */}
+        <div className="hidden items-center mr-2 px-2 z-10 sm:flex">
+          <p className="mr-2 font-semibold text-gray-400">VIEW</p>
+          <div className="flex items-center py-2 px-1 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-48 cursor-pointer z-10">
+            <Select
+              value={viewOption}
+              onChange={setViewOption}
+              placeholder="Select Interval"
+              options={viewOptions}
+              styles={colorStyles}
             />
             <i className="fa-solid fa-chevron-down text-xs relative right-7"></i>
           </div>
         </div>
       </div>
       {/* GAUGES  */}
-      <Slider
-        slidesToScroll={1}
-        dots={isDotActive}
-        infinite={true}
-        speed={500}
-        autoplay={true}
-        autoplaySpeed={5000}
-        focusOnSelect={false}
-        slidesToShow={slidesToShow}
-        swipeToSlide={true}
-        pauseOnFocus={true}
-        pauseOnHover={true}
-        nextArrow={<SampleNextArrow />}
-        prevArrow={<SamplePrevArrow />}
-      >
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
+      {viewOption.value === "Carousel" ? (
+        <Slider
+          slidesToScroll={1}
+          dots={isDotActive}
+          infinite={true}
+          speed={500}
+          autoplay={true}
+          autoplaySpeed={5000}
+          focusOnSelect={false}
+          slidesToShow={slidesToShow}
+          swipeToSlide={true}
+          pauseOnFocus={true}
+          pauseOnHover={true}
+          nextArrow={<SampleNextArrow />}
+          prevArrow={<SamplePrevArrow />}
         >
-          <InstantateousParameters
-            name={"Total Acceleration ((m/sÂ²)Â²)"}
-            gaugeData={instantaneousDataDoc?.total_acceleration_avg}
-            bands={[0, 150, 700, 900, 1080]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Axial Velocity (mm/s)"}
-            gaugeData={instantaneousDataDoc?.axial_velocity_avg}
-            bands={[0, 5.5, 10.5, 15, 19]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Horizontal Velocity (mm/s)"}
-            gaugeData={instantaneousDataDoc?.horizontal_velocity_avg}
-            bands={[0, 5.5, 10.5, 15, 19]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Audio (dB)"}
-            gaugeData={instantaneousDataDoc?.audio_avg}
-            bands={[0, 125, 140, 160, 192]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Angular Misalignment (mm/s)"}
-            gaugeData={instantaneousDataDoc?.angular_misalignment_avg}
-            bands={[0, 1.5, 7, 11.5, 13.8]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Looseness Min (mm/s)"}
-            gaugeData={instantaneousDataDoc?.looseness_avg}
-            bands={[0, 1.5, 7, 11.5, 13.8]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Parallel Misalignment (mm/s)"}
-            gaugeData={instantaneousDataDoc?.parallel_misalignment_avg}
-            bands={[0, 1.5, 7, 11.5, 13.8]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Bearing Fault BSF (mm/s)"}
-            gaugeData={instantaneousDataDoc?.bearing_fault_bsf_avg}
-            bands={[0, 1.5, 7, 11.5, 13.8]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Bearing Fault BPFO (mm/s)"}
-            gaugeData={instantaneousDataDoc?.bearing_fault_bpfo_avg}
-            bands={[0, 1.5, 7, 11.5, 13.8]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Bearing Fault FTF (mm/s)"}
-            gaugeData={instantaneousDataDoc?.bearing_fault_ftf_avg}
-            bands={[0, 1.5, 7, 11.5, 13.8]}
-          />
-        </Tilt>
-        <Tilt
-          glareEnable={true}
-          glareColor="#015FF3"
-          glareMaxOpacity={0}
-          tiltMaxAngleX={5}
-          tiltMaxAngleY={5}
-          glarePosition="all"
-          glareBorderRadius="8px"
-        >
-          <InstantateousParameters
-            name={"Bearing Fault BPFI (mm/s)"}
-            gaugeData={instantaneousDataDoc?.bearing_fault_bpfi_avg}
-            bands={[0, 1.5, 7, 11.5, 13.8]}
-          />
-        </Tilt>
-      </Slider>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Total Acceleration ((m/sÂ²)Â²)"}
+              gaugeData={instantaneousDataDoc?.total_acceleration_avg}
+              bands={[0, 150, 700, 900, 1080]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Axial Velocity (mm/s)"}
+              gaugeData={instantaneousDataDoc?.axial_velocity_avg}
+              bands={[0, 5.5, 10.5, 15, 19]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Horizontal Velocity (mm/s)"}
+              gaugeData={instantaneousDataDoc?.horizontal_velocity_avg}
+              bands={[0, 5.5, 10.5, 15, 19]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Audio (dB)"}
+              gaugeData={instantaneousDataDoc?.audio_avg}
+              bands={[0, 125, 140, 160, 192]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Angular Misalignment (mm/s)"}
+              gaugeData={instantaneousDataDoc?.angular_misalignment_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Looseness Min (mm/s)"}
+              gaugeData={instantaneousDataDoc?.looseness_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Parallel Misalignment (mm/s)"}
+              gaugeData={instantaneousDataDoc?.parallel_misalignment_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Bearing Fault BSF (mm/s)"}
+              gaugeData={instantaneousDataDoc?.bearing_fault_bsf_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Bearing Fault BPFO (mm/s)"}
+              gaugeData={instantaneousDataDoc?.bearing_fault_bpfo_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Bearing Fault FTF (mm/s)"}
+              gaugeData={instantaneousDataDoc?.bearing_fault_ftf_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+            />
+          </Tilt>
+          <Tilt
+            glareEnable={true}
+            glareColor="#015F"
+            glareMaxOpacity={0}
+            tiltMaxAngleX={5}
+            tiltMaxAngleY={5}
+            glarePosition="all"
+            glareBorderRadius="8px"
+          >
+            <InstantateousParameter
+              name={"Bearing Fault BPFI (mm/s)"}
+              gaugeData={instantaneousDataDoc?.bearing_fault_bpfi_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+            />
+          </Tilt>
+        </Slider>
+      ) : (
+        <div className="grid grid-cols-5">
+          <div>
+            <InstantateousParameterMin
+              name={"Total Acceleration ((m/sÂ²)Â²)"}
+              gaugeData={instantaneousDataDoc?.total_acceleration_avg}
+              bands={[0, 150, 700, 900, 1080]}
+              label="Total Acceleration"
+              unit="((m/sÂ²)Â²)"
+            />
+          </div>
+          <div>
+            <InstantateousParameterMin
+              name={"Axial Velocity (mm/s)"}
+              gaugeData={instantaneousDataDoc?.axial_velocity_avg}
+              bands={[0, 5.5, 10.5, 15, 19]}
+              label="Axial Velocity"
+              unit="(mm/s)"
+            />
+          </div>
+          <div>
+            <InstantateousParameterMin
+              name={"Horizontal Velocity (mm/s)"}
+              gaugeData={instantaneousDataDoc?.horizontal_velocity_avg}
+              bands={[0, 5.5, 10.5, 15, 19]}
+              label="Horizontal Velocity"
+              unit="(mm/s)"
+            />
+          </div>
+          <div>
+            <InstantateousParameterMin
+              name={"Audio (dB)"}
+              gaugeData={instantaneousDataDoc?.audio_avg}
+              bands={[0, 125, 140, 160, 192]}
+              label="Audio"
+              unit="dB"
+            />
+          </div>
+          <div>
+            <InstantateousParameterMin
+              name={"Angular Misalignment (mm/s)"}
+              gaugeData={instantaneousDataDoc?.angular_misalignment_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+              label="Angular Misalignment"
+              unit="(mm/s)"
+            />
+          </div>
+          <div>
+            <InstantateousParameterMin
+              name={"Looseness Min (mm/s)"}
+              gaugeData={instantaneousDataDoc?.looseness_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+              label="Looseness Min"
+              unit="(mm/s)"
+            />
+          </div>
+          <div>
+            <InstantateousParameterMin
+              name={"Parallel Misalignment (mm/s)"}
+              gaugeData={instantaneousDataDoc?.parallel_misalignment_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+              label="Parallel Misalignment"
+              unit="(mm/s)"
+            />
+          </div>
+          <div>
+            <InstantateousParameterMin
+              name={"Bearing Fault BSF (mm/s)"}
+              gaugeData={instantaneousDataDoc?.bearing_fault_bsf_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+              label="Bearing Fault BSF"
+              unit="(mm/s)"
+            />
+          </div>
+          <div>
+            <InstantateousParameterMin
+              name={"Bearing Fault BPFO (mm/s)"}
+              gaugeData={instantaneousDataDoc?.bearing_fault_bpfo_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+              label="Bearing Fault BPFO"
+              unit="(mm/s)"
+            />
+          </div>
+          <div>
+            <InstantateousParameterMin
+              name={"Bearing Fault FTF (mm/s)"}
+              gaugeData={instantaneousDataDoc?.bearing_fault_ftf_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+              label="Bearing Fault FTF"
+              unit="(mm/s)"
+            />
+          </div>
+          <div className="hidden">
+            <InstantateousParameterMin
+              name={"Bearing Fault BPFI (mm/s)"}
+              gaugeData={instantaneousDataDoc?.bearing_fault_bpfi_avg}
+              bands={[0, 1.5, 7, 11.5, 13.8]}
+              label="Bearing Fault BPFI"
+              unit="(mm/s)"
+            />
+          </div>
+          <div></div>
+        </div>
+      )}
     </div>
   );
 }

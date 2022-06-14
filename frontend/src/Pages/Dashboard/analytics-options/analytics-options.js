@@ -266,7 +266,7 @@ const area3d = (analyticsData) => ({
   ],
 });
 
-const gaugeOptions = (gaugeData, bands) => ({
+const gaugeOptions = (gaugeData, bands, themeState) => ({
   chart: {
     type: "gauge",
     plotBackgroundColor: null,
@@ -338,7 +338,7 @@ const gaugeOptions = (gaugeData, bands) => ({
       {
         from: bands[0],
         to: bands[1],
-        color: "#015FF3", // green
+        color: themeState === "purple" ? "#7944F6" : "#015FF3", // green
       },
       {
         from: bands[1],
@@ -389,6 +389,133 @@ const gaugeOptions = (gaugeData, bands) => ({
         baseLength: "70%",
         rearLength: "5%",
         radius: "75%",
+      },
+      tooltip: {
+        valueSuffix: "mm/s",
+      },
+    },
+  ],
+});
+
+const gaugeMinOptions = (gaugeData, bands, themeState, label, unit) => ({
+  chart: {
+    type: "gauge",
+    plotBackgroundColor: null,
+    plotBackgroundImage: null,
+    plotBorderWidth: 0,
+    plotShadow: false,
+  },
+  navigation: {
+    buttonOptions: {
+      enabled: false,
+    },
+  },
+  plotOptions: {
+    gauge: {
+      lineWidth: 200,
+      pivot: {
+        radius: 7,
+        borderWidth: 0,
+        backgroundColor: "transparent",
+      },
+    },
+  },
+  title: {
+    text: "",
+    align: "left",
+    margin: -60,
+  },
+  credits: {
+    enabled: false,
+  },
+  pane: {
+    startAngle: -130,
+    endAngle: 130,
+    size: "97.5%",
+    background: [
+      {
+        backgroundColor: "transparent",
+        borderWidth: 0,
+        outerRadius: "0%",
+        innerRadius: "110%",
+      },
+    ],
+  },
+  // the value axis
+  yAxis: {
+    min: 0,
+    max: bands[4],
+    minorTicks: false,
+    tickPixelInterval: 60,
+    tickWidth: 2,
+    tickPosition: "inside",
+    tickLength: 10,
+    tickColor: "#FFF",
+    labels: {
+      step: 1,
+      rotation: "auto",
+    },
+    title: {
+      text: "mm/s",
+      style: {
+        fontWeight: "bold",
+      },
+    },
+    plotBands: [
+      // MAIN COLOR PLOT BANDS
+      {
+        from: bands[0],
+        to: bands[1],
+        color: themeState === "purple" ? "#7944F6" : "#015FF3", // green
+      },
+      {
+        from: bands[1],
+        to: bands[2],
+        color: "rgb(34, 197, 94)", // yellow
+      },
+      {
+        from: bands[2],
+        to: bands[3],
+        color: "rgb(234, 179, 8)", // red
+      },
+      {
+        from: bands[3],
+        to: bands[4],
+        color: "rgb(239, 68, 68)", // red
+      },
+      // OUTER  PLOT BAND TOUCH
+      // {
+      //   from: -50,
+      //   to: bands[4],
+      //   color: "rgb(209, 213, 219)", // red
+      //   innerRadius: "100%",
+      //   // thickness: 30,
+      //   outerRadius: "100%",
+      // },
+    ],
+  },
+  series: [
+    {
+      name: label,
+      data: [Math.round((gaugeData + Number.EPSILON) * 100) / 100],
+      rounded: true,
+      dataLabels: {
+        verticalAlign: "bottom",
+        y: 100,
+        borderWidth: 0,
+        useHtml: true,
+        style: {
+          fontSize: "25px",
+          fontWeight: "bold",
+        },
+      },
+      dial: {
+        backgroundColor: "#58585E",
+        baseWidth: 5,
+        topWidth: 2,
+        baseLength: "70%",
+        rearLength: "5%",
+        radius: "72.5%",
       },
       tooltip: {
         valueSuffix: "mm/s",
@@ -470,6 +597,7 @@ const maintenanceOptions = (themeColor) => ({
 const options = {
   trendHistoryOptions,
   gaugeOptions,
+  gaugeMinOptions,
   maintenanceOptions,
   area3d,
 };
