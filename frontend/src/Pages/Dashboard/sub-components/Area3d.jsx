@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import options from "../analytics-options/analytics-options";
-import Select from "react-select";
 import { useState } from "react";
-import ThemeContext from "../../../context/theme/themeContext";
+import TimeKeeper from "react-timekeeper";
+import "react-calendar/dist/Calendar.css";
+import Calendar from "react-calendar";
+import moment from "moment";
 
 // Load Highcharts modules
 require("highcharts/indicators/indicators")(Highcharts);
@@ -12,116 +14,101 @@ require("highcharts/indicators/pivot-points")(Highcharts);
 require("highcharts/indicators/macd")(Highcharts);
 require("highcharts/modules/exporting")(Highcharts);
 require("highcharts/modules/map")(Highcharts);
+require("highcharts/highcharts-3d")(Highcharts);
+require("highcharts/modules/accessibility")(Highcharts);
 
-export default function TrendHistory({ analyticsData }) {
+export default function Area3d({ analyticsData }) {
   Highcharts.seriesTypes.line.prototype.drawLegendSymbol =
     Highcharts.seriesTypes.area.prototype.drawLegendSymbol;
 
-  const theme = useContext(ThemeContext);
-
-  // custom styles for react-select
-  const colorStyles = {
-    option: (styles, { isFocused, isSelected, isActive }) => ({
-      ...styles,
-      background:
-        isFocused & !isSelected
-          ? `${
-              theme.state === "purple"
-                ? "rgb(187, 1, 255, .2)"
-                : "rgb(1, 95, 243, .2);"
-            }`
-          : isSelected
-          ? `${theme.state === "purple" ? "#BA01FF" : "#015ff3;"}`
-          : isActive
-          ? `${theme.state === "purple" ? "#BA01FF" : "#015ff3;"}`
-          : undefined,
-      zIndex: 1,
-    }),
+  // SETTING THE TIME STATE `
+  const [time, setTime] = useState("12:34");
+  // SETTING THE DATE VALUE
+  const [date, setDate] = useState(new Date());
+  const changeDate = (e) => {
+    setDate(e);
   };
+
   // State for the data
   const [dataState, setDataState] = useState([]);
 
-  //   STATE FOR FEATURE SELECTED OPTION
-  const [selectedFeature, setSelectedFeature] = useState({
-    value: "Total Acceleration",
-    label: "Total Acceleration",
-  });
-
-  //   STATE FOR INTERVAL SELECTED OPTION.
-  const [selectedInterval, setSelectedInterval] = useState({
-    value: "Today",
-    label: "Today",
-  });
-
-  //   INTERVAL SELECT OPTIONS
-  const intervalOptions = [
-    { value: "Today", label: "Today" },
-    { value: "1 Month", label: "1 Month" },
-    { value: "7 Day", label: "7 Day" },
-  ];
-
-  //   FEATURE SELECT OPTIONS
-  const featureOptions = [
-    { value: "Total Acceleration", label: "Total Acceleration" },
-    { value: "Axial Velocity", label: "Axial Velocity" },
-    { value: "Vertical Velocity", label: "Vertical Velocity" },
-    { value: "Horizontal Velocity", label: "Horizontal Velocity" },
-    { value: "Temperature", label: "Temperature" },
-    { value: "Audio", label: "Audio" },
-    { value: "Bearing Fault BPFI", label: "Bearing Fault BPFI" },
-    { value: "Bearing Fault BPFO", label: "Bearing Fault BPFO" },
-    { value: "Bearing Fault BSF", label: "Bearing Fault BSF" },
-    { value: "Bearing Fault FTF", label: "Bearing Fault FTF" },
-    { value: "Looseness", label: "Looseness" },
-    { value: "Parallel Misalignment", label: "Parallel Misalignment" },
-    { value: "Angular Misalignment", label: "Angular Misalignment" },
-  ];
   return (
     <div
       className="bg-white rounded-lg p-3 pt-0 shadow border overflow-hidden mb-3"
-      style={{ height: "38rem" }}
+      style={{ height: "37.5rem" }}
     >
       {/* Feature & Interval Dropdowns  */}
       <div className="flex mt-16">
         {/* FEATURES SECTION  */}
         <div className="flex items-center px-2 z-10">
-          <p className="mr-2 font-semibold text-gray-400">FEATURES</p>
-          <div className="flex items-center py-2 px-1 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-48 cursor-pointer z-10">
-            <Select
-              value={selectedFeature}
-              onChange={setSelectedFeature}
-              styles={colorStyles}
-              placeholder="Select Feature"
-              options={featureOptions}
-            />
-            <i className="fa-solid fa-chevron-down text-xs relative right-7"></i>
-          </div>
-        </div>
-        {/* INTERVAL SECTION  */}
-        <div className="items-center mr-2 px-2 z-10 hidden sm:flex">
-          <p className="mr-2 font-semibold text-gray-400">INTERVAL</p>
-          <div className="flex items-center py-2 px-1 hover:bg-offCanvasHover rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-48 cursor-pointer z-10">
-            <Select
-              value={selectedInterval}
-              onChange={setSelectedInterval}
-              styles={colorStyles}
-              placeholder="Select Interval"
-              options={intervalOptions}
-            />
-            <i className="fa-solid fa-chevron-down text-xs relative right-7"></i>
+          <p className="mr-2 font-semibold text-gray-400">START</p>
+          <div className="flex items-center pl-1 pr-3 hover:bg-blue-200 rounded-md border-2 h-12 shadow hover:scale-95 transition-all z-10">
+            <div className="dropdown ">
+              {/* DATE DROPDOWN BUTTON  */}
+              <div
+                className="cursor-pointer bg-transparent border-none outline-none text-lg w-36 flex justify-between pl-2 pr-3"
+                id="date-start-select-dropdown-button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span className="mr-2">
+                  {moment(date)
+                    .subtract(10, "days")
+                    .calendar()
+                    .replaceAll("/", "-")}
+                </span>
+                <i className="bi bi-calendar"></i>
+              </div>
+              {/* DATE START DROPDOWN  */}
+              <ul
+                className="dropdown-menu p-3 mt-4 border-none rounded-md overflow-hidden shadow"
+                aria-labelledby="date-start-select-dropdown-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <Calendar
+                  onChange={changeDate}
+                  value={date}
+                  className="border-none"
+                />
+              </ul>
+            </div>
+            {/* TIME SELECT DROPDOWN  */}
+            <div className="dropdown border-l-2 pl-2">
+              <div
+                id="time-end-dropdown-button"
+                className="cursor-pointer timeDropBtn flex items-center justify-between"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span className="mr-2">{time}</span>
+                <i className="fa-solid fa-chevron-down text-xs"></i>
+              </div>
+              {/*  DROPDOWN  */}
+              <ul
+                className="dropdown-menu p-0 z-20 mt-4 border-none rounded-md overflow-hidden shadow"
+                aria-labelledby="time-end-dropdown-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <TimeKeeper
+                  time={time}
+                  onChange={(data) => setTime(data.formatted24)}
+                  className="w-10"
+                />
+              </ul>
+            </div>
           </div>
         </div>
       </div>
       {/* SPLINE CHART  */}
       <div className="relative bottom-24">
         <HighchartsReact
-          containerProps={{ style: { height: "36.5rem" } }}
+          containerProps={{ style: { height: "36rem", width: "100%" } }}
           highcharts={Highcharts}
-          options={options.trendHistoryOptions(
-            analyticsData,
-            selectedFeature.value,
-            theme.state === "purple" ? "#7944F6" : "#015FF3"
-          )}
+          options={options.area3d(analyticsData)}
         />
         {!analyticsData && (
           <p

@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser, resetUpdateUser } from "../../../features/auth/authSlice";
+import ThemeContext from "../../../context/theme/themeContext";
 
 export default function EditUserModal({ user, index }) {
   // INITIAL STATE OF THE FORM.
@@ -15,6 +16,7 @@ export default function EditUserModal({ user, index }) {
 
   // GETTING THE REFERENCE OF A BUTTON
   const closeBtn = useRef(null);
+  const theme = useContext(ThemeContext)
   // FORM STATE
   const [form, setForm] = useState(initialState);
 
@@ -95,7 +97,7 @@ export default function EditUserModal({ user, index }) {
             data-bs-dismiss="modal"
             aria-label="Close"
           >
-            <i className="bi bi-x-lg text-2xl py-1 px-2 rounded-md form-labels close-btn"></i>
+            <i className={`bi bi-x-lg text-2xl py-1 px-2 rounded-md close-btn  ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}></i>
           </span>
           <div className="modal-header flex justify-center pb-2 border-0">
             <div>
@@ -112,7 +114,7 @@ export default function EditUserModal({ user, index }) {
               {/* NAME  */}
               <div className="input-group mb-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-person-fill text-2xl text-white"></i>
@@ -132,7 +134,7 @@ export default function EditUserModal({ user, index }) {
               {/* EMAIL  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-envelope-open-fill text-2xl text-white"></i>
@@ -153,7 +155,7 @@ export default function EditUserModal({ user, index }) {
               {/* PHONE  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-telephone-fill text-2xl text-white"></i>
@@ -173,7 +175,7 @@ export default function EditUserModal({ user, index }) {
               {/* ORGANIZATION */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text bg-themeViolet1 form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text bg-themeViolet1 border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-bank2 text-2xl text-white"></i>
@@ -192,7 +194,7 @@ export default function EditUserModal({ user, index }) {
               {/* ADMINISTRATOR OR NOT  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-person-workspace text-2xl text-white"></i>
@@ -211,18 +213,23 @@ export default function EditUserModal({ user, index }) {
                   required
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow"
-                  onClick={async () => {
-                    await setIsAdmin(!isAdmnin);
+                  className={`input-group-text form-labels border-l-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
+                  onClick={() => {
+                    setIsAdmin(!isAdmnin);
                     setForm({ ...form, administrator: !isAdmnin });
                   }}
                   htmlFor="admin-checkbox"
                 >
-                  <i
-                    className={`bi ${
-                      isAdmnin ? "bi-check-lg" : "bi-x-lg"
-                    } text-lg text-white`}
-                  ></i>
+                  <input
+                    className="form-check-input admin-checkbox m-0 h-6 w-6 border-none outline-none focus:shadow-none cursor-pointer"
+                    style={!form.administrator ? {opacity: .5}: {}}
+                    type="checkbox"
+                    checked={form.administrator}
+                    onChange={async (e) => {
+                      setForm({ ...form, administrator: e.target.checked });
+                    }}
+                    id="flexCheckDefault-self"
+                  />
                 </span>
               </div>
               {/* TERMS & CONDITIONS  */}
@@ -250,7 +257,7 @@ export default function EditUserModal({ user, index }) {
               {/* SIGN UP BUTTON  */}
               <div className="flex justify-center mt-4">
                 <button
-                  className="rounded-lg py-2 px-8 landing-review text-white form-labels hover:scale-x-110 transition-all w-52"
+                  className={`rounded-lg py-2 px-8 landing-review text-white hover:scale-x-110 transition-all w-52 ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   type="submit"
                 >
                   {updateUserLoading ? (
@@ -274,7 +281,7 @@ export default function EditUserModal({ user, index }) {
                   htmlFor="flexCheckDefault"
                 >
                   Update your own account?{" "}
-                  <span className="text-lightBlue1 cursor-pointer">Edit</span>
+                  <span className={`cursor-pointer ${theme.state === "purple" ? "text-themeViolet1" : "text-lightBlue1"}`}>Edit</span>
                 </label>
               </div>
             </form>

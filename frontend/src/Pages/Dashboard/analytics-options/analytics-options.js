@@ -1,6 +1,4 @@
-import Highcharts from "highcharts";
-
-const trendHistoryOptions = (analyticsData, selectedFeature) => ({
+const trendHistoryOptions = (analyticsData, selectedFeature, themeColor) => ({
   rangeSelector: {
     selected: 1,
   },
@@ -40,6 +38,7 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
       name: "Total Acceleration",
       data: analyticsData.totalAcceleration,
       type: "spline",
+      color: themeColor,
       tooltip: {
         valueDecimals: 2,
       },
@@ -156,18 +155,14 @@ const trendHistoryOptions = (analyticsData, selectedFeature) => ({
   ],
 });
 
-const waterFallOptions = (analyticsData) => ({
+const area3d = (analyticsData) => ({
   chart: {
-    type: "waterfall",
-  },
-  rangeSelector: {
-    selected: 1,
-  },
-  plotOptions: {
-    waterfall: {
-      stacking: "normal",
-      borderWidth: 0,
-      borderRadius: 5,
+    type: "area",
+    options3d: {
+      enabled: true,
+      alpha: 15,
+      beta: 30,
+      depth: 200,
     },
   },
   legend: {
@@ -177,78 +172,96 @@ const waterFallOptions = (analyticsData) => ({
     symbolRadius: 4,
   },
   title: {
-    text: '<div class="font-semibold relative right-10">Waterfall Diagram (HC28-CDE)</div>',
+    text: '<div class="font-semibold relative right-10">Area Chart 3D (HC28-CDE)</div>',
     align: "left",
+    margin: 60,
   },
   credits: {
     enabled: false,
   },
-  xAxis: {
-    type: "category",
-    labels: {
-      align: "right",
-      x: 45,
-      step: 20,
+  accessibility: {
+    description:
+      "The chart is showing the shapes of three mountain ranges as three area line series laid out in 3D behind each other.",
+    keyboardNavigation: {
+      seriesNavigation: {
+        mode: "serialize",
+      },
     },
   },
-
+  lang: {
+    accessibility: {
+      axis: {
+        xAxisDescriptionPlural:
+          "The chart has 3 unlabelled X axes, one for each series.",
+      },
+    },
+  },
   yAxis: {
     title: {
+      text: "Height Above Sea Level",
       enabled: false,
     },
+    labels: {
+      format: "{value:,.0f}",
+    },
+    gridLineDashStyle: "Dash",
   },
-
+  xAxis: [
+    {
+      visible: true,
+    },
+    {
+      visible: false,
+    },
+    {
+      visible: false,
+    },
+  ],
   tooltip: {
-    pointFormat: "<b>${point.y:,.2f}</b> USD",
+    valueSuffix: "",
   },
-
+  plotOptions: {
+    stacking: "normal",
+    borderColor: null,
+    // area: {
+    //   pointStart: 1940,
+    //   marker: {
+    //     enabled: false,
+    //     symbol: "circle",
+    //     radius: 2,
+    //     states: {
+    //       hover: {
+    //         enabled: true,
+    //       },
+    //     },
+    //   },
+    // },
+  },
   series: [
     {
-      name: "Series 1",
-      upColor: "#015FF3",
-      color: "rgb(255, 193, 7)",
+      name: "Frequency",
       data: [
-        {
-          name: "Start",
-          y: 120000,
-        },
-        {
-          name: "Product Revenue",
-          y: 569000,
-        },
-        {
-          name: "Service Revenue",
-          y: 231000,
-        },
-        {
-          name: "Positive Balance",
-          isIntermediateSum: true,
-          color: "rgb(158 158 158)",
-        },
-        {
-          name: "Fixed Costs",
-          y: -342000,
-        },
-        {
-          name: "Variable Costs",
-          y: -233000,
-        },
-        {
-          name: "Balance",
-          isSum: true,
-          color: "rgb(158 158 158)",
-        },
+        [5, 10, 11],
+        [6, 11],
+        [7, 11],
+        [8, 11],
+        [9, 11],
+        [10, 11],
+        [11, 11],
+        [12, 11],
       ],
-      dataLabels: {
-        enabled: true,
-        formatter: function () {
-          return Highcharts.numberFormat(this.y / 1000, 0, ",") + "k";
-        },
-        style: {
-          fontWeight: "bold",
-        },
-      },
-      pointPadding: 0,
+    },
+    {
+      name: "Magnitude",
+      data: [
+        [5, 25],
+        [6, 25],
+        [7, 25],
+        [8, 25],
+        [9, 25],
+        [10, 25],
+        [11, 25],
+      ],
     },
   ],
 });
@@ -384,7 +397,7 @@ const gaugeOptions = (gaugeData, bands) => ({
   ],
 });
 
-const maintenanceOptions = {
+const maintenanceOptions = (themeColor) => ({
   chart: {
     plotBackgroundColor: null,
     plotBorderWidth: null,
@@ -425,7 +438,7 @@ const maintenanceOptions = {
         {
           name: "Idle",
           y: 40,
-          color: "#015FF3",
+          color: themeColor,
           sliced: true,
           // selected: true,
         },
@@ -452,13 +465,13 @@ const maintenanceOptions = {
       ],
     },
   ],
-};
+});
 
 const options = {
   trendHistoryOptions,
   gaugeOptions,
   maintenanceOptions,
-  waterFallOptions,
+  area3d,
 };
 
 export default options;

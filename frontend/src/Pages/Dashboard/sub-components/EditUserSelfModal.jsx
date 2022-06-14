@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser, resetUpdateUser } from "../../../features/auth/authSlice";
+import ThemeContext from "../../../context/theme/themeContext";
 
 export default function EditUserSelfModal() {
+  const theme = useContext(ThemeContext)
   // INITIAL STATE OF THE FORM.
   // Destructuring data.
   const { admin, updateUserError, updateUserSuccess, updateUserLoading } =
@@ -110,7 +112,7 @@ export default function EditUserSelfModal() {
           {/* CLOSE BUTTON  */}
           <span className="ml-auto relative top-12 right-4 hover:scale-110 transition-all text-white cursor-pointer">
             <i
-              className="bi bi-x-lg text-2xl py-1 px-2 rounded-md form-labels close-btn"
+              className={`bi bi-x-lg text-2xl py-1 px-2 rounded-md close-btn  ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
               ref={closeBtn}
               data-bs-dismiss="modal"
               aria-label="Close"
@@ -131,7 +133,7 @@ export default function EditUserSelfModal() {
               {/* NAME  */}
               <div className="input-group mb-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-person-fill text-2xl text-white"></i>
@@ -151,7 +153,7 @@ export default function EditUserSelfModal() {
               {/* EMAIL  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-envelope-open-fill text-2xl text-white"></i>
@@ -172,7 +174,7 @@ export default function EditUserSelfModal() {
               {/* PHONE  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-telephone-fill text-2xl text-white"></i>
@@ -192,7 +194,7 @@ export default function EditUserSelfModal() {
               {/* ORGANIZATION */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text bg-themeViolet1 form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-bank2 text-2xl text-white"></i>
@@ -211,7 +213,7 @@ export default function EditUserSelfModal() {
               {/* ADMIN OR NOT  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-person-workspace text-2xl text-white"></i>
@@ -231,11 +233,12 @@ export default function EditUserSelfModal() {
                   required
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow flex items-center px-2.5 cursor-pointer"
+                  className={`input-group-text border-l-0 rounded-lg border-0 shadow flex items-center px-2.5 cursor-pointer ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   htmlFor="admin-checkbox"
                 >
                   <input
                     className="form-check-input admin-checkbox m-0 h-6 w-6 border-none outline-none focus:shadow-none cursor-pointer"
+                    style={!form.administrator ? {opacity: .5}: {}}
                     type="checkbox"
                     checked={form.administrator}
                     onChange={async (e) => {
@@ -245,53 +248,10 @@ export default function EditUserSelfModal() {
                   />
                 </span>
               </div>
-              {/* CURRENT PASSWORD.  */}
-              {/* <div className="input-group my-4">
-                <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
-                  id="basic-addon1"
-                >
-                  <i className="bi bi-key-fill text-2xl text-white"></i>
-                </span>
-                <input
-                  type={currentPasswordVisibility ? "text" : "password"}
-                  className="form-control border-l-0 rounded-lg border-0 shadow"
-                  placeholder="Current Password"
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
-                  autoComplete={"new-password"}
-                  
-                  onChange={handleChange}
-                  value={form.currentPassword}
-                  name="currentPassword"
-                  required
-                  onPaste={(e) => {
-                    e.preventDefault();
-                    return false;
-                  }}
-                  onCopy={(e) => {
-                    e.preventDefault();
-                    return false;
-                  }}
-                />
-                <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer"
-                  onClick={() => {
-                    // setCurrentPasswordVisibility(!currentPasswordVisibility);
-                    console.log(form.currentPassword);
-                  }}
-                >
-                  <i
-                    className={`bi ${
-                      currentPasswordVisibility ? "bi-eye-slash" : "bi-eye-fill"
-                    } text-lg text-white`}
-                  ></i>
-                </span>
-              </div> */}
               {/* NEW PASSWORD.  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-key-fill text-2xl text-white"></i>
@@ -316,7 +276,7 @@ export default function EditUserSelfModal() {
                   }}
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer"
+                  className={`input-group-text border-l-0 rounded-lg border-0 shadow cursor-pointer ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   onClick={() => {
                     setNewPasswordVisibility(!newPasswordVisibility);
                   }}
@@ -324,14 +284,14 @@ export default function EditUserSelfModal() {
                   <i
                     className={`bi ${
                       newPasswordVisibility ? "bi-eye-slash" : "bi-eye-fill"
-                    } text-lg text-white`}
+                    } text-xl text-white`}
                   ></i>
                 </span>
               </div>
               {/* CONFIRM NEW PASSWORD.  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-key-fill text-2xl text-white"></i>
@@ -356,7 +316,7 @@ export default function EditUserSelfModal() {
                   }}
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer"
+                  className={`input-group-text border-l-0 rounded-lg border-0 shadow cursor-pointer ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   onClick={() => {
                     setConfirmNewPasswordVisibility(
                       !confirmNewPasswordVisibility
@@ -368,14 +328,14 @@ export default function EditUserSelfModal() {
                       confirmNewPasswordVisibility
                         ? "bi-eye-slash"
                         : "bi-eye-fill"
-                    } text-lg text-white`}
+                    } text-xl text-white`}
                   ></i>
                 </span>
               </div>
               {/* SIGN UP BUTTON  */}
               <div className="flex justify-center mt-4">
                 <button
-                  className="rounded-lg py-2 px-8 landing-review text-white form-labels hover:scale-x-110 transition-all w-52"
+                  className={`rounded-lg py-2 px-8 landing-review text-white hover:scale-x-110 transition-all w-52 ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   type="submit"
                 >
                   {updateUserLoading ? (

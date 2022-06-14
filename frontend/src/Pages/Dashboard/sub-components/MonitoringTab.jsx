@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useContext, useEffect, useState } from "react";
 import TimeKeeper from "react-timekeeper";
 import "react-calendar/dist/Calendar.css";
 import Select from "react-select";
 import Calendar from "react-calendar";
 import moment from "moment";
+import ThemeContext from "../../../context/theme/themeContext";
 
 export default function MonitoringTab() {
+  const theme = useContext(ThemeContext);
   // SETTING THE TIME STATE `
   const [time, setTime] = useState("12:34");
   // SETTING THE DATE VALUE
@@ -31,22 +32,50 @@ export default function MonitoringTab() {
   //   STATE FOR TIME DURATION SELECTED OPTION
   const [selectedOption, setSelectedOption] = useState("Time Duration");
 
-  const { admin } = useSelector((state) => state.auth);
-  useEffect(() => {}, []);
+  // Styles for react-select
+  const colorStyles = {
+    option: (styles, { isFocused, isSelected, isActive }) => ({
+      ...styles,
+      background:
+        isFocused & !isSelected
+          ? `${
+              theme.state === "purple"
+                ? "rgb(121, 68, 246, .2)"
+                : "rgb(1, 95, 243, .2);"
+            }`
+          : isSelected
+          ? `${theme.state === "purple" ? "#7944F6" : "#015ff3;"}`
+          : undefined,
+      zIndex: 1,
+    }),
+  };
+
+  useEffect(() => {
+    document
+      .querySelector(
+        ".react-timekeeper-button-reset.react-timekeeper__meridiem-toggle"
+      )
+      .click();
+  }, []);
   return (
     <div className="py-2 px-3 mx-3 bg-white rounded-lg shadow border mb-3 sticky-top top-20 z-20 transition-all">
       {/* HEADER  */}
       <div className="flex justify-between items-center">
-        <h1 className="font-semibold text-xl sm:text-2xl">BOKARO STEEL PLANT</h1>
+        <h1 className="font-semibold text-xl sm:text-2xl">
+          BOKARO STEEL PLANT
+        </h1>
         {/* CONTROLS  */}
         <div className="items-center hidden lg2:flex">
           {/* SEARCH START  */}
-          {/* <p>
-            Current selected date is <b>{value.getDay.toString()}</b>
-          </p> */}
           <div className="flex items-center mr-3">
             <p className="mr-2">START</p>
-            <div className="flex items-center pl-1 pr-3 hover:bg-blue-200 rounded-md border-2 h-12 shadow hover:scale-95 transition-all z-10">
+            <div
+              className={`flex items-center pl-1 pr-3 rounded-md border-2 h-12 shadow hover:scale-95 transition-all z-10 hover:bg-opacity-30 ${
+                theme.state === "purple"
+                  ? "hover:bg-themeBlue1"
+                  : "hover:bg-lightBlue2"
+              }`}
+            >
               <div className="dropdown ">
                 {/* DATE DROPDOWN BUTTON  */}
                 <div
@@ -65,16 +94,22 @@ export default function MonitoringTab() {
                 </div>
                 {/* DATE START DROPDOWN  */}
                 <ul
-                  className="dropdown-menu p-3 mt-4 border-none rounded-md overflow-hidden shadow"
+                  className="dropdown-menu p-3 mt-4 border-none rounded-md overflow-hidden"
                   aria-labelledby="date-start-select-dropdown-button"
                   onClick={(e) => {
                     e.stopPropagation();
+                  }}
+                  style={{
+                    boxShadow: `0 0 20px 0px ${
+                      theme.state === "purple" ? "#7944F6" : "#015ff3"
+                    }`,
                   }}
                 >
                   <Calendar
                     onChange={changeDate}
                     value={date}
                     className="border-none"
+                    
                   />
                 </ul>
               </div>
@@ -91,16 +126,20 @@ export default function MonitoringTab() {
                 </div>
                 {/*  DROPDOWN  */}
                 <ul
-                  className="dropdown-menu p-0 z-20 mt-4 border-none rounded-md overflow-hidden shadow"
+                  className="dropdown-menu p-0 z-20 mt-4 border-none rounded-md overflow-hidden"
                   aria-labelledby="time-end-dropdown-button"
                   onClick={(e) => {
                     e.stopPropagation();
+                  }}
+                  style={{
+                    boxShadow: `0 0 20px 0px ${
+                      theme.state === "purple" ? "#7944F6" : "#015ff3"
+                    }`,
                   }}
                 >
                   <TimeKeeper
                     time={time}
                     onChange={(data) => setTime(data.formatted24)}
-                    className="w-10"
                   />
                 </ul>
               </div>
@@ -109,7 +148,13 @@ export default function MonitoringTab() {
           {/* SEARCH END  */}
           <div className="flex items-center mr-2">
             <p className="mr-2">END</p>
-            <div className="flex items-center pl-1 pr-3 hover:bg-blue-200 rounded-md border-2 h-12 shadow hover:scale-95 transition-all z-10">
+            <div
+              className={`flex items-center pl-1 pr-3 rounded-md border-2 h-12 shadow hover:scale-95 transition-all z-10 hover:bg-opacity-30 ${
+                theme.state === "purple"
+                  ? "hover:bg-themeBlue1"
+                  : "hover:bg-lightBlue2"
+              }`}
+            >
               <div className="dropdown ">
                 {/* DATE DROPDOWN BUTTON  */}
                 <div
@@ -128,7 +173,12 @@ export default function MonitoringTab() {
                 </div>
                 {/* DATE START DROPDOWN  */}
                 <ul
-                  className="dropdown-menu p-3 z-20 mt-4 border-none rounded-md overflow-hidden shadow"
+                  className="dropdown-menu p-3 z-20 mt-4 border-none rounded-md overflow-hidden"
+                  style={{
+                    boxShadow: `0 0 20px 0px ${
+                      theme.state === "purple" ? "#7944F6" : "#015ff3"
+                    }`,
+                  }}
                   aria-labelledby="date-start-select-dropdown-button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -154,27 +204,38 @@ export default function MonitoringTab() {
                 </div>
                 {/*  DROPDOWN  */}
                 <ul
-                  className="dropdown-menu p-0 z-20 mt-4 border-none rounded-md overflow-hidden shadow"
+                  className="dropdown-menu p-0 z-20 mt-4 border-none rounded-md overflow-hidden"
                   aria-labelledby="time-end-dropdown-button"
                   onClick={(e) => {
                     e.stopPropagation();
+                  }}
+                  style={{
+                    boxShadow: `0 0 20px 0px ${
+                      theme.state === "purple" ? "#7944F6" : "#015ff3"
+                    }`,
                   }}
                 >
                   <TimeKeeper
                     time={time}
                     onChange={(data) => setTime(data.formatted24)}
-                    className="w-10"
                   />
                 </ul>
               </div>
             </div>
           </div>
           {/* TIME DURATION DROPDOWN */}
-          <div className="flex items-center py-2 px-3 hover:bg-blue-200 mr-2 rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-56 cursor-pointer z-10">
+          <div
+            className={`flex items-center py-2 px-3 mr-2 rounded-md border-2 h-12 shadow hover:scale-95 transition-all w-56 cursor-pointer z-10 hover:bg-opacity-30 ${
+              theme.state === "purple"
+                ? "hover:bg-themeBlue1"
+                : "hover:bg-lightBlue2"
+            }`}
+          >
             <i className="bi bi-clock-history mr-1 text-xl"></i>
             <Select
               value={selectedOption}
               onChange={setSelectedOption}
+              styles={colorStyles}
               placeholder="Time Duration"
               options={options}
               className="border-none cursor-pointer"
@@ -183,7 +244,9 @@ export default function MonitoringTab() {
           </div>
           {/* REFRESH BUTTON  */}
           <i
-            className="bi bi-arrow-clockwise text-white text-xl shadow border bg-lightBlue2 py-2 px-3 rounded-md transition-all bg-opacity-80 hover:bg-opacity-100 hover:scale-110"
+            className={`bi bi-arrow-clockwise text-white text-xl shadow border py-2 px-3 rounded-md transition-all bg-opacity-90 hover:bg-opacity-100 hover:scale-110 ${
+              theme.state === "purple" ? "bg-themeBlue1" : "bg-lightBlue2"
+            }`}
             type="button"
           ></i>
         </div>

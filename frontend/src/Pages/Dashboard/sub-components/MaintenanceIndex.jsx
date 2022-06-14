@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import options from "../analytics-options/analytics-options";
 import Tilt from "react-parallax-tilt";
 import Property from "./Property";
+import ThemeContext from "../../../context/theme/themeContext";
 
 // Load Highcharts modules
 require("highcharts/highcharts-more")(Highcharts);
@@ -16,6 +17,7 @@ require("highcharts/modules/exporting")(Highcharts);
 require("highcharts/modules/map")(Highcharts);
 
 export default function MaintenanceIndex() {
+  const theme = useContext(ThemeContext)
   return (
     <div
       className="bg-white rounded-lg pt-3 pb-3 px-4 shadow border overflow-hidden grid grid-cols-2"
@@ -24,7 +26,7 @@ export default function MaintenanceIndex() {
       <div className="lg2:col-span-2 col-span-2 sm:col-span-1 sm:flex sm:items-center sm:justify-center block lg2:block">
         <Tilt
           glareEnable={true}
-          glareColor="#015FF3"
+          glareColor={`${theme.state === "purple" ? "#7944F6" : "#015FF3"}`}
           glareMaxOpacity={0.4}
           tiltMaxAngleX={5}
           tiltMaxAngleY={5}
@@ -35,7 +37,7 @@ export default function MaintenanceIndex() {
             <HighchartsReact
               containerProps={{ style: { height: "350px" } }}
               highcharts={Highcharts}
-              options={options.maintenanceOptions}
+              options={options.maintenanceOptions(theme.state === "purple" ? "#7944F6" : "#015FF3")}
             />
           </div>
         </Tilt>
@@ -43,7 +45,7 @@ export default function MaintenanceIndex() {
       <div className="lg2:col-span-2 col-span-2 sm:col-span-1">
         <Tilt
           glareEnable={true}
-          glareColor="#015FF3"
+          glareColor={`${theme.state === "purple" ? "#7944F6" : "#015FF3"}`}  
           glareMaxOpacity={0.4}
           tiltMaxAngleX={5}
           tiltMaxAngleY={5}
@@ -75,8 +77,8 @@ export default function MaintenanceIndex() {
             <Property
               name="Idle"
               percentage="40.14"
-              colorDark="#015FF3"
-              colorLightClass="bg-blue-200"
+              colorDark={`${theme.state === "purple" ? "#7944F6" : "#015FF3"}`}
+              colorLightClass={`${theme.state === "purple" ? "bg-themeBlue1 bg-opacity-25" : "bg-lightBlue1 bg-opacity-25"}`}
               paddingBottom={true}
             />
             <Property

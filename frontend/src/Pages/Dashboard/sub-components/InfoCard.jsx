@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import ThemeContext from "../../../context/theme/themeContext";
 
 export default function InfoCard({
   title,
@@ -9,12 +10,20 @@ export default function InfoCard({
   increment,
   mode,
   forecast = false,
-  delay
+  delay,
 }) {
+  const theme = useContext(ThemeContext);
   return (
-    <div className="rounded-2xl form-labels shadow border">
+    <div
+      className={`rounded-2xl shadow border  ${
+        theme.state === "purple" ? "form-label-purple" : "form-label-blue"
+      }`}
+    >
       {/* <i class="bi bi-three-dots-vertical"></i> */}
-      <div className="bg-white py-4 pl-4 relative top-10 transition-all rounded-2xl shadow mx-4 hover:scale-110 cursor-pointer flex justify-between card-rotate" style={{borderBottom: "6px solid #E8EAFB", animationDelay: delay}}>
+      <div
+        className="bg-white py-4 pl-4 relative top-10 transition-all rounded-2xl shadow mx-4 hover:scale-110 cursor-pointer flex justify-between card-rotate"
+        style={{ borderBottom: "6px solid #E8EAFB", animationDelay: delay }}
+      >
         <div className="block w-4/5">
           <div className="flex justify-between items-center">
             <p className="font-bold text-lg">{title}</p>
@@ -45,8 +54,11 @@ export default function InfoCard({
                     !increment && mode === "decrement" ? "#FF0022" : ""
                   }
                   ${increment && mode === "increment" ? "#31E802" : ""}
-                  ${mode === "forecast" ? "#015FF3" : ""}
-                  ${mode === "info" ? "rgb(255, 215, 0)" : ""}`,
+              ${
+                mode === "forecast" && theme.state === "purple" ? "#BA01FF" : ""
+              }
+              ${mode === "forecast" && theme.state === "blue" ? "#015FF3" : ""}
+              ${mode === "info" ? "rgb(255, 215, 0)" : ""}`,
                   textColor: `black`,
                   trailColor: "rgba(0, 0, 0, 0.110)",
                 })}
@@ -63,7 +75,13 @@ export default function InfoCard({
               font-semibold text-6xl`}
             >
               {forecast ? (
-                <i className="bi bi-box-arrow-in-up-right text-lightBlue2"></i>
+                <i
+                  className={`bi bi-box-arrow-in-up-right ${
+                    theme.state === "purple"
+                      ? "text-themeViolet1"
+                      : "text-lightBlue2"
+                  }`}
+                ></i>
               ) : (
                 value
               )}
@@ -82,7 +100,16 @@ export default function InfoCard({
                 "bg-infoCardLightRed text-infoCardDarkRed"
               }
               ${mode === "info" && "bg-yellow-100 text-yellow-400"}
-              ${mode === "forecast" && "bg-blue-200 text-lightBlue2"}
+              ${
+                mode === "forecast" &&
+                theme.state === "purple" &&
+                "bg-themeViolet1 bg-opacity-25 text-themeViolet1"
+              }
+              ${
+                mode === "forecast" &&
+                theme.state === "blue" &&
+                "bg-opacity-25 bg-lightBlue2 text-lightBlue2"
+              }
 px-2 py-1 rounded-md text-center`}
               >
                 {forecast ? "+ 10 features" : `${percent}%`}
@@ -97,7 +124,15 @@ px-2 py-1 rounded-md text-center`}
           }
               ${!increment && mode === "decrement" && "bg-infoCardDarkRed"}
               ${mode === "info" && "bg-yellow-300"}
-              ${mode === "forecast" && "bg-lightBlue2"}`}
+              ${
+                mode === "forecast" &&
+                theme.state === "purple" &&
+                "bg-themeViolet1"
+              }
+              ${
+                mode === "forecast" && theme.state === "blue" && "bg-lightBlue2"
+              }
+              `}
         />
       </div>
     </div>

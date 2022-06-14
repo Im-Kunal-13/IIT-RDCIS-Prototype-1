@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { register, resetRegister } from "../../../features/auth/authSlice";
+import ThemeContext from "../../../context/theme/themeContext";
 
 // INITIAL STATE OF THE FORM.
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
 };
 
 export default function UserSignupModal() {
+  const theme = useContext(ThemeContext)
   // GETTING THE REFERENCE OF A BUTTON
   const closeBtn = useRef(null);
   // FORM STATE
@@ -88,7 +90,7 @@ export default function UserSignupModal() {
         password: form.password,
       };
 
-      await dispatch(register(adminData));
+      dispatch(register(adminData));
     }
   };
   return (
@@ -109,7 +111,7 @@ export default function UserSignupModal() {
           {/* CLOSE BUTTON  */}
           <span className="ml-auto relative top-12 right-4 hover:scale-110 transition-all text-white cursor-pointer">
             <i
-              className="bi bi-x-lg text-2xl py-1 px-2 rounded-md form-labels close-btn"
+              className={`bi bi-x-lg text-2xl py-1 px-2 rounded-md close-btn  ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
               ref={closeBtn}
               data-bs-dismiss="modal"
               aria-label="Close"
@@ -130,7 +132,7 @@ export default function UserSignupModal() {
               {/* NAME  */}
               <div className="input-group mb-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-person-fill text-2xl text-white"></i>
@@ -150,7 +152,7 @@ export default function UserSignupModal() {
               {/* EMAIL  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-envelope-open-fill text-2xl text-white"></i>
@@ -170,7 +172,7 @@ export default function UserSignupModal() {
               {/* PHONE  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-telephone-fill text-2xl text-white"></i>
@@ -190,7 +192,7 @@ export default function UserSignupModal() {
               {/* ORGANIZATION */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text bg-themeViolet1 form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-bank2 text-2xl text-white"></i>
@@ -209,7 +211,7 @@ export default function UserSignupModal() {
               {/* ADMIN OR NOT  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-person-workspace text-2xl text-white"></i>
@@ -228,7 +230,7 @@ export default function UserSignupModal() {
                   required
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow flex items-center px-2.5"
+                  className={`input-group-text border-l-0 rounded-lg border-0 shadow flex items-center px-2.5 cursor-pointer ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   htmlFor="admin-checkbox"
                 >
                   <input
@@ -246,7 +248,7 @@ export default function UserSignupModal() {
               {/* PASSWORD.  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-key-fill text-2xl text-white"></i>
@@ -272,7 +274,7 @@ export default function UserSignupModal() {
                   }}
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer"
+                  className={`input-group-text border-l-0 rounded-lg border-0 shadow flex items-center cursor-pointer ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   onClick={() => {
                     setPasswordVisibility(!passwordVisibility);
                   }}
@@ -280,14 +282,14 @@ export default function UserSignupModal() {
                   <i
                     className={`bi ${
                       passwordVisibility ? "bi-eye-slash" : "bi-eye-fill"
-                    } text-lg text-white`}
+                    } text-xl text-white`}
                   ></i>
                 </span>
               </div>
               {/* CONFIRM PASSWORD.  */}
               <div className="input-group my-4">
                 <span
-                  className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+                  className={`input-group-text form-labels border-r-0 rounded-lg border-0 shadow ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   id="basic-addon1"
                 >
                   <i className="bi bi-key-fill text-2xl text-white"></i>
@@ -313,7 +315,7 @@ export default function UserSignupModal() {
                   }}
                 />
                 <span
-                  className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer"
+                  className={`input-group-text border-l-0 rounded-lg border-0 shadow flex items-center cursor-pointer ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   onClick={() => {
                     setConfirmPasswordVisibility(!confirmPasswordVisibility);
                   }}
@@ -321,14 +323,14 @@ export default function UserSignupModal() {
                   <i
                     className={`bi ${
                       confirmPasswordVisibility ? "bi-eye-slash" : "bi-eye-fill"
-                    } text-lg text-white`}
+                    } text-xl text-white`}
                   ></i>
                 </span>
               </div>
               {/* TERMS & CONDITIONS  */}
               <div className="form-check flex justify-center items-center mt-4">
                 <input
-                  className="form-check-input mr-2 terms-checkbox cursor-pointer"
+                  className={`form-check-input mr-2 terms-checkbox cursor-pointer ${theme.state === "purple" ? "checkbox-purple" : "checkbox-blue"}`}
                   type="checkbox"
                   value={termsCheck}
                   onChange={() => {
@@ -342,7 +344,7 @@ export default function UserSignupModal() {
                   htmlFor="terms-checkbox1"
                 >
                   I have read and agreed to{" "}
-                  <span className="text-lightBlue2 cursor-pointer">
+                  <span className={`cursor-pointer ${theme.state === "purple" ? "text-themeViolet1" : "text-lightBlue2"}`}>
                     Terms & Conditions
                   </span>
                 </label>
@@ -350,7 +352,7 @@ export default function UserSignupModal() {
               {/* SIGN UP BUTTON  */}
               <div className="flex justify-center mt-4">
                 <button
-                  className="rounded-lg py-2 px-8 landing-review text-white form-labels hover:scale-x-110 transition-all w-52"
+                  className={`rounded-lg py-2 px-8 landing-review text-white hover:scale-x-110 transition-all w-52 ${theme.state === "purple" ? "form-label-purple" : "form-label-blue"}`}
                   type="submit"
                 >
                   {registerIsLoading ? (
@@ -374,7 +376,7 @@ export default function UserSignupModal() {
                   htmlFor="flexCheckDefault"
                 >
                   Already have an account?{" "}
-                  <span className="text-lightBlue1 cursor-pointer">
+                  <span className={`cursor-pointer ${theme.state === "purple" ? "text-themeViolet1" : "text-lightBlue2"}`}>
                     Sign In
                   </span>
                 </label>

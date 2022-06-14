@@ -429,7 +429,7 @@ export default function RegisterAdmin(props) {
             <span className="visually-hidden">Loading...</span>
           </>
         ) : (
-          "Sign Up"
+          "Sign U"
         )}
       </button>
 

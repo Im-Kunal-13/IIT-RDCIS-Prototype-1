@@ -1,22 +1,36 @@
-import React from 'react'
-import { useContext } from 'react';
+import React from "react";
+import { useContext } from "react";
+import ThemeContext from "../../../context/theme/themeContext";
 import UsersColumnContext from "../../../context/users/usersColumnContext";
 
-export default function UsersTab({admin}) {
-    // IMPORTING THE COLUMNS CONTEXT
+export default function UsersTab({ admin }) {
+  const theme = useContext(ThemeContext);
+  // IMPORTING THE COLUMNS CONTEXT
   const columns = useContext(UsersColumnContext);
   return (
     <div className="py-2 px-3 bg-white rounded-lg shadow border mb-3 mx-3 sticky-top top-20 z-0">
-        <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center">
         <h1 className="font-semibold text-2xl">Users</h1>
         {/* CONTROLS  */}
         <div className="items-center hidden md:flex">
           {/* SEARCH  */}
-          <i className="bi bi-search text-2xl mr-7 hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all cursor-pointer"></i>
+          <i
+            className={`bi bi-search text-2xl mr-7 p-2 rounded-lg hover:scale-110 transition-all cursor-pointer hover:bg-opacity-30
+            ${
+              theme.state === "purple"
+                ? "hover:bg-themeBlue1"
+                : "hover:bg-lightBlue2"
+            }`}
+          ></i>
           {/* COLUMNS  */}
           <div className="dropdown mr-7">
             <i
-              className="bi bi-layout-three-columns text-2xl hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all"
+              className={`bi bi-layout-three-columns text-2xl p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30
+              ${
+                theme.state === "purple"
+                  ? "hover:bg-themeBlue1"
+                  : "hover:bg-lightBlue2"
+              }`}
               type="button"
               id="settings-dropdown-button"
               data-bs-toggle="dropdown"
@@ -26,73 +40,131 @@ export default function UsersTab({admin}) {
             <ul
               className="dropdown-menu px-2 w-52 shadow"
               aria-labelledby="settings-dropdown-button"
-              onClick={(e) => {e.stopPropagation()}}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
             >
-              <li className="py-2 px-2 my-2 bg-gray-200 rounded-md text-base">
+              <li
+                className={`py-2 px-2 my-2 rounded-md text-base bg-opacity-20 ${
+                  theme.state === "purple" ? "bg-themeBlue1" : "bg-lightBlue2"
+                }`}
+              >
                 <pre>Show Columns </pre>
               </li>
               {/* EMAIL ADDRESS  */}
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                    ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    }`}
                     type="checkbox"
                     id="email-column-checkbox"
                   />
-                  <label className="text-lg cursor-pointer" htmlFor="email-column-checkbox">Email Address</label>
+                  <label
+                    className="text-lg cursor-pointer"
+                    htmlFor="email-column-checkbox"
+                  >
+                    Email Address
+                  </label>
                 </div>
               </li>
               {/* ORGANIZATION  */}
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                    ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    } `}
                     type="checkbox"
                     id="organization-column-checkbox"
                   />
-                  <label className="text-lg cursor-pointer" htmlFor="organization-column-checkbox">Organization</label>
+                  <label
+                    className="text-lg cursor-pointer"
+                    htmlFor="organization-column-checkbox"
+                  >
+                    Organization
+                  </label>
                 </div>
               </li>
               {/* NAME  */}
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                    ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    } `}
                     type="checkbox"
                     id="name-column-checkbox"
                   />
-                  <label className="text-lg cursor-pointer" htmlFor="name-column-checkbox" >Name</label>
+                  <label
+                    className="text-lg cursor-pointer"
+                    htmlFor="name-column-checkbox"
+                  >
+                    Name
+                  </label>
                 </div>
               </li>
               {/* PHONE NUMBER  */}
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className={`form-check-input cursor-pointer mr-3 h-5 w-5 
+                    ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    } `}
                     type="checkbox"
                     id="phone-column-checkbox"
                   />
-                  <label className="text-lg cursor-pointer" htmlFor="phone-column-checkbox" >Phone Number</label>
+                  <label
+                    className="text-lg cursor-pointer"
+                    htmlFor="phone-column-checkbox"
+                  >
+                    Phone Number
+                  </label>
                 </div>
               </li>
               {/* ADMINISTRATOR  */}
               <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                 <div className="flex items-center">
                   <input
-                    className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                    className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                    ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    } `}
                     type="checkbox"
                     id="administrator-column-checkbox"
                   />
-                  <label className="text-lg cursor-pointer" htmlFor="administrator-column-checkbox">Administrator</label>
+                  <label
+                    className="text-lg cursor-pointer"
+                    htmlFor="administrator-column-checkbox"
+                  >
+                    Administrator
+                  </label>
                 </div>
               </li>
-
             </ul>
           </div>
           {/* TABLE */}
           <div className="dropdown mr-7">
             <i
-              className="bi bi-filter text-2xl hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all"
+              className={`bi bi-filter text-2xl p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30
+              ${
+                theme.state === "purple" ? "checkbox-purple" : "checkbox-blue"
+              }`}
               type="button"
               id="sign-in-dropdown-button"
               data-bs-toggle="dropdown"
@@ -135,7 +207,12 @@ export default function UsersTab({admin}) {
           {/* DOWNLOAD */}
           <div className="dropdown mr-7">
             <i
-              className="bi bi-cloud-arrow-down text-2xl hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all"
+              className={`bi bi-cloud-arrow-down text-2xl p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30
+              ${
+                theme.state === "purple"
+                  ? "hover:bg-themeBlue1"
+                  : "hover:bg-lightBlue2"
+              }`}
               type="button"
               id="sign-in-dropdown-button"
               data-bs-toggle="dropdown"
@@ -178,7 +255,12 @@ export default function UsersTab({admin}) {
           {/* UPLOAD */}
           <div className={`dropdown mr-7`}>
             <i
-              className="bi bi-cloud-arrow-up text-2xl hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all"
+              className={`bi bi-cloud-arrow-up text-2xl p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30
+              ${
+                theme.state === "purple"
+                  ? "hover:bg-themeBlue1"
+                  : "hover:bg-lightBlue2"
+              }`}
               type="button"
               id="sign-in-dropdown-button"
               data-bs-toggle="dropdown"
@@ -220,7 +302,12 @@ export default function UsersTab({admin}) {
           </div>
           {admin?.administrator ? (
             <div
-              className="flex items-center px-3 py-2 border-2 rounded-md hover:bg-blue-200 hover:scale-105 transition-all cursor-pointer shadow"
+              className={`flex items-center px-3 py-2 border-2 rounded-md hover:scale-105 transition-all cursor-pointer shadow hover:bg-opacity-30
+              ${
+                theme.state === "purple"
+                  ? "hover:bg-themeBlue1"
+                  : "hover:bg-lightBlue2"
+              }`}
               data-bs-toggle="modal"
               data-bs-target="#register-user-backdrop"
             >
@@ -228,7 +315,7 @@ export default function UsersTab({admin}) {
               <span className="text-lg">Create New</span>
             </div>
           ) : (
-            <div className="flex items-center px-3 py-2 border-2 rounded-md bg-offCanvasHover transition-all cursor-pointer">
+            <div className="flex items-center px-3 py-2 border-2 rounded-md bg-offCanvasHover transition-all">
               <i className="bi bi-plus-lg mr-2 text-xl"></i>
               <span className="text-lg">Create New</span>
             </div>
@@ -301,5 +388,5 @@ export default function UsersTab({admin}) {
         </div>
       </div>
     </div>
-  )
+  );
 }

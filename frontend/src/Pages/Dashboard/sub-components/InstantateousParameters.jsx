@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import options from "../analytics-options/analytics-options";

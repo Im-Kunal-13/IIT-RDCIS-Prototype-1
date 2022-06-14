@@ -6,7 +6,6 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 export default function DeleteUserModal({ user, index }) {
   //   CONFIRM EMAIL STATE
-  const [confirmEmail, setConfirmEmail] = useState("");
   const dispatch = useDispatch();
 
   // Getting reference to the hidden close button.
@@ -34,14 +33,11 @@ export default function DeleteUserModal({ user, index }) {
 
   const onDelete = async () => {
     closeBtn.current.click();
-    if (confirmEmail !== user?.email) {
-      toast.info("Confirm email to proceed.", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        toastId: "confirmEmail1",
-      });
-    } else {
-      await dispatch(deleteUser(user?._id));
-    }
+    await dispatch(deleteUser(user?._id));
+    // toast.info("Confirm email to proceed.", {
+    //   position: toast.POSITION.BOTTOM_RIGHT,
+    //   toastId: "confirmEmail1",
+    // });
   };
   return (
     <div
@@ -55,9 +51,9 @@ export default function DeleteUserModal({ user, index }) {
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
-          <div className="modal-header flex items-center justify-center">
+          <div className="modal-header flex items-center justify-center p-0 relative bottom-0">
             <i
-              className="bi bi-exclamation-triangle-fill text-2xl rounded-full text-infoCardDarkRed bg-infoCardLightRed"
+              className="bi bi-exclamation-triangle-fill text-2xl rounded-full text-infoCardDarkRed bg-infoCardLightRed relative bottom-7 shadow"
               style={{ padding: "1rem 1.25rem" }}
             ></i>
           </div>

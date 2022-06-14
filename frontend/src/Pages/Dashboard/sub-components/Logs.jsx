@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import Select from "react-select";
 import InfoCard from "./InfoCard";
@@ -9,6 +9,7 @@ import Draggable from "react-draggable";
 import ReactJson from "react-json-view";
 // Importing React Tooltip
 import ReactTooltip from "react-tooltip";
+import ThemeContext from "../../../context/theme/themeContext";
 
 // Event listener handler function
 const useEventListener = (eventName, handler, element = window) => {
@@ -29,6 +30,7 @@ const useEventListener = (eventName, handler, element = window) => {
 
 export default function Logs() {
   // INITIALIZATIONS
+  const theme = useContext(ThemeContext);
   // For Dispatching.
   const dispatch = useDispatch();
   // Taking out variables from the state.
@@ -128,12 +130,24 @@ export default function Logs() {
   // State to check if log card should be active.
   const [isLogCardActive, setIsLogCardActive] = useState(false);
 
-  // States for position tracking of the log card.
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [position2, setPosition2] = useState({ x: 50, y: 50 });
-
-  const [Opacity, setOpacity] = useState(false);
-  const [Opacity2, setOpacity2] = useState(false);
+  const colorStyles = {
+    option: (styles, { isFocused, isSelected, isActive }) => ({
+      ...styles,
+      background:
+        isFocused & !isSelected
+          ? `${
+              theme.state === "purple"
+                ? "rgb(187, 1, 255, .2)"
+                : "rgb(1, 95, 243, .2);"
+            }`
+          : isSelected
+          ? `${theme.state === "purple" ? "#BA01FF" : "#015ff3;"}`
+          : isActive
+          ? `${theme.state === "purple" ? "#BA01FF" : "#015ff3;"}`
+          : undefined,
+      zIndex: 1,
+    }),
+  };
 
   // FUNCTIONS
   // Escape key handler function
@@ -149,29 +163,6 @@ export default function Logs() {
   };
 
   useEventListener("keydown", handler);
-
-  // Draggable position tracking functions.
-  const trackPos = (data) => {
-    setPosition({ x: data.x, y: data.y });
-  };
-
-  const trackPos2 = (data) => {
-    setPosition2({ x: data.x, y: data.y });
-  };
-
-  const handleStart = () => {
-    setOpacity(true);
-  };
-  const handleEnd = () => {
-    setOpacity(false);
-  };
-
-  const handleStart2 = () => {
-    setOpacity2(true);
-  };
-  const handleEnd2 = () => {
-    setOpacity2(false);
-  };
 
   // Demo js object
   const logObject = {
@@ -195,7 +186,7 @@ export default function Logs() {
     // Getting all the logs
     dispatch(getLogs());
 
-    console.log(logs)
+    console.log(logs);
   }, [logError, logMessage, dispatch]);
 
   return (
@@ -203,12 +194,7 @@ export default function Logs() {
       {/* LOG CARD  */}
       {isLogCardActive && (
         <div className="absolute z-30 lg:block hidden">
-          <Draggable
-            nodeRef={nodeRef}
-            onDrag={(e, data) => trackPos(data)}
-            onStart={handleStart}
-            onStop={handleEnd}
-          >
+          <Draggable nodeRef={nodeRef}>
             <div
               ref={nodeRef}
               className={`w-96 rounded-md shadow-logCard cursor-pointer overflow-hidden ${
@@ -222,7 +208,13 @@ export default function Logs() {
               //   style={{ opacity: Opacity ? "0.6" : "1" }}
             >
               {/* HEADER  */}
-              <div className="flex content-between justify-between items-center dashboard-review px-3 py-1">
+              <div
+                className={`flex content-between justify-between items-center px-3 py-2 ${
+                  theme.state === "purple"
+                    ? "dashboard-review-purple"
+                    : "dashboard-review-blue"
+                }`}
+              >
                 <div className="flex items-center">
                   <h1 className="font-semibold text-white text-lg">
                     {summaryCardState.title}
@@ -270,7 +262,11 @@ export default function Logs() {
               <div className="flex justify-end bg-white border-t-2 py-1 px-3 cursor-default">
                 <button
                   type="submit"
-                  className="text-white w-fit py-2 rounded-md transition-all hover:scale-x-105 px-2 dashboard-review"
+                  className={`text-white w-fit py-2 rounded-md transition-all hover:scale-x-105 px-2 ${
+                    theme.state === "purple"
+                      ? "dashboard-review-purple"
+                      : "dashboard-review-blue"
+                  }`}
                 >
                   <i className="bi bi-download mr-2"></i>
                   Download
@@ -287,14 +283,24 @@ export default function Logs() {
           {/* CONTROLS  */}
           <div className="items-center hidden md:flex">
             {/* SEARCH  */}
-            <i className="bi bi-search text-2xl mr-5 hover:bg-nav1Hover shadow border px-3 py-2 rounded-lg hover:scale-110 transition-all cursor-pointer"></i>
+            <i
+              className={`bi bi-search text-2xl mr-5 hover:bg-opacity-30 shadow border px-3 py-2 rounded-lg hover:scale-110 transition-all cursor-pointer ${
+                theme.state === "purple"
+                  ? "hover:bg-themeBlue1"
+                  : "hover:bg-lightBlue2"
+              }`}
+            ></i>
             {/* COLUMNS  */}
             <div className="dropdown mr-5">
               <div
                 id="settings-dropdown-button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                className="flex items-center px-2 border shadow hover:scale-95 transition-all cursor-pointer hover:bg-nav1Hover rounded-md"
+                className={`flex items-center px-2 border shadow hover:scale-95 transition-all cursor-pointer hover:bg-opacity-30 rounded-md ${
+                  theme.state === "purple"
+                    ? "hover:bg-themeBlue1"
+                    : "hover:bg-lightBlue2"
+                }`}
               >
                 <i className="bi bi-eye text-2xl p-2" type="button"></i>
                 <p className="font-semibold text-lg">
@@ -311,14 +317,24 @@ export default function Logs() {
                   e.stopPropagation();
                 }}
               >
-                <li className="py-2 px-2 my-2 bg-gray-200 rounded-md text-base">
+                <li
+                  className={`py-2 px-2 my-2 rounded-md text-base bg-opacity-20 ${
+                    theme.state === "purple" ? "bg-themeBlue1" : "bg-lightBlue2"
+                  }`}
+                >
                   <pre>Show Columns </pre>
                 </li>
-                {/* EMAIL ADDRESS  */}
+                {/* Machine Name  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                      ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    }
+                      `}
                       type="checkbox"
                       id="email-column-checkbox"
                     />
@@ -326,15 +342,21 @@ export default function Logs() {
                       className="text-lg cursor-pointer"
                       htmlFor="email-column-checkbox"
                     >
-                      Email Address
+                      Machine Name
                     </label>
                   </div>
                 </li>
-                {/* ORGANIZATION  */}
+                {/* Monitor Name  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                      ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    }
+                      `}
                       type="checkbox"
                       id="organization-column-checkbox"
                     />
@@ -342,15 +364,21 @@ export default function Logs() {
                       className="text-lg cursor-pointer"
                       htmlFor="organization-column-checkbox"
                     >
-                      Organization
+                      Monitor Name
                     </label>
                   </div>
                 </li>
-                {/* NAME  */}
+                {/* Data ID  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                      ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    }
+                      `}
                       type="checkbox"
                       id="name-column-checkbox"
                     />
@@ -358,15 +386,21 @@ export default function Logs() {
                       className="text-lg cursor-pointer"
                       htmlFor="name-column-checkbox"
                     >
-                      Name
+                      Data ID
                     </label>
                   </div>
                 </li>
-                {/* PHONE NUMBER  */}
+                {/* Feature  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                      ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    }
+                      `}
                       type="checkbox"
                       id="phone-column-checkbox"
                     />
@@ -374,15 +408,21 @@ export default function Logs() {
                       className="text-lg cursor-pointer"
                       htmlFor="phone-column-checkbox"
                     >
-                      Phone Number
+                      Feature
                     </label>
                   </div>
                 </li>
-                {/* ADMINISTRATOR  */}
+                {/* Value  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                      ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    }
+                      `}
                       type="checkbox"
                       id="administrator-column-checkbox"
                     />
@@ -390,19 +430,92 @@ export default function Logs() {
                       className="text-lg cursor-pointer"
                       htmlFor="administrator-column-checkbox"
                     >
-                      Administrator
+                      Value
+                    </label>
+                  </div>
+                </li>
+                {/* Timestamp  */}
+                <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
+                  <div className="flex items-center">
+                    <input
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                      ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    }
+                      `}
+                      type="checkbox"
+                      id="administrator-column-checkbox"
+                    />
+                    <label
+                      className="text-lg cursor-pointer"
+                      htmlFor="administrator-column-checkbox"
+                    >
+                      Timestamp
+                    </label>
+                  </div>
+                </li>
+                {/* Stages  */}
+                <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
+                  <div className="flex items-center">
+                    <input
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                      ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    }
+                      `}
+                      type="checkbox"
+                      id="administrator-column-checkbox"
+                    />
+                    <label
+                      className="text-lg cursor-pointer"
+                      htmlFor="administrator-column-checkbox"
+                    >
+                      Stages
+                    </label>
+                  </div>
+                </li>
+                {/* Status  */}
+                <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
+                  <div className="flex items-center">
+                    <input
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                      ${
+                      theme.state === "purple"
+                        ? "checkbox-purple"
+                        : "checkbox-blue"
+                    }
+                      `}
+                      type="checkbox"
+                      id="administrator-column-checkbox"
+                    />
+                    <label
+                      className="text-lg cursor-pointer"
+                      htmlFor="administrator-column-checkbox"
+                    >
+                      Status
                     </label>
                   </div>
                 </li>
               </ul>
             </div>
             {/* INTERVAL */}
-            <div className="flex items-center justify-between mr-5 py-2 px-2 hover:bg-nav1Hover hover:scale-95 rounded-md h-12 shadow border transition-all">
+            <div
+              className={`flex items-center justify-between mr-5 py-2 px-2 hover:scale-95 rounded-md h-12 shadow border transition-all hover:bg-opacity-30 ${
+                theme.state === "purple"
+                  ? "hover:bg-themeBlue1"
+                  : "hover:bg-lightBlue2"
+              }`}
+            >
               <i className="bi bi-funnel text-2xl p-2" type="button"></i>
               <Select
                 value={intervalState}
                 onChange={setIntervalState}
                 placeholder="Select Interval"
+                styles={colorStyles}
                 options={intervalStateOptions}
                 className="border-none cursor-pointer text-lg"
               />
@@ -411,7 +524,11 @@ export default function Logs() {
             {/* DOWNLOAD */}
             <div className="dropdown mr-5">
               <i
-                className="bi bi-cloud-arrow-down text-2xl hover:bg-nav1Hover shadow border px-3 py-2 rounded-lg hover:scale-110 transition-all"
+                className={`bi bi-cloud-arrow-down text-2xl shadow border px-3 py-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30 ${
+                  theme.state === "purple"
+                    ? "hover:bg-themeBlue1"
+                    : "hover:bg-lightBlue2"
+                }`}
                 type="button"
                 id="sign-in-dropdown-button"
                 data-bs-toggle="dropdown"
@@ -454,7 +571,11 @@ export default function Logs() {
             {/* UPLOAD */}
             <div className={`dropdown`}>
               <i
-                className="bi bi-cloud-arrow-up text-2xl hover:bg-nav1Hover shadow border px-3 py-2 rounded-lg hover:scale-110 transition-all"
+                className={`bi bi-cloud-arrow-up text-2xl shadow border px-3 py-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30 ${
+                  theme.state === "purple"
+                    ? "hover:bg-themeBlue1"
+                    : "hover:bg-lightBlue2"
+                }`}
                 type="button"
                 id="sign-in-dropdown-button"
                 data-bs-toggle="dropdown"
@@ -605,8 +726,14 @@ export default function Logs() {
           <div className="inline-block min-w-full sm:px-6 lg:px-8">
             <div className="overflow-x-auto">
               <table className="min-w-full">
-                <thead className="border-b">
-                  <tr className="dashboard-review">
+                <thead className="">
+                  <tr
+                    className={`${
+                      theme.state === "purple"
+                        ? "dashboard-review-purple"
+                        : "dashboard-review-blue"
+                    }`}
+                  >
                     <th
                       scope="col"
                       className="text-sm font-medium text-white px-6 py-4 text-left hover:bg-nav1Hover bg- cursor-pointer transition-all"
@@ -781,8 +908,16 @@ export default function Logs() {
                               iconClass = "check-circle";
                               break;
                             case "pending":
-                              bgClass = "bg-lightBlue2 bg-opacity-20";
-                              textClass = "text-lightBlue2";
+                              bgClass = `bg-opacity-20 ${
+                                theme.state === "purple"
+                                  ? "bg-themeBlue1"
+                                  : "bg-lightBlue2"
+                              }`;
+                              textClass = `${
+                                theme.state === "purple"
+                                  ? "text-themeBlue1"
+                                  : "text-lightBlue2"
+                              }`;
                               iconClass = "clock-history";
                               break;
                             case "caution":
@@ -819,7 +954,11 @@ export default function Logs() {
                               text = "PASSED";
                               break;
                             case "pending":
-                              bgClass = "bg-lightBlue2";
+                              bgClass = `${
+                                theme.state === "purple"
+                                  ? "bg-themeBlue1"
+                                  : "bg-lightBlue2"
+                              }`;
                               text = "PENDING";
                               break;
                             case "caution":

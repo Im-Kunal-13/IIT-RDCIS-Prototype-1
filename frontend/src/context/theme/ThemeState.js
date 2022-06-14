@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import ThemeContext from "./themeContext";
 
 const ThemeState = (props) => {
-  const [state, setState] = useState("light");
-  const update = async() => {
-    await setState(state === "light" ? "dark" : "light");
+  const [state, setState] = useState("purple");
+  const update = () => {
+    setState(state === "purple" ? "blue" : "purple");
   };
   return (
-    <ThemeContext.Provider value={{state, update}}>
+    <ThemeContext.Provider value={{ state, update }}>
       {props.children}
     </ThemeContext.Provider>
   );

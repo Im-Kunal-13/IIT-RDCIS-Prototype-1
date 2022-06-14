@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers, reset } from "../../../features/auth/authSlice";
@@ -7,8 +7,10 @@ import DeleteUserModal from "./DeleteUserModal";
 import EditUserModal from "./EditUserModal";
 import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
+import ThemeContext from "../../../context/theme/themeContext";
 
 export default function AdminList() {
+  const theme = useContext(ThemeContext);
   // For Navigation
   const navigate = useNavigate();
   // For Dispatching.
@@ -47,7 +49,7 @@ export default function AdminList() {
           <span className="visually-hidden">Loading...</span>
         </div>
       ) : (
-        <div className="accordion flex hidden" id="accordionExample">
+        <div className="accordion hidden" id="accordionExample">
           {admins.length > 0 ? (
             <div className="admins w-full">
               {admins.map((user, index) => (
@@ -71,8 +73,14 @@ export default function AdminList() {
           >
             <div className="overflow-x-auto">
               <table className="min-w-full">
-                <thead className="border-b">
-                  <tr className="dashboard-review">
+                <thead className="">
+                  <tr
+                    className={`${
+                      theme.state === "purple"
+                        ? "dashboard-review-purple"
+                        : "dashboard-review-blue"
+                    }`}
+                  >
                     <th
                       scope="col"
                       className="text-sm font-medium text-white px-4 py-4 text-left hover:bg-nav1Hover bg- cursor-pointer transition-all"
@@ -115,7 +123,13 @@ export default function AdminList() {
                         index !== 7 && "border-b"
                       } hover:scale-95 transition-all cursor-pointer hover:bg-nav1Hover hover:shadow rounded-md`}
                     >
-                      <td className="text-sm text-lightBlue2 font-normal px-4 py-4 whitespace-nowrap">
+                      <td
+                        className={`text-sm font-normal px-4 py-4 whitespace-nowrap ${
+                          theme.state === "purple"
+                            ? "text-themeViolet1"
+                            : "text-lightBlue2"
+                        }`}
+                      >
                         <span className="hover:underline">{admin.email}</span>
                       </td>
                       <td className="text-sm text-gray-900 font-semibold px-4 py-4 whitespace-nowrap">
@@ -142,7 +156,11 @@ export default function AdminList() {
                         </span>
                         <span className="flex items-center">
                           <i
-                            className="bi bi-pen-fill mr-2 text-lg hover:bg-nav1Hover py-2.5 px-3 rounded-full  text-lightBlue2 transition-all hover:scale-110 shadow"
+                            className={`bi bi-pen-fill mr-2 text-lg hover:bg-nav1Hover py-2.5 px-3 rounded-full  transition-all hover:scale-110 shadow ${
+                              theme.state === "purple"
+                                ? "text-themeBlue1"
+                                : "text-lightBlue2"
+                            }`}
                             type="button"
                             data-bs-toggle="modal"
                             data-bs-target={`#update-user-${
@@ -175,11 +193,7 @@ export default function AdminList() {
       </div>
       {admins.map((user, index) => (
         <div key={index}>
-          <EditUserModal
-            user={user}
-            index={`${index + "-large-"}`}
-          
-          />
+          <EditUserModal user={user} index={`${index + "-large-"}`} />
           <DeleteUserModal user={user} index={`${index + "-large-"}`} />
         </div>
       ))}

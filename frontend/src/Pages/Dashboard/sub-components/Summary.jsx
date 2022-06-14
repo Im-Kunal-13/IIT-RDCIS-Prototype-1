@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import LogCard from "./LogCard";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import MaintenanceIndex from "./MaintenanceIndex";
 import Draggable from "react-draggable";
 // import the react-json-view component
 import ReactJson from "react-json-view";
 // Importing React Tooltip
 import ReactTooltip from "react-tooltip";
+import ThemeContext from "../../../context/theme/themeContext"
 
 // Event listener handler function
 const useEventListener = (eventName, handler, element = window) => {
@@ -26,6 +26,7 @@ const useEventListener = (eventName, handler, element = window) => {
 
 export default function Summary() {
   // INITIALIZATIONS
+  const theme = useContext(ThemeContext)
   const logCloseBtn = useRef(null);
   const nodeRef = useRef(null);
 
@@ -40,12 +41,6 @@ export default function Summary() {
   });
   // State to check if the summary card is currently removing.
   const [isSummaryCardRemoving, setIsSummaryCardRemoving] = useState(false);
-
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [position2, setPosition2] = useState({ x: 50, y: 50 });
-
-  const [Opacity, setOpacity] = useState(false);
-  const [Opacity2, setOpacity2] = useState(false);
 
   // FUNCTIONS
   // Escape key handler function
@@ -62,28 +57,6 @@ export default function Summary() {
 
   useEventListener("keydown", handler);
 
-  // Draggable position tracking functions.
-  const trackPos = (data) => {
-    setPosition({ x: data.x, y: data.y });
-  };
-
-  const trackPos2 = (data) => {
-    setPosition2({ x: data.x, y: data.y });
-  };
-
-  const handleStart = () => {
-    setOpacity(true);
-  };
-  const handleEnd = () => {
-    setOpacity(false);
-  };
-
-  const handleStart2 = () => {
-    setOpacity2(true);
-  };
-  const handleEnd2 = () => {
-    setOpacity2(false);
-  };
 
   // Demo js object
   const summaryObject = {
@@ -144,9 +117,6 @@ export default function Summary() {
         <div className="absolute lg:block hidden">
           <Draggable
             nodeRef={nodeRef}
-            onDrag={(e, data) => trackPos(data)}
-            onStart={handleStart}
-            onStop={handleEnd}
             defaultPosition={{ x: 10, y: 0 }}
           >
             <div
@@ -161,7 +131,7 @@ export default function Summary() {
               }}
             >
               {/* HEADER  */}
-              <div className="flex content-between justify-between items-center dashboard-review px-3 py-1">
+              <div className={`flex content-between justify-between items-center px-3 py-2 ${theme.state === 'purple' ? "dashboard-review-purple" : "dashboard-review-blue"}`}>
                 <div className="flex items-center">
                   <h1 className="font-semibold text-white text-lg">
                     {summaryCardState.title}
@@ -209,7 +179,7 @@ export default function Summary() {
               <div className="flex justify-end bg-white border-t-2 py-1 px-3 cursor-default">
                 <button
                   type="submit"
-                  className="text-white w-fit py-2 rounded-md transition-all hover:scale-x-105 px-2 dashboard-review"
+                  className={`text-white w-fit py-2 rounded-md transition-all hover:scale-x-105 px-2 ${theme.state === 'purple' ? "dashboard-review-purple" : "dashboard-review-blue"}`}
                 >
                   <i className="bi bi-download mr-2"></i>
                   Download
@@ -230,8 +200,8 @@ export default function Summary() {
               <div className="inline-block w-full sm:px-6 lg:px-8" style={{minWidth: "815px"}}>
                 <div className="overflow-x-auto">
                   <table className="min-w-full">
-                    <thead className="border-b">
-                      <tr className="dashboard-review">
+                    <thead className="">
+                      <tr className={`${theme.state === 'purple' ? "dashboard-review-purple" : "dashboard-review-blue"}`}>
                         <th
                           scope="col"
                           className="text-sm font-medium text-white px-3 py-4 text-left hover:bg-nav1Hover bg- cursor-pointer transition-all"

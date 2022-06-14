@@ -1,9 +1,12 @@
 import MonitoringOffCanvas from "./MonitoringOffCanvas";
 import Analytics from "./Analytics";
 import { Outlet } from "react-router-dom";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import ThemeContext from "../../../context/theme/themeContext"
 
 export default function Monitoring() {
+  // theme state
+  const theme = useContext(ThemeContext)
   // Tab select and close button
   const tabSelectCloseBtn = useRef(null);
 
@@ -17,7 +20,7 @@ export default function Monitoring() {
         id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel"
       >
-        <div className="flex content-between items-center offcanvas-header">
+        <div className={`flex content-between items-center offcanvas-header ${theme.state === 'purple' ? 'offcanvas-header-purple' : 'offcanvas-header-blue'}`}>
           <div className="flex items-center">
             <img src={require("./iit-logo.png")} alt="" className="w-12 pr-2" />
             <h1 className="font-semibold text-2xl text-white">EyeVib</h1>

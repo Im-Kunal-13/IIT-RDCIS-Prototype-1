@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { FaTrash } from "react-icons/fa";
+import ThemeContext from "../../../context/theme/themeContext";
 
 // Event listener handler function
 const useEventListener = (eventName, handler, element = window) => {
@@ -20,6 +21,7 @@ const useEventListener = (eventName, handler, element = window) => {
 };
 
 export default function Configuration() {
+  const theme = useContext(ThemeContext);
   // Getting the admin from the user State.
   const { admin } = useSelector((state) => state.auth);
   // If active the selected Tab of that
@@ -48,11 +50,21 @@ export default function Configuration() {
           {/* CONTROLS  */}
           <div className="items-center hidden md:flex">
             {/* SEARCH  */}
-            <i className="bi bi-search text-2xl mr-7 hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all cursor-pointer"></i>
+            <i
+              className={`bi bi-search text-2xl mr-7 p-2 rounded-lg hover:scale-110 transition-all cursor-pointer hover:bg-opacity-30 ${
+                theme.state === "purple"
+                  ? "hover:bg-themeBlue1"
+                  : "hover:bg-lightBlue2"
+              }`}
+            ></i>
             {/* COLUMNS  */}
             <div className="dropdown mr-7">
               <i
-                className="bi bi-layout-three-columns text-2xl hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all"
+                className={`bi bi-layout-three-columns text-2xl p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30 ${
+                  theme.state === "purple"
+                    ? "hover:bg-themeBlue1"
+                    : "hover:bg-lightBlue2"
+                }`}
                 type="button"
                 id="settings-dropdown-button"
                 data-bs-toggle="dropdown"
@@ -66,14 +78,20 @@ export default function Configuration() {
                   e.stopPropagation();
                 }}
               >
-                <li className="py-2 px-2 my-2 bg-gray-200 rounded-md text-base">
+                <li
+                  className={`py-2 px-2 my-2 rounded-md text-base bg-opacity-20 ${
+                    theme.state === "purple" ? "bg-themeBlue1" : "bg-lightBlue2"
+                  }`}
+                >
                   <pre>Show Columns </pre>
                 </li>
-                {/* EMAIL ADDRESS  */}
+                {/* MONITORING LOCATIONS  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 border-no
+                    ${theme.state === "purple" ? "checkbox-purple" : "checkbox-blue"}
+                    }`}
                       type="checkbox"
                       id="email-column-checkbox"
                     />
@@ -81,15 +99,17 @@ export default function Configuration() {
                       className="text-lg cursor-pointer"
                       htmlFor="email-column-checkbox"
                     >
-                      Email Address
+                      Locations
                     </label>
                   </div>
                 </li>
-                {/* ORGANIZATION  */}
+                {/* TYPE  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 
+                      ${theme.state === "purple" ? "checkbox-purple" : "checkbox-blue"}
+                      `}
                       type="checkbox"
                       id="organization-column-checkbox"
                     />
@@ -97,15 +117,17 @@ export default function Configuration() {
                       className="text-lg cursor-pointer"
                       htmlFor="organization-column-checkbox"
                     >
-                      Organization
+                      Type
                     </label>
                   </div>
                 </li>
-                {/* NAME  */}
+                {/* Device  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 border-n
+                    ${theme.state === "purple" ? "checkbox-purple" : "checkbox-blue"}
+                    }`}
                       type="checkbox"
                       id="name-column-checkbox"
                     />
@@ -113,15 +135,17 @@ export default function Configuration() {
                       className="text-lg cursor-pointer"
                       htmlFor="name-column-checkbox"
                     >
-                      Name
+                      Device
                     </label>
                   </div>
                 </li>
-                {/* PHONE NUMBER  */}
+                {/* Machine Name  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5 border-no
+                    ${theme.state === "purple" ? "checkbox-purple" : "checkbox-blue"}
+                    }`}
                       type="checkbox"
                       id="phone-column-checkbox"
                     />
@@ -129,15 +153,17 @@ export default function Configuration() {
                       className="text-lg cursor-pointer"
                       htmlFor="phone-column-checkbox"
                     >
-                      Phone Number
+                      Machine Name
                     </label>
                   </div>
                 </li>
-                {/* ADMINISTRATOR  */}
+                {/* Operation  */}
                 <li className="py-2 px-2 my-2 rounded-md hover:bg-offCanvasHover transition-all hover:scale-95 cursor-pointer">
                   <div className="flex items-center">
                     <input
-                      className="form-check-input border-2 cursor-pointer mr-3 h-5 w-5 checked:bg-lightBlue2"
+                      className={`form-check-input  cursor-pointer mr-3 h-5 w-5
+                      ${theme.state === "purple" ? "checkbox-purple" : "checkbox-blue"}
+                      `}
                       type="checkbox"
                       id="administrator-column-checkbox"
                     />
@@ -145,7 +171,7 @@ export default function Configuration() {
                       className="text-lg cursor-pointer"
                       htmlFor="administrator-column-checkbox"
                     >
-                      Administrator
+                      Operation
                     </label>
                   </div>
                 </li>
@@ -154,7 +180,11 @@ export default function Configuration() {
             {/* TABLE */}
             <div className="dropdown mr-7">
               <i
-                className="bi bi-filter text-2xl hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all"
+                className={`bi bi-filter text-2xl p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30 ${
+                  theme.state === "purple"
+                    ? "hover:bg-themeBlue1"
+                    : "hover:bg-lightBlue2"
+                }`}
                 type="button"
                 id="sign-in-dropdown-button"
                 data-bs-toggle="dropdown"
@@ -197,7 +227,11 @@ export default function Configuration() {
             {/* DOWNLOAD */}
             <div className="dropdown mr-7">
               <i
-                className="bi bi-cloud-arrow-down text-2xl hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all"
+                className={`bi bi-cloud-arrow-down text-2xl p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30 ${
+                  theme.state === "purple"
+                    ? "hover:bg-themeBlue1"
+                    : "hover:bg-lightBlue2"
+                }`}
                 type="button"
                 id="sign-in-dropdown-button"
                 data-bs-toggle="dropdown"
@@ -240,7 +274,11 @@ export default function Configuration() {
             {/* UPLOAD */}
             <div className={`dropdown mr-7`}>
               <i
-                className="bi bi-cloud-arrow-up text-2xl hover:bg-blue-200 p-2 rounded-lg hover:scale-110 transition-all"
+                className={`bi bi-cloud-arrow-up text-2xl p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-30 ${
+                  theme.state === "purple"
+                    ? "hover:bg-themeBlue1"
+                    : "hover:bg-lightBlue2"
+                }`}
                 type="button"
                 id="sign-in-dropdown-button"
                 data-bs-toggle="dropdown"
@@ -282,7 +320,11 @@ export default function Configuration() {
             </div>
             {admin?.administrator ? (
               <div
-                className="flex items-center px-3 py-2 border-2 rounded-md hover:bg-blue-200 hover:scale-105 transition-all cursor-pointer shadow"
+                className={`flex items-center px-3 py-2 border-2 rounded-md hover:scale-105 transition-all cursor-pointer shadow hover:bg-opacity-30 ${
+                  theme.state === "purple"
+                    ? "hover:bg-themeBlue1"
+                    : "hover:bg-lightBlue2"
+                }`}
                 data-bs-toggle="modal"
                 // data-bs-target="#register-user-backdrop"
               >
@@ -290,7 +332,7 @@ export default function Configuration() {
                 <span className="text-lg">Create New</span>
               </div>
             ) : (
-              <div className="flex items-center px-3 py-2 border-2 rounded-md bg-offCanvasHover transition-all cursor-pointer shadow">
+              <div className="flex items-center px-3 py-2 border-2 rounded-md bg-offCanvasHover transition-all shadow">
                 <i className="bi bi-plus-lg mr-2 text-xl"></i>
                 <span className="text-lg">Create New</span>
               </div>
@@ -375,8 +417,12 @@ export default function Configuration() {
           >
             <div className="overflow-x-auto">
               <table className="min-w-full">
-                <thead className="border-b">
-                  <tr className="dashboard-review">
+                <thead className="">
+                  <tr className={`${
+                      theme.state === "purple"
+                        ? "dashboard-review-purple"
+                        : "dashboard-review-blue"
+                    }`}>
                     <th
                       scope="col"
                       className="text-sm font-medium text-white px-4 py-4 text-left hover:bg-nav1Hover bg- cursor-pointer transition-all"
@@ -494,10 +540,10 @@ export default function Configuration() {
                       <td className="text-sm text-gray-900 font-normal px-4 py-4 whitespace-nowrap">
                         {item.type}
                       </td>
-                      <td className="text-sm font-normal text-lightBlue2 px-4 py-4 whitespace-nowrap">
+                      <td className={`text-sm font-normal px-4 py-4 whitespace-nowrap ${theme.state === 'purple' ? "text-themeViolet1" : "text-lightBlue2"}`}>
                         <span className="hover:underline">{item.device}</span>
                       </td>
-                      <td className="text-sm font-normal text-lightBlue2 px-4 py-4 whitespace-nowrap">
+                      <td className={`text-sm font-normal px-4 py-4 whitespace-nowrap ${theme.state === 'purple' ? "text-themeViolet1" : "text-lightBlue2"}`}>
                         <span className="hover:underline">{item.machine}</span>
                       </td>
                       <td
@@ -507,7 +553,7 @@ export default function Configuration() {
                         <span>{item.operation}</span>
                         <span className="flex items-center">
                           <i
-                            className="bi bi-pen-fill mr-2 text-lg hover:bg-nav1Hover py-2.5 px-3 rounded-full  text-lightBlue2 transition-all hover:scale-105 shadow"
+                            className={`bi bi-pen-fill mr-2 text-lg hover:bg-nav1Hover py-2.5 px-3 rounded-full transition-all hover:scale-105 shadow ${theme.state === 'purple' ? "text-themeBlue1" : "text-lightBlue2"}`}
                             type="button"
                             // data-bs-toggle="modal"
                             // data-bs-target={`#update-user-${

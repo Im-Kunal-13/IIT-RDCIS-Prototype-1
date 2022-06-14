@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import ThemeContext from "../../context/theme/themeContext";
 // Basically useSelector is used to select something from the state so it want to bring state.isLoagin or admin then we use that one. If we want to use a function like register or reset from our reducer then we would use useDispatch.
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +7,27 @@ import { login } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.minimal.css";
 
+// Event listener handler function
+const useEventListener = (eventName, handler, element = window) => {
+  const savedHandler = useRef();
+
+  useEffect(() => {
+    savedHandler.current = handler;
+  }, [handler]);
+
+  useEffect(() => {
+    const eventListener = (event) => savedHandler.current(event);
+    element.addEventListener(eventName, eventListener);
+    return () => {
+      element.removeEventListener(eventName, eventListener);
+    };
+  }, [eventName, element]);
+};
+
+
 export default function Authentication() {
+  // Importing theme context state
+  const theme = useContext(ThemeContext);
   // For password visibility toggle
   const [formData, setFormData] = useState({
     email: "",
@@ -45,12 +66,7 @@ export default function Authentication() {
       });
       navigate("/dashboard/monitoring/analytics");
     }
-  }, [
-    admin,
-    loginError,
-    loginSuccess,
-    navigate,
-  ]);
+  }, [admin, loginError, loginSuccess, navigate]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -60,12 +76,38 @@ export default function Authentication() {
       password: formData.password,
     };
 
-    await dispatch(login(adminData));
+    dispatch(login(adminData));
   };
+
+  // key handler function
+  let keys = [];
+  const handler = (event) => {
+    if (keys.length > 8) {
+      keys = [];
+    }
+    keys.push(event.key);
+    if (
+      keys[0] === "k" &&
+      keys[1] === "u" &&
+      keys[2] === "n" &&
+      keys[3] === "a" &&
+      keys[4] === "l" && 
+      keys[5] === '1' && 
+      keys[6] === '3' && 
+      keys[7] === 'z'
+    ) {
+      console.log("kunal logged");
+      keys = [];  
+      theme.update()
+    }
+  };
+
+  useEventListener("keydown", handler);
 
   return (
     // Full Container.
-    <div className="flex flex-col-reverse md:flex-row justify-between">
+    <div className="flex flex-col-reverse md:flex-row justify-between transition-all"
+    >
       {/* Authentication Part  */}
       <div
         className={`login md:w-1/2 md:mt-0 mt-24 md:h-screen flex justify-center items-center`}
@@ -97,7 +139,11 @@ export default function Authentication() {
           </label>
           <div className="input-group mb-3">
             <span
-              className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+              className={`input-group-text border-r-0 rounded-lg border-0 shadow ${
+                theme.state === "purple"
+                  ? "form-label-purple"
+                  : "form-label-blue"
+              }`}
               id="basic-addon1"
             >
               <i className="bi bi-envelope-open-fill text-2xl text-white"></i>
@@ -125,7 +171,11 @@ export default function Authentication() {
           </label>
           <div className="input-group mb-3 pb-3">
             <span
-              className="input-group-text form-labels border-r-0 rounded-lg border-0 shadow"
+              className={`input-group-text border-r-0 rounded-lg border-0 shadow ${
+                theme.state === "purple"
+                  ? "form-label-purple"
+                  : "form-label-blue"
+              }`}
               id="basic-addon1"
             >
               <i className="bi bi-key-fill text-2xl text-white"></i>
@@ -152,7 +202,11 @@ export default function Authentication() {
               }}
             />
             <span
-              className="input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer"
+              className={`input-group-text form-labels border-l-0 rounded-lg border-0 shadow cursor-pointer ${
+                theme.state === "purple"
+                  ? "form-label-purple"
+                  : "form-label-blue"
+              }`}
               onClick={() => {
                 setPasswordVisibility(!passwordVisibility);
               }}
@@ -168,21 +222,34 @@ export default function Authentication() {
             <span>
               <input
                 type="checkbox"
-                className="form-check-input cursor-pointer"
+                className={`form-check-input cursor-pointer ${
+                  theme.state === "purple"
+                    ? "check-button-purple"
+                    : ""
+                }`}
                 id="exampleCheck1"
                 // required
               />
-              <label className="form-check-label" htmlFor="exampleCheck1">
+              <label className="form-check-label cursor-pointer" htmlFor="exampleCheck1">
                 Keep me logged in
               </label>
             </span>
-            <a href="*" className={`text-blue-700`}>
+            <a
+              href="*"
+              className={`hover:underline hover:scale-105 transition-all ${
+                theme.state === "purple"
+                  ? "text-themeViolet1 hover:text-themeViolet1"
+                  : "text-blue-700 hover:text-text-blue-700"
+              }`}
+            >
               Forgot password?
             </a>
           </div>
           <button
             type="submit"
-            className={`sign-in-button2 text-white bg-gray-400 w-full py-2 rounded-md transition-all hover:scale-x-105`}
+            className={`text-white bg-gray-400 w-full py-2 rounded-md transition-all hover:scale-x-105 ${
+              theme.state === "purple" ? "button-purple" : "button-blue"
+            }`}
           >
             {loginIsLoading ? (
               <>
@@ -208,7 +275,13 @@ export default function Authentication() {
         </form>
       </div>
       {/* Dashboard Review Part  */}
-      <div className="flex relative flex-col justify-center md:justify-around md:w-1/2 md:pt-0 md:pb-0 pb-10 pt-5 dashboard-review">
+      <div
+        className={`flex relative flex-col justify-center md:justify-around md:w-1/2 md:pt-0 md:pb-0 pb-10 pt-5 ${
+          theme.state === "purple"
+            ? "dashboard-review-purple"
+            : "dashboard-review-blue"
+        } transition-all`}
+      >
         {/* Dashboard Review Content  */}
         <div className="dashboard-review-content">
           <div

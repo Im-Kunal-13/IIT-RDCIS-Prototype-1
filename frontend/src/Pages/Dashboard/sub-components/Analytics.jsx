@@ -11,6 +11,7 @@ import io from "socket.io-client";
 import ScatterPlot from "./ScatterPlot";
 import Waterfall from "./Waterfall";
 import DetailsPanel from "./DetailsPanel";
+import Area3d from "./Area3d";
 
 // Getting the socket from the io object we imported.
 const socket = io.connect("http://localhost:5000");
@@ -321,8 +322,7 @@ export default function Analytics() {
           {/* TREND HISTORY  */}
           <Tilt
             glareEnable={true}
-            glareColor="#015FF3"
-            glareMaxOpacity={0.1}
+            glareMaxOpacity={0}
             tiltMaxAngleX={2}
             tiltMaxAngleY={2}
             glarePosition="all"
@@ -339,7 +339,7 @@ export default function Analytics() {
             glarePosition="all"
             glareBorderRadius="8px"
           >
-            <Waterfall analyticsData={analyticsData} />
+            <Area3d analyticsData={analyticsData} />
           </Tilt>
         </div>
         {/* MAINTENANCE INDEX  */}

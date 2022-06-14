@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import EditUserSelfModal from "./sub-components/EditUserSelfModal";
 import { resetLoginSuccess } from "../../features/auth/authSlice";
 import DeleteUserSelfModal from "./sub-components/DeleteUserSelfModal";
 import Sidebar from "./sub-components/Sidebar";
+import ThemeContext from "../../context/theme/themeContext";
 
 // Event listener handler function
 const useEventListener = (eventName, handler, element = window) => {
@@ -28,6 +29,7 @@ const useEventListener = (eventName, handler, element = window) => {
 
 export default function Dashboard() {
   // INITIALIZATIONS
+  const theme = useContext(ThemeContext);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -42,9 +44,30 @@ export default function Dashboard() {
 
   // FUNCTIONS
   // Escape key handler function
+  let keys = [];
   const handler = (event) => {
     if (event.shiftKey && event.keyCode === 77) {
       offCanvasBtn.current.click();
+      return;
+    }
+
+    if (keys.length > 8) {
+      keys = [];
+    }
+    keys.push(event.key);
+    if (
+      keys[0] === "k" &&
+      keys[1] === "u" &&
+      keys[2] === "n" &&
+      keys[3] === "a" &&
+      keys[4] === "l" &&
+      keys[5] === "1" &&
+      keys[6] === "3" &&
+      keys[7] === "z"
+    ) {
+      console.log("kunal logged");
+      keys = [];
+      theme.update();
     }
   };
 
@@ -58,10 +81,25 @@ export default function Dashboard() {
       if (window.innerWidth < 768) {
         window.location.reload();
       } else {
-        toast.info("You're logged out.", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          toastId: "logoutSucces1",
-        });
+        if (theme.state === "purple") {
+          toast.dark("You're logged out.", {
+            icon: (
+              <i className="bi bi-exclamation-triangle-fill text-xs rounded-full text-white bg-themeViolet1 py-1 px-1.5"></i>
+            ),
+            position: toast.POSITION.BOTTOM_RIGHT,
+            toastId: "logoutSucces1",
+            theme: "light",
+          });
+        } else {
+          toast.info("You're logged out.", {
+            icon: (
+              <i className="bi bi-exclamation-triangle-fill text-xs rounded-full text-white bg-lightBlue2 py-1 px-1.5"></i>
+            ),
+            position: toast.POSITION.BOTTOM_RIGHT,
+            toastId: "logoutSucces1",
+            theme: "light",
+          });
+        }
       }
     }
 
@@ -69,6 +107,7 @@ export default function Dashboard() {
       toast.success("You're logged in.", {
         position: toast.POSITION.BOTTOM_RIGHT,
         toastId: "loginSucces1",
+        draggable: true,
       });
 
       dispatch(resetLoginSuccess());
@@ -82,14 +121,20 @@ export default function Dashboard() {
         {/* LOGO  */}
         <div className="flex items-center">
           <button
-            className="border-0 mr-5"
+            className="border-0 mr-5 hover:scale-110 transition-all"
             ref={offCanvasBtn}
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasExample"
             aria-controls="offcanvasExample"
           >
-            <i className="bi bi-list text-3xl  hover:bg-nav1Hover px-2 shadow rounded-lg"></i>
+            <i
+              className={`bi bi-list text-3xl hover:bg-opacity-20 transition-all px-2 shadow rounded-lg ${
+                theme.state === "purple"
+                  ? "hover:bg-themeViolet1"
+                  : "hover:bg-lightBlue2"
+              }`}
+            ></i>
           </button>
           <img
             src={require("./sub-components/iit-logo2-transparent.png")}
@@ -100,11 +145,21 @@ export default function Dashboard() {
         </div>
         <div className="items-center hidden md:flex">
           {/* NOTIFICATIONS  */}
-          <i className="bi bi-bell text-2xl mr-6 hover:bg-nav1Hover p-2 rounded-lg hover:scale-110 transition-all cursor-pointer"></i>
+          <i
+            className={`bi bi-bell text-2xl mr-6 p-2 rounded-lg hover:scale-110 transition-all cursor-pointer hover:bg-opacity-20 ${
+              theme.state === "purple"
+                ? "hover:bg-themeViolet1"
+                : "hover:bg-lightBlue2"
+            }`}
+          ></i>
           {/* SETTINGS */}
           <div className="dropdown">
             <i
-              className="bi bi-gear text-2xl mr-6 hover:bg-nav1Hover p-2 rounded-lg hover:scale-110 transition-all"
+              className={`bi bi-gear text-2xl mr-6 p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-20 ${
+                theme.state === "purple"
+                  ? "hover:bg-themeViolet1"
+                  : "hover:bg-lightBlue2"
+              }`}
               type="button"
               id="settings-dropdown-button"
               data-bs-toggle="dropdown"
@@ -133,7 +188,11 @@ export default function Dashboard() {
           </div>
           <div className="dropdown">
             <i
-              className="bi bi-person-circle text-2xl hover:bg-nav1Hover p-2 rounded-lg hover:scale-110 transition-all"
+              className={`bi bi-person-circle text-2xl p-2 rounded-lg hover:scale-110 transition-all hover:bg-opacity-20 ${
+                theme.state === "purple"
+                  ? "hover:bg-themeViolet1"
+                  : "hover:bg-lightBlue2"
+              }`}
               type="button"
               id="sign-in-dropdown-button"
               data-bs-toggle="dropdown"
@@ -211,7 +270,13 @@ export default function Dashboard() {
         </div>
       </div>
       {/* SECNOD NAVBAR  */}
-      <div className="navbar2 flex items-center justify-evenly h-16 mt-1 sticky-top z-20 dashboard-review">
+      <div
+        className={`flex items-center justify-evenly h-16 mt-1 sticky-top z-20 ${
+          theme.state === "purple"
+            ? "dashboard-review-purple"
+            : "dashboard-review-blue"
+        }`}
+      >
         {/* MONITORING  */}
         <Link
           className="px-2 py-2 md:py-2 md:text-2xl text-white hover:bg-nav2Hover hover:backdrop-blur-md rounded-lg"
@@ -251,7 +316,7 @@ export default function Dashboard() {
       </div>
       {/* LEFT OFFCANVAS  */}
       <div className="flex">
-        <div style={{width: "78px"}}>
+        <div style={{ width: "78px" }} className="hidden lg4:block">
           <Sidebar />
         </div>
         <Outlet />

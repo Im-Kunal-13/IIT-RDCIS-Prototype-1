@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext,useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Select from "react-select";
+import ThemeContext from "../../../context/theme/themeContext";
 
 export default function MonitoringOffCanvas({ closeBtn }) {
+  const theme = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -14,6 +16,25 @@ export default function MonitoringOffCanvas({ closeBtn }) {
   const selectedTabCss = { backgroundColor: "rgba(0, 0, 0, 0.150)" };
   // Setting the default icon for the useState
   let iconClass;
+
+  const colorStyles = {
+    option: (styles, { isFocused, isSelected, isActive }) => ({
+      ...styles,
+      background:
+        isFocused & !isSelected
+          ? `${
+              theme.state === "purple"
+                ? "rgb(187, 1, 255, .2)"
+                : "rgb(1, 95, 243, .2);"
+            }`
+          : isSelected
+          ? `${theme.state === "purple" ? "#BA01FF" : "#015ff3;"}`
+          : isActive
+          ? `${theme.state === "purple" ? "#BA01FF" : "#015ff3;"}`
+          : undefined,
+      zIndex: 1,
+    }),
+  };
 
   switch (location.pathname.replace("/dashboard/monitoring/", "")) {
     case "analytics":
@@ -119,9 +140,9 @@ export default function MonitoringOffCanvas({ closeBtn }) {
         <Select
           value={tab}
           onChange={onTabChange}
-          placeholder="Select Tab"
           options={tabOptions}
-          className="border-none cursor-pointer text-lg"
+          styles={colorStyles}
+          className="border-none cursor-pointer text-lg "
           isSearchable={false}
         />
         <FaChevronDown size={".8rem"} />
@@ -144,6 +165,7 @@ export default function MonitoringOffCanvas({ closeBtn }) {
           <Select
             value={plant}
             defaultValue={plant}
+            styles={colorStyles}
             onChange={setPlant}
             placeholder="Select Plant Name"
             options={plantOptions}
@@ -162,6 +184,7 @@ export default function MonitoringOffCanvas({ closeBtn }) {
             value={machineName}
             defaultValue={machineName}
             onChange={setMachineName}
+            styles={colorStyles}
             placeholder="Select Machine Name"
             options={machineNameOptions}
             className="border-none cursor-pointer w-48"
@@ -179,6 +202,7 @@ export default function MonitoringOffCanvas({ closeBtn }) {
             value={monitorName}
             defaultValue={monitorName}
             onChange={setMonitorName}
+            styles={colorStyles}
             placeholder="Select Monitor Name"
             options={monitorNameOptions}
             className="border-none cursor-pointer"

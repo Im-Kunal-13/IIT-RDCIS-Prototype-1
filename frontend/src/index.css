@@ -8,6 +8,13 @@
 @import url("../node_modules/@syncfusion/ej2-lists/styles/material.css");
 @import url("../node_modules/@syncfusion/ej2-react-calendars/styles/material.css");
 
+
+:root {
+  --toastify-color-dark: white !important;
+  --toastify-color-progress-light: #BA01FF !important;
+  --toastify-color-info: #015FF3 !important;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -21,32 +28,57 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.sign-in-button {
+/* Authentication Page */
+.dashboard-review-blue {
+  background: linear-gradient(135deg, #015ff3, #77efec);
+  background-size: 110%;
+  box-shadow: 0px 0px 10px 0px #77efec;
+}
+.dashboard-review-purple {
+  background: linear-gradient(135deg, #ba01ff, #7944f6);
+  background-size: 110%;
+  box-shadow: 0px 0px 10px 0px #7944f6;
+}
+.form-label-blue {
+  background: linear-gradient(135deg, #015ff3, #77efec);
+  background-size: 110%;
+}
+.form-label-purple {
+  background: linear-gradient(135deg, #ba01ff, #7944f6);
+  background-size: 110%;
+}
+.button-blue {
+  background: linear-gradient(135deg, #015ff3, #77efec);
+  background-size: 110%;
+  box-shadow: 0px 0px 10px 0px #77efec;
+}
+.button-purple {
+  background: linear-gradient(135deg, #ba01ff, #7944f6);
+  background-size: 110%;
+  box-shadow: 0px 0px 10px 0px #7944f6;
+}
+/* .sign-in-button-blue {
   background: linear-gradient(135deg, #2437da, #1340e8);
   background-size: 110%;
   box-shadow: 0px 0px 10px 0px #1340e8;
+} */
+.check-button-purple:checked {
+  background-color: #ba01ff !important;
+  border-color: #ba01ff !important;
+  box-shadow: 0 0 0 5px rgb(186, 1, 255, 0.2) !important;
 }
-.sign-in-button2 {
-  background: linear-gradient(135deg, #015ff3, #77efec);
-  background-size: 110%;
-  box-shadow: 0px 0px 10px 0px #77efec;
+.check-button-purple:focus {
+  border-color: #ba01ff !important;
+  border-width: 0px;
+  box-shadow: 0 0 0 5px rgb(186, 1, 255, 0.2) !important;
 }
-.dashboard-review {
-  background: linear-gradient(135deg, #015ff3, #77efec);
-  background-size: 110%;
-  box-shadow: 0px 0px 10px 0px #77efec;
-}
-.navbar2 {
-  background: linear-gradient(135deg, #015ff3, #77efec);
-  background-size: 110%;
-  box-shadow: 0px 0px 10px 0px #77efec;
-}
-.offcanvas-header {
+/* Offcanvas  */
+.offcanvas-header-blue {
   background: linear-gradient(135deg, #015ff3, #77efec);
   background-size: 110%;
 }
-.form-labels {
-  background: linear-gradient(135deg, #015ff3, #77efec);
+.offcanvas-header-purple {
+  background: linear-gradient(135deg, #ba01ff, #7944f6);
   background-size: 110%;
 }
 input:-webkit-autofill {
@@ -153,15 +185,20 @@ abbr {
   text-decoration: none !important;
 }
 .react-calendar__tile.react-calendar__month-view__days__day.react-calendar__month-view__days__day--weekend {
-  color: cyan !important;
+  color: #ba01ff !important;
 }
 .react-calendar__tile.react-calendar__tile--now.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day.react-calendar__month-view__days__day--weekend {
-  background-color: #015ff3;
+  background-color: #7944f6;
+  color: white !important;
+  border-radius: 4px;
+}
+.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day {
+  background-color: #7944f6;
   color: white !important;
   border-radius: 4px;
 }
 .react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day.react-calendar__month-view__days__day--weekend {
-  background-color: #015ff3;
+  background-color: #7944f6;
   color: white !important;
   border-radius: 3.5px;
 }
@@ -201,6 +238,13 @@ abbr {
 
 /* REACT TIMEKEEPER  */
 .react-timekeeper__tb-hour.react-timekeeper__tb-hour--active.css-1igvx5z-timeSelected-time-TopBar {
+  color: #7944f6;
+}
+.react-timekeeper-button-reset.react-timekeeper__meridiem-toggle.react-timekeeper__meridiem--active.css-dlroum-meridiem {
+  background-color: rgb(121, 68, 246, 0.2);
+}
+.react-timekeeper-button-reset.react-timekeeper__meridiem-toggle.react-timekeeper__meridiem--active.css-1n3f8ki-meridiem {
+  background-color: rgb(121, 68, 246, 0.2);
 }
 
 /* SIDEBAR  */
@@ -217,12 +261,8 @@ body {
   background-color: #f1f1f1;
 }
 .sidebar {
-  position: fixed;
   width: 78px;
-  /* box-shadow: 0 1px 10px rgb(0 0 0 / 20%); */
   padding: 6px 14px;
-  z-index: 50;
-  transition: all 0.5s ease;
   margin-left: 7px;
   margin-top: 15px;
 }
@@ -230,19 +270,12 @@ body {
   width: 240px;
 }
 .sidebar .logo_content .logo {
-  color: #fff;
-  display: flex;
   height: 50px;
   width: 100%;
-  /* justify-content: space-between; */
-  align-items: center;
   opacity: 0;
-  pointer-events: none;
-  transition: all 0.5s ease;
 }
 .sidebar.active .logo_content .logo {
   opacity: 1;
-  pointer-events: none;
 }
 .logo_content .logo i {
   font-size: 28px;
@@ -251,41 +284,36 @@ body {
 
 .logo_content .logo .logo_name {
   padding: 0 5px;
-  font-size: 20px;
-  font-weight: 400;
 }
 .sidebar #btn {
-  position: absolute;
   color: #fff;
   top: 6px;
   left: 50%;
   height: 50px;
   padding: 10px;
   width: 50px;
-  text-align: center;
   line-height: 50px;
   transform: translate(-50%);
-  transition: transform 0.5s ease;
 }
-.sidebar #btn:hover {
-  color: #015FF3;
+.sidebar #btn.btn-blue:hover {
+  color: #015ff3;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px 2px #fff;
+}
+.sidebar #btn.btn-purple:hover {
+  color: #ba01ff;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 0 10px 2px #fff;
 }
 .sidebar.active #btn {
   left: 78%;
-  transform: rotateY(160deg)
-}
-.sidebar ul {
-  margin-top: 20px;
+  transform: rotateY(160deg);
 }
 .sidebar ul li {
-  position: relative;
   height: 50px;
-  width: 100%;
   margin: 10px 0px;
-  list-style: none;
   line-height: 50px;
 }
 .sidebar ul li .tooltip {
@@ -299,7 +327,6 @@ body {
   background: #fff;
   line-height: 35px;
   text-align: center;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   transition: 0s;
   opacity: 0;
   pointer-events: none;
@@ -315,35 +342,13 @@ body {
 }
 
 .sidebar ul li input {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  border-radius: 12px;
-  outline: none;
-  border: none;
   background: hsla(227, 76%, 62%, 0);
   padding-left: 50px;
-  font-size: 18px;
-  color: #fff;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 .sidebar ul li input::placeholder {
   color: #fff;
   opacity: 0.5;
-}
-.sidebar ul li .bx-search {
-  position: absolute;
-  z-index: 99;
-  color: #fff;
-  font-size: 22px;
-  transition: all 0.5s ease;
-  top: 1px;
-}
-.sidebar ul li .bx-search:hover {
-  background: #fff;
-  color: #015FF3;
 }
 .sidebar ul li a {
   color: #fff;
@@ -354,8 +359,13 @@ body {
   border-radius: 12px;
   white-space: nowrap;
 }
-.sidebar ul li a:hover {
-  color: #015FF3;
+.sidebar ul li.tab-blue a:hover {
+  color: #015ff3;
+  background-color: #fff;
+  box-shadow: 0 0 10px 2px #fff;
+}
+.sidebar ul li.tab-purple a:hover {
+  color: #ba01ff;
   background-color: #fff;
   box-shadow: 0 0 10px 2px #fff;
 }
@@ -375,4 +385,24 @@ body {
 .sidebar.active .links_name {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* BOOTSTRAP CHECKBOX  */
+.form-check-input:checked.checkbox-purple {
+  background-color: #7944F6;
+  border-color: #7944F6;
+}
+.form-check-input.checkbox-purple:focus {
+    border-color: rgb(121, 68, 246, .3);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(121, 68, 246, .3);
+}
+.form-check-input:checked.checkbox-blue {
+  background-color: #015FF3;
+  border-color: #015FF3;
+}
+.form-check-input.checkbox-blue:focus {
+  border-color: rgb(0, 93, 242, .3);
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgb(0, 93, 242, .3);
 }
