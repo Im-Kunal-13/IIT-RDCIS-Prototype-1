@@ -499,7 +499,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.total_acceleration_avg}
               bands={[0, 150, 700, 900, 1080]}
               label="Total Acceleration"
-              unit="((m/sÂ²)Â²)"
+              unit="mm/s"
             />
           </div>
           <div>
@@ -508,7 +508,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.axial_velocity_avg}
               bands={[0, 5.5, 10.5, 15, 19]}
               label="Axial Velocity"
-              unit="(mm/s)"
+              unit="mm/s"
             />
           </div>
           <div>
@@ -517,7 +517,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.horizontal_velocity_avg}
               bands={[0, 5.5, 10.5, 15, 19]}
               label="Horizontal Velocity"
-              unit="(mm/s)"
+              unit="mm/s"
             />
           </div>
           <div>
@@ -535,7 +535,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.angular_misalignment_avg}
               bands={[0, 1.5, 7, 11.5, 13.8]}
               label="Angular Misalignment"
-              unit="(mm/s)"
+              unit="mm/s"
             />
           </div>
           <div>
@@ -544,7 +544,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.looseness_avg}
               bands={[0, 1.5, 7, 11.5, 13.8]}
               label="Looseness Min"
-              unit="(mm/s)"
+              unit="mm/s"
             />
           </div>
           <div>
@@ -553,7 +553,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.parallel_misalignment_avg}
               bands={[0, 1.5, 7, 11.5, 13.8]}
               label="Parallel Misalignment"
-              unit="(mm/s)"
+              unit="mm/s"
             />
           </div>
           <div>
@@ -562,7 +562,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.bearing_fault_bsf_avg}
               bands={[0, 1.5, 7, 11.5, 13.8]}
               label="Bearing Fault BSF"
-              unit="(mm/s)"
+              unit="mm/s"
             />
           </div>
           <div>
@@ -571,7 +571,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.bearing_fault_bpfo_avg}
               bands={[0, 1.5, 7, 11.5, 13.8]}
               label="Bearing Fault BPFO"
-              unit="(mm/s)"
+              unit="mm/s"
             />
           </div>
           <div>
@@ -580,7 +580,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.bearing_fault_ftf_avg}
               bands={[0, 1.5, 7, 11.5, 13.8]}
               label="Bearing Fault FTF"
-              unit="(mm/s)"
+              unit="mm/s"
             />
           </div>
           <div className="hidden">
@@ -589,7 +589,7 @@ export default function InstantaneousChart({ instantaneousDataDoc }) {
               gaugeData={instantaneousDataDoc?.bearing_fault_bpfi_avg}
               bands={[0, 1.5, 7, 11.5, 13.8]}
               label="Bearing Fault BPFI"
-              unit="(mm/s)"
+              unit="mm/s"
             />
           </div>
           <div></div>

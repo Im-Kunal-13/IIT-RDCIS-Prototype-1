@@ -5,9 +5,11 @@ import Select from "react-select";
 import Calendar from "react-calendar";
 import moment from "moment";
 import ThemeContext from "../../../context/theme/themeContext";
+import DataQueryContext from "../../../context/dataQuery/dataQueryContext";
 
 export default function MonitoringTab() {
   const theme = useContext(ThemeContext);
+  const dataQuery = useContext(DataQueryContext)
   // SETTING THE TIME STATE `
   const [time, setTime] = useState("12:34");
   // SETTING THE DATE VALUE
@@ -62,7 +64,7 @@ export default function MonitoringTab() {
       {/* HEADER  */}
       <div className="flex justify-between items-center">
         <h1 className="font-semibold text-xl sm:text-2xl">
-          BOKARO STEEL PLANT
+          {dataQuery.state.plant}
         </h1>
         {/* CONTROLS  */}
         <div className="items-center hidden lg2:flex">

@@ -11,14 +11,13 @@ const initialState = {
   dataIsLoading: false,
   dataMessage: "",
 };
-
 // Get all analytics data.
 export const getData = createAsyncThunk(
   "analytics/getData",
-  async (_, thunkAPI) => {
+  async (query, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.admin.token;
-      return await analyticService.getData(token);
+      return await analyticService.getData(query, token);
     } catch (error) {
       const message =
         (error.response &&

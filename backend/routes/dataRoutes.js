@@ -10,7 +10,7 @@ const {
 const { protect } = require("../middleware/authMiddleware");
 
 // applyting different functions according to different routes. Note we are only protecting private routes.
-router.get("/",  protect, getData); // Private
+router.put("/",  protect, getData); // Private
 
 
 // Exporting the router to whic we have made changes to.

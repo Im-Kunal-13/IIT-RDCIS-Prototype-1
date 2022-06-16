@@ -5,19 +5,19 @@ import InfoCard from "./InfoCard";
 import MaintenanceIndex from "./MaintenanceIndex";
 import InstantaneousChart from "./InstantaneousChart";
 import { reset, getData } from "../../../features/analytics/analyticSlice";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import io from "socket.io-client";
-import ScatterPlot from "./ScatterPlot";
-import Waterfall from "./Waterfall";
 import DetailsPanel from "./DetailsPanel";
 import Area3d from "./Area3d";
+import DataQueryContext from "../../../context/dataQuery/dataQueryContext";
 
 // Getting the socket from the io object we imported.
 const socket = io.connect("http://localhost:5000");
 
 export default function Analytics() {
   const dispatch = useDispatch();
+  const dataQuery = useContext(DataQueryContext)
 
   // Charts all data state
   const [dataState, setDataState] = useState([]);
@@ -26,6 +26,7 @@ export default function Analytics() {
   const [analyticsData, setAnalyticsData] = useState(0);
 
   // Destructuring data.
+  const { admin } = useSelector((state) => state.auth);
   const { data, dataError, dataSuccess, dataIsLoading, dataMessage } =
     useSelector((state) => state.analytics);
 
@@ -119,7 +120,13 @@ export default function Analytics() {
 
   // Getting all the Monitoring Data once we enter the Dashboard Route.
   useEffect(() => {
-    dispatch(getData());
+    dispatch(
+      getData({
+        plant: dataQuery.state.plant,
+        machine: dataQuery.state.machine, 
+        monitor: dataQuery.state.monitor,
+      })
+    );
   }, [dispatch]);
 
   // Initializing the id of the current document entered as null

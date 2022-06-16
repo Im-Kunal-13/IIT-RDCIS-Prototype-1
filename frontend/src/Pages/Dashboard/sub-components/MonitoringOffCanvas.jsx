@@ -1,18 +1,23 @@
-import React, { useContext,useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import ThemeContext from "../../../context/theme/themeContext";
+import DataQueryContext from "../../../context/dataQuery/dataQueryContext";
+import { reset, getData } from "../../../features/analytics/analyticSlice";
 
 export default function MonitoringOffCanvas({ closeBtn }) {
+  const dispatch = useDispatch();
   const theme = useContext(ThemeContext);
+  const dataQuery = useContext(DataQueryContext);
   const navigate = useNavigate();
   const location = useLocation();
 
   // Tab States.
   const [selectedTab, setSelectedTab] = useState("users");
+  const [queryChange, setQueryChange] = useState(false);
   const selectedTabCss = { backgroundColor: "rgba(0, 0, 0, 0.150)" };
   // Setting the default icon for the useState
   let iconClass;
@@ -63,9 +68,18 @@ export default function MonitoringOffCanvas({ closeBtn }) {
   });
 
   // Plant dropdown select
-  const [plant, setPlant] = useState("Bokaro Steel Plant");
-  const [machineName, setMachineName] = useState("Hammer Crusher 28");
-  const [monitorName, setMonitorName] = useState("Hammer Crusher 28");
+  const [plant, setPlant] = useState({
+    label: dataQuery.state.plant,
+    value: dataQuery.state.plant,
+  });
+  const [machine, setMachine] = useState({
+    label: dataQuery.state.machine,
+    value: dataQuery.state.machine,
+  });
+  const [monitor, setMonitor] = useState({
+    label: dataQuery.state.monitor,
+    value: dataQuery.state.monitor,
+  });
 
   //   PLANTS SELECT OPTIONS
   const plantOptions = [
@@ -133,6 +147,27 @@ export default function MonitoringOffCanvas({ closeBtn }) {
     closeBtn.current.click();
   };
 
+  // Query Change function
+  const onQueryChange = (label, value) => {
+    setQueryChange(true);
+    dataQuery.update(label, value);
+  };
+
+  useEffect(() => {
+    dispatch(
+      getData({
+        plant: dataQuery.state.plant,
+        machine: dataQuery.state.machine,
+        monitor: dataQuery.state.monitor,
+      })
+    );
+  }, [
+    dataQuery.state.plant,
+    dataQuery.state.machine,
+    dataQuery.state.monitor,
+    dispatch,
+  ]);
+
   return (
     <div className="offcanvas-body">
       {/* Summary / Detailed Dashboard  SELECT  */}
@@ -166,7 +201,10 @@ export default function MonitoringOffCanvas({ closeBtn }) {
             value={plant}
             defaultValue={plant}
             styles={colorStyles}
-            onChange={setPlant}
+            onChange={(plant) => {
+              setPlant(plant);
+              onQueryChange("plant", plant.value);
+            }}
             placeholder="Select Plant Name"
             options={plantOptions}
             className="border-none cursor-pointer"
@@ -181,9 +219,12 @@ export default function MonitoringOffCanvas({ closeBtn }) {
         {/* MACHINE NAME SELECT  */}
         <div className="flex items-center justify-between my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow transition-all h-11 ">
           <Select
-            value={machineName}
-            defaultValue={machineName}
-            onChange={setMachineName}
+            value={machine}
+            defaultValue={machine}
+            onChange={(machine) => {
+              setMachine(machine);
+              onQueryChange("machine", machine.value);
+            }}
             styles={colorStyles}
             placeholder="Select Machine Name"
             options={machineNameOptions}
@@ -199,9 +240,12 @@ export default function MonitoringOffCanvas({ closeBtn }) {
         {/* MONITOR NAME SELECT  */}
         <div className="flex items-center justify-between my-3 py-2 ml-8 px-3 hover:bg-offCanvasHover rounded-lg border shadow transition-all h-11">
           <Select
-            value={monitorName}
-            defaultValue={monitorName}
-            onChange={setMonitorName}
+            value={monitor}
+            defaultValue={monitor}
+            onChange={(monitor) => {
+              setMonitor(monitor);
+              onQueryChange("monitor", monitor.value);
+            }}
             styles={colorStyles}
             placeholder="Select Monitor Name"
             options={monitorNameOptions}

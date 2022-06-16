@@ -456,7 +456,7 @@ const gaugeMinOptions = (gaugeData, bands, themeState, label, unit) => ({
       rotation: "auto",
     },
     title: {
-      text: "mm/s",
+      text: unit,
       style: {
         fontWeight: "bold",
       },
@@ -483,15 +483,6 @@ const gaugeMinOptions = (gaugeData, bands, themeState, label, unit) => ({
         to: bands[4],
         color: "rgb(239, 68, 68)", // red
       },
-      // OUTER  PLOT BAND TOUCH
-      // {
-      //   from: -50,
-      //   to: bands[4],
-      //   color: "rgb(209, 213, 219)", // red
-      //   innerRadius: "100%",
-      //   // thickness: 30,
-      //   outerRadius: "100%",
-      // },
     ],
   },
   series: [
@@ -518,7 +509,7 @@ const gaugeMinOptions = (gaugeData, bands, themeState, label, unit) => ({
         radius: "72.5%",
       },
       tooltip: {
-        valueSuffix: "mm/s",
+        valueSuffix: unit,
       },
     },
   ],

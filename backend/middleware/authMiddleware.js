@@ -1,10 +1,10 @@
 // Requiring JSONWEBTOKEN
 const jwt = require("jsonwebtoken");
 // Requiring Express Async Handler.
-// Simple middleware for handling exceptions inside of async express routes and 
+// Simple middleware for handling exceptions inside of async express routes and
 // passing them to your express error handlers
 const asyncHandler = require("express-async-handler");
-// importing the Admin Data Model Schema. 
+// importing the Admin Data Model Schema.
 const Admin = require("../models/adminModel");
 
 // Creating the function that wil protect our routes. (Wrapping it inside the asyncHandler)
@@ -38,7 +38,7 @@ const protect = asyncHandler(async (req, res, next) => {
       throw new Error("Not authorized");
     }
   }
-  // Checking if token is not present at all. 
+  // Checking if token is not present at all.
   if (!token) {
     // Sending respond status 401 (authorization error)
     res.status(401);
@@ -47,5 +47,5 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Exporting the function we created to protect the routes. 
+// Exporting the function we created to protect the routes.
 module.exports = { protect };

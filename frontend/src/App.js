@@ -13,30 +13,33 @@ import UsersColumnState from "./context/users/UsersColumnState";
 import Analytics from "./Pages/Dashboard/sub-components/Analytics";
 import Summary from "./Pages/Dashboard/sub-components/Summary";
 import Logs from "./Pages/Dashboard/sub-components/Logs";
+import DataQueryState from "./context/dataQuery/DataQueryState";
 
 function App() {
   return (
     <>
       <UsersColumnState>
         <ThemeState>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Authentication />} />
-              <Route path="dashboard/*" element={<Dashboard />}>
-                <Route path="monitoring/*" element={<Monitoring />}>
-                  <Route path="analytics/*" element={<Analytics />} />
-                  <Route path="summary/*" element={<Summary />} />
-                  <Route path="logs/*" element={<Logs />} />
+          <DataQueryState>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Authentication />} />
+                <Route path="dashboard/*" element={<Dashboard />}>
+                  <Route path="monitoring/*" element={<Monitoring />}>
+                    <Route path="analytics/*" element={<Analytics />} />
+                    <Route path="summary/*" element={<Summary />} />
+                    <Route path="logs/*" element={<Logs />} />
+                  </Route>
+                  <Route path="configuration/*" element={<Configuration />} />
+                  <Route path="administration/*" element={<Administration />}>
+                    <Route path="adminList/*" element={<AdminList />} />
+                    <Route path="register/*" element={<RegisterAdmin />} />
+                  </Route>
                 </Route>
-                <Route path="configuration/*" element={<Configuration />} />
-                <Route path="administration/*" element={<Administration />}>
-                  <Route path="adminList/*" element={<AdminList />} />
-                  <Route path="register/*" element={<RegisterAdmin />} />
-                </Route>
-              </Route>
-            </Routes>
-          </BrowserRouter>
-          <ToastContainer autoClose={2000} className="p-4 md:p-0" />
+              </Routes>
+            </BrowserRouter>
+            <ToastContainer autoClose={2000} className="p-4 md:p-0" />
+          </DataQueryState>
         </ThemeState>
       </UsersColumnState>
     </>

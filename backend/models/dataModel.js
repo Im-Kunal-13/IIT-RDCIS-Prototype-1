@@ -110,6 +110,12 @@ const dataSchema = new mongoose.Schema({
     // Required : true meanins it has to be provided and if not provided will show an error message.
     required: [true, "Please add average parallel misalignment"],
   },
+  plant: {
+    // Type checking.
+    type: String,
+    // Required : true meanins it has to be provided and if not provided will show an error message.
+    required: [true, "Please add the plant name"],
+  },
 });
 
 // Exporting the model created.
